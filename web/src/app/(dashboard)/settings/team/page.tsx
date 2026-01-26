@@ -1,232 +1,171 @@
 "use client";
 
-import { Divider, NumberInput, TextInput } from '@tremor/react';
+import { Button, Input, Label, Separator } from "@/components/ui";
 
 export default function TeamSettingsPage() {
     return (
-        <main className="max-w-4xl mx-auto px-6 py-12 md:py-20">
-            <div className="sm:mx-auto sm:max-w-2xl">
-                <h3 className="mt-6 text-tremor-title font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
-                    Détails du Compte & Équipe
-                </h3>
-                <p className="mt-1 text-tremor-default leading-6 text-tremor-content dark:text-dark-tremor-content">
-                    Mettez à jour les informations personnelles utilisées pour la gestion du compte et la facturation.
-                </p>
-                <form action="#" method="post" className="mt-8">
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-6">
-                        <div className="col-span-full sm:col-span-3">
-                            <label
-                                htmlFor="first-name"
-                                className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-                            >
+        <main className="max-w-4xl mx-auto px-6 py-12 md:py-20 animate-in fade-in duration-700">
+            <div className="sm:mx-auto sm:max-w-2xl bg-white p-8 md:p-12 border border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                <div className="space-y-2 mb-10">
+                    <h3 className="text-2xl font-serif font-normal text-black tracking-tight">
+                        Détails du Compte & Équipe
+                    </h3>
+                    <p className="text-sm text-gray-400 font-light">
+                        Mettez à jour les informations utilisées pour la gestion du compte et la facturation.
+                    </p>
+                </div>
+
+                <form action="#" method="post" className="space-y-8">
+                    <div className="grid grid-cols-1 gap-8 sm:grid-cols-6">
+                        <div className="col-span-full sm:col-span-3 space-y-2">
+                            <Label htmlFor="first-name" className="text-[10px] uppercase tracking-widest text-gray-400 font-semibold">
                                 Prénom
-                            </label>
-                            <TextInput
+                            </Label>
+                            <Input
                                 type="text"
                                 id="first-name"
                                 name="first-name"
                                 autoComplete="given-name"
                                 placeholder="Emma"
-                                className="mt-2 rounded-tremor-small"
+                                className="lindy-input"
                             />
                         </div>
-                        <div className="col-span-full sm:col-span-3">
-                            <label
-                                htmlFor="last-name"
-                                className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-                            >
+                        <div className="col-span-full sm:col-span-3 space-y-2">
+                            <Label htmlFor="last-name" className="text-[10px] uppercase tracking-widest text-gray-400 font-semibold">
                                 Nom
-                            </label>
-                            <TextInput
+                            </Label>
+                            <Input
                                 type="text"
                                 id="last-name"
                                 name="last-name"
                                 autoComplete="family-name"
                                 placeholder="Crown"
-                                className="mt-2 rounded-tremor-small"
+                                className="lindy-input"
                             />
                         </div>
-                        <div className="col-span-full">
-                            <label
-                                htmlFor="email"
-                                className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-                            >
+                        <div className="col-span-full space-y-2">
+                            <Label htmlFor="email" className="text-[10px] uppercase tracking-widest text-gray-400 font-semibold">
                                 Email
-                            </label>
-                            <TextInput
-                                type="text"
+                            </Label>
+                            <Input
+                                type="email"
                                 id="email"
                                 name="email"
                                 autoComplete="email"
                                 placeholder="emma@company.com"
-                                className="mt-2 rounded-tremor-small"
+                                className="lindy-input"
                             />
                         </div>
-                        <div className="col-span-full">
-                            <label
-                                htmlFor="address"
-                                className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-                            >
+                        <div className="col-span-full space-y-2">
+                            <Label htmlFor="address" className="text-[10px] uppercase tracking-widest text-gray-400 font-semibold">
                                 Adresse
-                            </label>
-                            <TextInput
+                            </Label>
+                            <Input
                                 type="text"
                                 id="address"
                                 name="address"
                                 autoComplete="street-address"
                                 placeholder="29 Park Street"
-                                className="mt-2 rounded-tremor-small"
+                                className="lindy-input"
                             />
                         </div>
-                        <div className="col-span-full sm:col-span-2">
-                            <label
-                                htmlFor="country"
-                                className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-                            >
+                        <div className="col-span-full sm:col-span-2 space-y-2">
+                            <Label htmlFor="country" className="text-[10px] uppercase tracking-widest text-gray-400 font-semibold">
                                 Pays
-                            </label>
-                            <TextInput
+                            </Label>
+                            <Input
                                 type="text"
                                 id="country"
                                 name="country"
                                 autoComplete="country-name"
                                 placeholder="France"
-                                className="mt-2 rounded-tremor-small"
+                                className="lindy-input"
                             />
                         </div>
-                        <div className="col-span-full sm:col-span-2">
-                            <label
-                                htmlFor="city"
-                                className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-                            >
+                        <div className="col-span-full sm:col-span-2 space-y-2">
+                            <Label htmlFor="city" className="text-[10px] uppercase tracking-widest text-gray-400 font-semibold">
                                 Ville
-                            </label>
-                            <TextInput
+                            </Label>
+                            <Input
                                 type="text"
                                 id="city"
                                 name="city"
                                 autoComplete="address-level2"
                                 placeholder="Paris"
-                                className="mt-2 rounded-tremor-small"
+                                className="lindy-input"
                             />
                         </div>
-                        <div className="col-span-full sm:col-span-2">
-                            <label
-                                htmlFor="postal-code"
-                                className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-                            >
+                        <div className="col-span-full sm:col-span-2 space-y-2">
+                            <Label htmlFor="postal-code" className="text-[10px] uppercase tracking-widest text-gray-400 font-semibold">
                                 Code Postal
-                            </label>
-                            <NumberInput
+                            </Label>
+                            <Input
+                                type="number"
                                 id="postal-code"
                                 name="postal-code"
                                 autoComplete="postal-code"
                                 placeholder="75001"
-                                enableStepper={false}
-                                className="mt-2 rounded-tremor-small"
+                                className="lindy-input"
                             />
                         </div>
                     </div>
-                    <Divider className="my-12" />
-                    <div>
-                        <h3 className="mt-6 text-tremor-title font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
-                            Notifications & Équipe
-                        </h3>
-                        <p className="mt-1 text-tremor-default leading-6 text-tremor-content dark:text-dark-tremor-content">
-                            Gérez vos préférences de collaboration pour cet espace de travail.
-                        </p>
-                        <div className="mt-8 space-y-6">
-                            <div className="relative flex items-start">
-                                <div className="flex h-6 items-center">
-                                    <input
-                                        id="form-option-1"
-                                        aria-describedby="form-option-1-description"
-                                        name="form-option-1"
-                                        type="checkbox"
-                                        className="size-4 rounded border-tremor-border text-tremor-brand shadow-tremor-input focus:ring-tremor-brand-muted dark:border-dark-tremor-border dark:bg-dark-tremor-background dark:text-dark-tremor-brand dark:shadow-dark-tremor-input dark:focus:ring-dark-tremor-brand-muted"
-                                    />
+
+                    <Separator className="bg-gray-100" />
+
+                    <div className="space-y-6">
+                        <div className="space-y-2">
+                            <h3 className="text-xl font-serif font-normal text-black tracking-tight">
+                                Notifications & Équipe
+                            </h3>
+                            <p className="text-sm text-gray-400 font-light">
+                                Gérez vos préférences de collaboration pour cet espace de travail.
+                            </p>
+                        </div>
+
+                        <div className="space-y-6">
+                            {[
+                                { id: "option-1", title: "Newsletter Partenaire", desc: "Mises à jour sur les nouveaux produits et services." },
+                                { id: "option-2", title: "Activités des Membres", desc: "Notifications lorsque de nouveaux membres rejoignent." },
+                                { id: "option-3", title: "Activités de Déploiement", desc: "Notifications sur le succès ou l'échec du déploiement." }
+                            ].map((option) => (
+                                <div key={option.id} className="relative flex items-start gap-4 p-4 border border-transparent hover:border-black transition-all group">
+                                    <div className="flex h-6 items-center">
+                                        <input
+                                            id={option.id}
+                                            name={option.id}
+                                            type="checkbox"
+                                            className="h-4 w-4 border-black text-black focus:ring-black accent-black cursor-pointer"
+                                        />
+                                    </div>
+                                    <div className="text-sm leading-6">
+                                        <label htmlFor={option.id} className="font-medium text-black cursor-pointer uppercase tracking-tight text-[11px]">
+                                            {option.title}
+                                        </label>
+                                        <p className="text-gray-400 font-light text-xs">
+                                            {option.desc}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="ml-3 text-tremor-default leading-6">
-                                    <label
-                                        htmlFor="form-option-1"
-                                        className="font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-                                    >
-                                        Newsletter Partenaire
-                                    </label>
-                                    <p
-                                        id="form-option-1-description"
-                                        className="text-tremor-content dark:text-dark-tremor-content"
-                                    >
-                                        Je souhaite recevoir les mises à jour sur les nouveaux produits et services.
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="relative flex items-start">
-                                <div className="flex h-6 items-center">
-                                    <input
-                                        id="form-option-2"
-                                        aria-describedby="form-option-2-description"
-                                        name="form-option-2"
-                                        type="checkbox"
-                                        className="size-4 rounded border-tremor-border text-tremor-brand shadow-tremor-input focus:ring-tremor-brand-muted dark:border-dark-tremor-border dark:bg-dark-tremor-background dark:text-dark-tremor-brand dark:shadow-dark-tremor-input dark:focus:ring-dark-tremor-brand-muted"
-                                    />
-                                </div>
-                                <div className="ml-3 text-tremor-default leading-6">
-                                    <label
-                                        htmlFor="form-option-2"
-                                        className="font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-                                    >
-                                        Activités des Membres
-                                    </label>
-                                    <p
-                                        id="form-option-2-description"
-                                        className="text-tremor-content dark:text-dark-tremor-content"
-                                    >
-                                        Restez informé et recevez des notifications lorsque de nouveaux membres rejoignent ou quittent cet espace.
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="relative flex items-start">
-                                <div className="flex h-6 items-center">
-                                    <input
-                                        id="form-option-3"
-                                        aria-describedby="form-option-3-description"
-                                        name="form-option-3"
-                                        type="checkbox"
-                                        className="size-4 rounded border-tremor-border text-tremor-brand shadow-tremor-input focus:ring-tremor-brand-muted dark:border-dark-tremor-border dark:bg-dark-tremor-background dark:text-dark-tremor-brand dark:shadow-dark-tremor-input dark:focus:ring-dark-tremor-brand-muted"
-                                    />
-                                </div>
-                                <div className="ml-3 text-tremor-default leading-6">
-                                    <label
-                                        htmlFor="form-option-3"
-                                        className="font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-                                    >
-                                        Activités de Déploiement
-                                    </label>
-                                    <p
-                                        id="form-option-3-description"
-                                        className="text-tremor-content dark:text-dark-tremor-content"
-                                    >
-                                        Recevez des notifications sur le succès ou l'échec du déploiement de cet espace de travail.
-                                    </p>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
-                    <Divider />
-                    <div className="flex items-center justify-end space-x-4">
+
+                    <Separator className="bg-gray-100" />
+
+                    <div className="flex items-center justify-end space-x-6 pt-4">
                         <button
                             type="button"
-                            className="whitespace-nowrap rounded-tremor-small px-4 py-2.5 text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong hover:bg-gray-100 transition-colors"
+                            className="text-[10px] uppercase tracking-widest font-semibold text-gray-400 hover:text-black transition-colors"
                         >
                             Annuler
                         </button>
-                        <button
+                        <Button
                             type="submit"
-                            className="whitespace-nowrap rounded-tremor-small bg-tremor-brand px-4 py-2.5 text-tremor-default font-medium text-tremor-brand-inverted shadow-tremor-input hover:bg-tremor-brand-emphasis dark:bg-dark-tremor-brand dark:text-dark-tremor-brand-inverted dark:shadow-dark-tremor-input dark:hover:bg-dark-tremor-brand-emphasis bg-black text-white hover:bg-zinc-800 transition-colors"
+                            variant="default"
+                            className="px-8"
                         >
                             Enregistrer
-                        </button>
+                        </Button>
                     </div>
                 </form>
             </div>
