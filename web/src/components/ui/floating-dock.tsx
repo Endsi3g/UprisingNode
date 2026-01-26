@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { IconLayoutNavbarCollapse } from "@tabler/icons-react";
+import { LayoutPanelTop as IconLayoutNavbarCollapse } from "lucide-react";
 import {
     AnimatePresence,
     MotionValue,

@@ -3,17 +3,17 @@
 import React, { useState, useEffect } from "react";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import {
-    IconBrandGithub,
-    IconBrandX,
-    IconExchange,
-    IconHome,
-    IconNewSection,
-    IconTerminal2,
-    IconSettings,
-    IconFiles,
-    IconShield,
-    IconChartBar
-} from "@tabler/icons-react";
+    Github as IconBrandGithub,
+    Twitter as IconBrandX,
+    Repeat as IconExchange,
+    Home as IconHome,
+    Plus as IconNewSection,
+    Terminal as IconTerminal2,
+    Settings as IconSettings,
+    Files as IconFiles,
+    Shield as IconShield,
+    BarChart3 as IconChartBar
+} from "lucide-react";
 import { usePathname } from "next/navigation";
 
 export function FloatingNavbar() {
