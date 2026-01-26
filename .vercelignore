@@ -1,0 +1,15 @@
+# Heavy assets
+Documentation pour le projet
+*.pdf
+
+# Dependencies
+node_modules
+
+# Logs
+*.log
+api/migration_log*.txt
+
+# Build outputs
+.next
+dist
+build
