@@ -1,0 +1,73 @@
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": SQLite database "dev.db" at "file:./dev.db"
+
+
+Error: Prisma schema validation - (validate wasm)
+Error code: P1012
+[1;91merror[0m: [1mError validating field `analysis` in model `Lead`: Field `analysis` in model `Lead` can't be of type Json. The current connector does not support the Json type.[0m
+  [1;94m-->[0m  [4mprisma\schema.prisma:46[0m
+[1;94m   | [0m
+[1;94m45 | [0m  industry      String?
+[1;94m46 | [0m  [1;91manalysis      Json?      // Stores AI analysis data[0m
+[1;94m47 | [0m  ownerId       String
+[1;94m   | [0m
+[1;91merror[0m: [1mError validating: You defined the enum `Role`. But the current connector does not support enums.[0m
+  [1;94m-->[0m  [4mprisma\schema.prisma:10[0m
+[1;94m   | [0m
+[1;94m 9 | [0m
+[1;94m10 | [0m[1;91menum Role {[0m
+[1;94m11 | [0m  ADMIN
+[1;94m12 | [0m  OPERATOR
+[1;94m13 | [0m  PARTNER
+[1;94m14 | [0m}
+[1;94m   | [0m
+[1;91merror[0m: [1mError validating: You defined the enum `LeadStatus`. But the current connector does not support enums.[0m
+  [1;94m-->[0m  [4mprisma\schema.prisma:31[0m
+[1;94m   | [0m
+[1;94m30 | [0m
+[1;94m31 | [0m[1;91menum LeadStatus {[0m
+[1;94m32 | [0m  PROSPECT
+[1;94m33 | [0m  AUDIT
+[1;94m34 | [0m  PITCH
+[1;94m35 | [0m  SIGNED
+[1;94m36 | [0m  LOST
+[1;94m37 | [0m}
+[1;94m   | [0m
+[1;91merror[0m: [1mError validating: You defined the enum `TransactionType`. But the current connector does not support enums.[0m
+  [1;94m-->[0m  [4mprisma\schema.prisma:53[0m
+[1;94m   | [0m
+[1;94m52 | [0m
+[1;94m53 | [0m[1;91menum TransactionType {[0m
+[1;94m54 | [0m  COMMISSION
+[1;94m55 | [0m  WITHDRAWAL
+[1;94m56 | [0m}
+[1;94m   | [0m
+[1;91merror[0m: [1mError validating: You defined the enum `TransactionStatus`. But the current connector does not support enums.[0m
+  [1;94m-->[0m  [4mprisma\schema.prisma:58[0m
+[1;94m   | [0m
+[1;94m57 | [0m
+[1;94m58 | [0m[1;91menum TransactionStatus {[0m
+[1;94m59 | [0m  PENDING
+[1;94m60 | [0m  VALIDATED
+[1;94m61 | [0m  PAID
+[1;94m62 | [0m  CANCELLED
+[1;94m63 | [0m}
+[1;94m   | [0m
+[1;91merror[0m: [1mError validating: You defined the enum `ResourceCategory`. But the current connector does not support enums.[0m
+  [1;94m-->[0m  [4mprisma\schema.prisma:88[0m
+[1;94m   | [0m
+[1;94m87 | [0m
+[1;94m88 | [0m[1;91menum ResourceCategory {[0m
+[1;94m89 | [0m  SCRIPTS
+[1;94m90 | [0m  STRATEGIES
+[1;94m91 | [0m  MARKETING
+[1;94m92 | [0m  LEGAL
+[1;94m93 | [0m  OTHER
+[1;94m94 | [0m}
+[1;94m   | [0m
+
+Validation Error Count: 6
+[Context: validate]
+
+Prisma CLI Version : 6.0.0

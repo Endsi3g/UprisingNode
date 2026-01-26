@@ -1,0 +1,16 @@
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+Error: Prisma schema validation - (get-dmmf wasm)
+Error code: P1012
+[1;91merror[0m: [1mError validating field `analysis` in model `Lead`: Field `analysis` in model `Lead` can't be of type Json. The current connector does not support the Json type.[0m
+  [1;94m-->[0m  [4mprisma\schema.prisma:38[0m
+[1;94m   | [0m
+[1;94m37 | [0m  industry      String?
+[1;94m38 | [0m  [1;91manalysis      Json?      // Stores AI analysis data[0m
+[1;94m39 | [0m  ownerId       String
+[1;94m   | [0m
+
+Validation Error Count: 1
+[Context: getDmmf]
+
+Prisma CLI Version : 6.0.0
