@@ -153,8 +153,8 @@ export default function PartnersPage() {
 
                                 {/* Avatar */}
                                 <div
-                                    className="w-12 h-12 rounded-full bg-gray-100 bg-cover bg-center grayscale group-hover:grayscale-0 transition-all"
-                                    style={{ backgroundImage: `url(${partner.avatar})` }}
+                                    className="w-12 h-12 rounded-full bg-gray-100 bg-cover bg-center grayscale group-hover:grayscale-0 transition-all bg-[image:var(--avatar)]"
+                                    style={{ "--avatar": `url(${partner.avatar})` } as React.CSSProperties}
                                 />
 
                                 {/* Info */}

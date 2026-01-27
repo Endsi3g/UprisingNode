@@ -30,8 +30,8 @@ export default function DashboardPage() {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                // @ts-ignore - getStats is newly added
-                const data = await leadsService.getStats();
+                // @ts-expect-error - getStats is newly added
+                const data = await leadsService.getStats() as unknown as DashboardStats;
                 setStats(data);
             } catch (error) {
                 console.error("Failed to fetch stats", error);
@@ -149,12 +149,12 @@ export default function DashboardPage() {
                         {/* Progress Bar */}
                         <div className="relative w-full h-px bg-gray-100 mt-2">
                             <div
-                                className="absolute left-0 top-0 h-px bg-black transition-all duration-1000 ease-out"
-                                style={{ width: `${progressPercent}%` }}
+                                className="absolute left-0 top-0 h-px bg-black transition-all duration-1000 ease-out w-(--progress)"
+                                style={{ "--progress": `${progressPercent}%` } as React.CSSProperties}
                             />
                             <div
-                                className="absolute top-0 -mt-[3px] h-1.5 w-1.5 rounded-full bg-black"
-                                style={{ left: `${progressPercent}%` }}
+                                className="absolute top-0 -mt-[3px] h-1.5 w-1.5 rounded-full bg-black left-(--progress)"
+                                style={{ "--progress": `${progressPercent}%` } as React.CSSProperties}
                             />
                         </div>
                     </div>
@@ -192,7 +192,7 @@ export default function DashboardPage() {
                 <section className="flex flex-wrap gap-4">
                     <Link href="/profile">
                         {/* Removed border variant to match "erase containers" request */}
-                        <Button variant="ghost" size="md" className="border-0 hover:bg-gray-50">
+                        <Button variant="ghost" size="default" className="border-0 hover:bg-gray-50">
                             <span className="material-symbols-outlined text-sm">
                                 account_balance_wallet
                             </span>
@@ -200,7 +200,7 @@ export default function DashboardPage() {
                         </Button>
                     </Link>
                     <Link href="/transfer">
-                        <Button variant="ghost" size="md" className="border-0 hover:bg-gray-50">
+                        <Button variant="ghost" size="default" className="border-0 hover:bg-gray-50">
                             <span className="material-symbols-outlined text-sm">
                                 send
                             </span>
@@ -208,7 +208,7 @@ export default function DashboardPage() {
                         </Button>
                     </Link>
                     <Link href="/resources">
-                        <Button variant="ghost" size="md" className="border-0 hover:bg-gray-50">
+                        <Button variant="ghost" size="default" className="border-0 hover:bg-gray-50">
                             <span className="material-symbols-outlined text-sm">
                                 folder_open
                             </span>
@@ -216,7 +216,7 @@ export default function DashboardPage() {
                         </Button>
                     </Link>
                 </section>
-            </main>
-        </div>
+            </main >
+        </div >
     );
 }

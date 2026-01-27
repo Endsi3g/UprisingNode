@@ -70,8 +70,8 @@ export default function FirstDepositPage() {
             {/* Progress Bar */}
             <div className="fixed top-[73px] left-0 right-0 h-px bg-gray-100 z-30">
                 <div
-                    className="h-full bg-black transition-all duration-500 ease-out"
-                    style={{ width: `${(currentStep / 4) * 100}%` }}
+                    className="h-full bg-black transition-all duration-500 ease-out w-(--progress)"
+                    style={{ "--progress": `${(currentStep / 4) * 100}%` } as React.CSSProperties}
                 />
             </div>
 
@@ -181,8 +181,8 @@ export default function FirstDepositPage() {
                                 (step, i) => (
                                     <div
                                         key={i}
-                                        className="flex items-center gap-3 text-sm text-gray-400 animate-fade-in"
-                                        style={{ animationDelay: `${i * 500}ms` }}
+                                        className="flex items-center gap-3 text-sm text-gray-400 animate-fade-in delay-(--delay)"
+                                        style={{ "--delay": `${i * 500}ms` } as React.CSSProperties}
                                     >
                                         <span className="material-symbols-outlined text-base text-green-500">
                                             check_circle
@@ -246,10 +246,10 @@ export default function FirstDepositPage() {
                     <div
                         key={step.id}
                         className={`w-2 h-2 rounded-full transition-all duration-300 ${step.id === currentStep
-                                ? "bg-black scale-125"
-                                : step.id < currentStep
-                                    ? "bg-black/30"
-                                    : "bg-gray-200"
+                            ? "bg-black scale-125"
+                            : step.id < currentStep
+                                ? "bg-black/30"
+                                : "bg-gray-200"
                             }`}
                     />
                 ))}

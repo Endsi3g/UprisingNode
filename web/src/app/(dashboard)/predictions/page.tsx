@@ -85,11 +85,11 @@ export default function PredictionsPage() {
                     {[94, 87, 72, 81, 65, 88, 91, 78, 84, 69, 76, 93].map((score, i) => (
                         <div
                             key={i}
-                            className="aspect-square flex items-center justify-center text-xs font-mono transition-all duration-300 cursor-pointer hover:scale-105"
+                            className="aspect-square flex items-center justify-center text-xs font-mono transition-all duration-300 cursor-pointer hover:scale-105 bg-(--bg) text-(--text)"
                             style={{
-                                backgroundColor: `rgba(0, 0, 0, ${score / 100 * 0.8})`,
-                                color: score > 60 ? "white" : "black",
-                            }}
+                                "--bg": `rgba(0, 0, 0, ${score / 100 * 0.8})`,
+                                "--text": score > 60 ? "white" : "black",
+                            } as React.CSSProperties}
                         >
                             {score}
                         </div>
@@ -154,10 +154,10 @@ export default function PredictionsPage() {
                                         </div>
                                         <span
                                             className={`text-[9px] uppercase tracking-widest px-2 py-0.5 ${pred.score >= 85
-                                                    ? "bg-green-50 text-green-600"
-                                                    : pred.score >= 70
-                                                        ? "bg-amber-50 text-amber-600"
-                                                        : "bg-gray-50 text-gray-500"
+                                                ? "bg-green-50 text-green-600"
+                                                : pred.score >= 70
+                                                    ? "bg-amber-50 text-amber-600"
+                                                    : "bg-gray-50 text-gray-500"
                                                 }`}
                                         >
                                             {pred.outlook}

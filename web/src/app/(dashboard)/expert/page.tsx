@@ -109,10 +109,10 @@ export default function ExpertModePage() {
                                     <span className="text-xs text-white/60">{node.id}</span>
                                     <span
                                         className={`text-[9px] uppercase px-1.5 py-0.5 ${node.status === "active"
-                                                ? "bg-green-500/20 text-green-400"
-                                                : node.status === "processing"
-                                                    ? "bg-amber-500/20 text-amber-400"
-                                                    : "bg-white/10 text-white/40"
+                                            ? "bg-green-500/20 text-green-400"
+                                            : node.status === "processing"
+                                                ? "bg-amber-500/20 text-amber-400"
+                                                : "bg-white/10 text-white/40"
                                             }`}
                                     >
                                         {node.status}
@@ -121,8 +121,8 @@ export default function ExpertModePage() {
                                 <p className="text-sm text-white mb-2">{node.name}</p>
                                 <div className="w-full h-1 bg-white/10">
                                     <div
-                                        className="h-full bg-white/60 transition-all duration-500"
-                                        style={{ width: `${node.load}%` }}
+                                        className="h-full bg-white/60 transition-all duration-500 w-(--load)"
+                                        style={{ "--load": `${node.load}%` } as React.CSSProperties}
                                     />
                                 </div>
                                 <p className="text-[10px] text-white/30 mt-1">{node.load}% load</p>
