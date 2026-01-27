@@ -1,0 +1,66 @@
+
+> web@0.1.0 build C:\UprisingNode\web
+> next build
+
+▲ Next.js 16.1.4 (Turbopack)
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 23.6s
+  Running TypeScript ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/43) ...
+  Generating static pages using 7 workers (10/43) 
+  Generating static pages using 7 workers (21/43) 
+  Generating static pages using 7 workers (32/43) 
+✓ Generating static pages using 7 workers (43/43) in 3.4s
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /analytics
+├ ○ /dashboard
+├ ○ /design
+├ ○ /developer
+├ ○ /developer/alerts
+├ ○ /developer/docs
+├ ○ /developer/keys
+├ ○ /developer/logs
+├ ○ /developer/sandbox
+├ ƒ /documents/[id]
+├ ○ /earnings/simulate
+├ ○ /expert
+├ ○ /login
+├ ○ /messages
+├ ○ /onboarding/architecture
+├ ○ /onboarding/deposit
+├ ○ /onboarding/financials
+├ ○ /onboarding/pipeline
+├ ○ /otp
+├ ○ /partner
+├ ○ /partners
+├ ○ /pipeline
+├ ○ /predictions
+├ ○ /profile
+├ ○ /quotas
+├ ○ /quotas/success
+├ ○ /register/complete
+├ ○ /register/identity
+├ ○ /register/security
+├ ○ /register/verify
+├ ○ /resources
+├ ○ /resources/report
+├ ○ /resources/scripts
+├ ○ /scripts
+├ ○ /settings
+├ ○ /settings/notifications
+├ ○ /settings/team
+├ ○ /signup
+├ ○ /success/deal
+├ ○ /transfer
+└ ƒ /war-room/[id]
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

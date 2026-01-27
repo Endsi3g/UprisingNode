@@ -1,0 +1,26 @@
+
+> web@0.1.0 build C:\UprisingNode\web
+> next build
+
+▲ Next.js 16.1.4 (Turbopack)
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 43s
+  Running TypeScript ...
+Failed to compile.
+
+./src/app/(dashboard)/documents/[id]/page.tsx:12:104
+Type error: Type '{ children: Element; variant: "outline"; className: string; as: string; href: string; }' is not assignable to type 'IntrinsicAttributes & ClassAttributes<HTMLButtonElement> & ButtonHTMLAttributes<HTMLButtonElement> & VariantProps<...> & { ...; }'.
+  Property 'as' does not exist on type 'IntrinsicAttributes & ClassAttributes<HTMLButtonElement> & ButtonHTMLAttributes<HTMLButtonElement> & VariantProps<...> & { ...; }'.
+
+  10 |             <header className="w-full bg-black border-b border-gray-800 px-6 py-4 flex items-center justify-between">
+  11 |                 <div className="flex items-center gap-4">
+> 12 |                     <Button variant="outline" className="border-gray-700 text-white hover:bg-gray-800" as="a" href="/dashboard">
+     |                                                                                                        ^
+  13 |                         <span className="material-symbols-outlined">arrow_back</span>
+  14 |                     </Button>
+  15 |                     <div>
+Next.js build worker exited with code: 1 and signal: null
+C:\UprisingNode\web:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  web@0.1.0 build: `next build`
+Exit status 1

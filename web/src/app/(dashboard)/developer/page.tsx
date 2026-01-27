@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Header } from "@/components/layout";
 import { DataCard, Card, Button } from "@/components/ui";
 
@@ -11,7 +12,9 @@ export default function DeveloperDashboardPage() {
             <main className="flex-1 max-w-7xl mx-auto w-full p-6 space-y-8">
                 <div className="flex justify-between items-center">
                     <h1 className="text-3xl font-serif text-black">Hub Développeur</h1>
-                    <Button as="a" href="/developer/docs">Documentation API</Button>
+                    <Button asChild>
+                        <Link href="/developer/docs">Documentation API</Link>
+                    </Button>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -78,4 +81,4 @@ export default function DeveloperDashboardPage() {
     );
 }
 
-import Link from "next/link";
+

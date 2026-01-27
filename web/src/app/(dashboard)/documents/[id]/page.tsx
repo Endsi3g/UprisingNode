@@ -2,6 +2,7 @@
 
 import { Header } from "@/components/layout";
 import { Button } from "@/components/ui";
+import Link from "next/link";
 
 export default function DocumentViewerPage({ params }: { params: { id: string } }) {
     return (
@@ -9,8 +10,10 @@ export default function DocumentViewerPage({ params }: { params: { id: string } 
             {/* Dark Header for Immersive View */}
             <header className="w-full bg-black border-b border-gray-800 px-6 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                    <Button variant="outline" className="border-gray-700 text-white hover:bg-gray-800" as="a" href="/dashboard">
-                        <span className="material-symbols-outlined">arrow_back</span>
+                    <Button variant="outline" className="border-gray-700 text-white hover:bg-gray-800" asChild>
+                        <Link href="/dashboard">
+                            <span className="material-symbols-outlined">arrow_back</span>
+                        </Link>
                     </Button>
                     <div>
                         <h1 className="text-lg font-serif">Audit_Technique_v1.pdf</h1>

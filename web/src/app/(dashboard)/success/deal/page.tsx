@@ -19,11 +19,15 @@ export default function DealSuccessPage() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 w-full max-w-sm">
-                <Button as="a" href="/dashboard" className="bg-white text-black hover:bg-gray-200 w-full justify-center">
-                    Retour au Dashboard
+                <Button asChild className="bg-white text-black hover:bg-gray-200 w-full justify-center">
+                    <Link href="/dashboard">
+                        Retour au Dashboard
+                    </Link>
                 </Button>
-                <Button as="a" href="/transfer" variant="outline" className="border-gray-700 text-white hover:bg-gray-900 w-full justify-center">
-                    Demander un Virement
+                <Button asChild variant="outline" className="border-gray-700 text-white hover:bg-gray-900 w-full justify-center">
+                    <Link href="/transfer">
+                        Demander un Virement
+                    </Link>
                 </Button>
             </div>
 

@@ -52,7 +52,7 @@ export default function TransferPage() {
                             Délai estimé : 24-48h ouvrées
                         </p>
                         <Link href="/profile">
-                            <Button variant="outline" size="md">
+                            <Button variant="outline">
                                 <span>Voir l&apos;historique</span>
                                 <span className="material-symbols-outlined text-sm">
                                     east
@@ -140,8 +140,8 @@ export default function TransferPage() {
                                 type="button"
                                 onClick={() => setAmount(quickAmount.toString())}
                                 className={`flex-1 py-3 text-xs font-medium uppercase tracking-widest transition-all duration-200 border ${amount === quickAmount.toString()
-                                        ? "border-black bg-black text-white"
-                                        : "border-gray-200 text-gray-500 hover:border-black hover:text-black"
+                                    ? "border-black bg-black text-white"
+                                    : "border-gray-200 text-gray-500 hover:border-black hover:text-black"
                                     }`}
                             >
                                 {quickAmount.toLocaleString("fr-FR")} $
