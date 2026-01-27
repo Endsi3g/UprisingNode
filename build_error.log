@@ -1,0 +1,25 @@
+
+> web@0.1.0 build C:\UprisingNode\web
+> next build
+
+Ôû▓ Next.js 16.1.4 (Turbopack)
+
+  Creating an optimized production build ...
+Ô£ô Compiled successfully in 27.1s
+  Running TypeScript ...
+Failed to compile.
+
+./src/app/(dashboard)/dashboard/page.tsx:33:17
+Type error: Unused '@ts-expect-error' directive.
+
+  31 |         const fetchStats = async () => {
+  32 |             try {
+> 33 |                 // @ts-expect-error - getStats is newly added
+     |                 ^
+  34 |                 const data = await leadsService.getStats() as unknown as DashboardStats;
+  35 |                 setStats(data);
+  36 |             } catch (error) {
+Next.js build worker exited with code: 1 and signal: null
+C:\UprisingNode\web:
+ÔÇëERR_PNPM_RECURSIVE_RUN_FIRST_FAILÔÇë web@0.1.0 build: `next build`
+Exit status 1

@@ -51,36 +51,51 @@ Gérez votre escouade. Ajoutez des membres, définissez les rôles et configurez
 
 ---
 
-## 🛠 Installation & Démarrage
+## 🛠 Installation & Démarrage (Monorepo)
 
 ### Prérequis
 
-- Node.js 18+
-- pnpm ou npm
+- **Node.js 20+** (Recommandé)
+- **pnpm** (Gestionnaire de paquets principal)
 
-### 1. Cloner le projet
+### 1. Installation
 
-```bash
-git clone https://github.com/votre-org/uprising-node.git
-cd uprising-node
-```
-
-### 2. Installation (Web)
+Installez toutes les dépendances (API + Web) depuis la racine :
 
 ```bash
-cd web
-npm install
-# ou
 pnpm install
 ```
 
-### 3. Démarrage (Développement)
+### 2. Démarrage Rapide (Tout-en-un)
+
+Lancez le Frontend (Next.js) et le Backend (NestJS) avec une seule commande :
 
 ```bash
 npm run dev
+# ou
+pnpm dev
 ```
 
-L'application sera accessible sur `http://localhost:3000`.
+- **Web App** : `http://localhost:3000`
+- **API** : `http://localhost:3001`
+
+---
+
+## 🚀 Déploiement
+
+### Frontend (Netlify / Vercel)
+
+Le dossier `web` est une application Next.js standard.
+
+- **Netlify** : Connectez votre repo GitHub, pointez sur le dossier `web`.
+- **Vercel** : Créez un nouveau projet, sélectionnez le dossier `web`.
+
+### Backend (Vercel / Cloud)
+
+L'API est configurée pour fonctionner en Serverless ou Standalone.
+
+- **Vercel** : Le fichier `vercel.json` à la racine gère la redirection vers l'API.
+- **Docker** : Un `Dockerfile` est disponible pour un déploiement classique.
 
 ---
 

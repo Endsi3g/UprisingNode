@@ -30,7 +30,6 @@ export default function DashboardPage() {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                // @ts-expect-error - getStats is newly added
                 const data = await leadsService.getStats() as unknown as DashboardStats;
                 setStats(data);
             } catch (error) {

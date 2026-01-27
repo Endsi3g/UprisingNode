@@ -26,3 +26,6 @@ yarn-error.log*
 # project docs
 Documentation pour le projet
 *.pdf
+
+# Local Netlify folder
+.netlify
