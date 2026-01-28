@@ -17,6 +17,7 @@ import {
     SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { LayoutProvider, useLayout } from "@/context/layout-context"
+import { SocketProvider } from "@/providers/socket-provider"
 
 function DashboardContent({ children }: { children: React.ReactNode }) {
     const { viewMode } = useLayout();
@@ -87,7 +88,9 @@ export default function DashboardLayout({
 }) {
     return (
         <LayoutProvider>
-            <DashboardContent>{children}</DashboardContent>
+            <SocketProvider>
+                <DashboardContent>{children}</DashboardContent>
+            </SocketProvider>
         </LayoutProvider>
     )
 }

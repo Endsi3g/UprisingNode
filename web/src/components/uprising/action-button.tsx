@@ -3,7 +3,9 @@
 import { cn } from "@/lib/utils";
 
 interface ActionButtonProps {
-    children: React.ReactNode;
+    children?: React.ReactNode;
+    label?: string;
+    icon?: React.ElementType;
     onClick?: () => void;
     type?: "button" | "submit" | "reset";
     variant?: "primary" | "secondary" | "ghost";
@@ -22,6 +24,8 @@ interface ActionButtonProps {
  */
 export function ActionButton({
     children,
+    label,
+    icon: Icon,
     onClick,
     type = "button",
     variant = "primary",
@@ -61,7 +65,8 @@ export function ActionButton({
                 className
             )}
         >
-            <span>{children}</span>
+            {Icon && <Icon className="w-4 h-4 mr-1" />}
+            <span>{children || label}</span>
             {showArrow && (
                 <span
                     className={cn(

@@ -38,9 +38,9 @@ export default function SettingsPage() {
             // If findOne doesn't return them, we might need to update UsersService.findOne
             if (user.twoFactorEnabled !== undefined) {
                 setPrefs({
-                    twoFactorEnabled: user.twoFactorEnabled,
-                    emailNotifications: user.emailNotifications,
-                    pushNotifications: user.pushNotifications,
+                    twoFactorEnabled: user.twoFactorEnabled || false,
+                    emailNotifications: user.emailNotifications || false,
+                    pushNotifications: user.pushNotifications || false,
                 });
             }
         }

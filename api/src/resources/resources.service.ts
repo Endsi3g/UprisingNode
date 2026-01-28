@@ -1,9 +1,24 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { extname } from 'path';
 
 @Injectable()
 export class ResourcesService {
     constructor(private prisma: PrismaService) { }
+
+    async create(file: Express.Multer.File) {
+        const type = extname(file.originalname).replace('.', '').toUpperCase();
+        return this.prisma.resource.create({
+            data: {
+                title: file.originalname,
+                url: `/uploads/${file.filename}`,
+                type: type || 'FILE',
+                size: `${(file.size / 1024).toFixed(0)} KB`,
+                category: "UPLOAD",
+                description: "Fichier téléchargé",
+            }
+        });
+    }
 
     async findAll() {
         // Return seed data if DB is empty for demo purposes
