@@ -9,9 +9,10 @@ import { UsersModule } from './users/users.module';
 import { ScraperService } from './scraper/scraper.service';
 import { ScraperController } from './scraper/scraper.controller';
 import { EventsModule } from './events/events.module';
+import { MessagesModule } from './messages/messages.module';
 
 @Module({
-  imports: [AuthModule, PrismaModule, LeadsModule, TransactionsModule, UsersModule, EventsModule],
+  imports: [AuthModule, PrismaModule, LeadsModule, TransactionsModule, UsersModule, EventsModule, MessagesModule],
   controllers: [AppController, ScraperController],
   providers: [AppService, ScraperService],
 })

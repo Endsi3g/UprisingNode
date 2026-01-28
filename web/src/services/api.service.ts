@@ -86,3 +86,15 @@ export const leadsService = {
         return response.data;
     }
 };
+
+export const messagesService = {
+    send: async (conversationId: string, content: string) => {
+        const response = await api.post('/messages', { conversationId, content });
+        return response.data;
+    },
+
+    getAll: async () => {
+        const response = await api.get('/messages');
+        return response.data;
+    }
+};

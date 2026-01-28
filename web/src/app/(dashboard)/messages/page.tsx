@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { Header } from "@/components/layout";
+import { messagesService } from "@/services/api.service";
+import { toast } from "sonner";
 
 interface Message {
-    id: number;
+    id: number | string;
     content: string;
     sender: "me" | "operator";
     timestamp: string;
@@ -58,11 +60,37 @@ export default function MessagesPage() {
     const [activeConversation, setActiveConversation] = useState<Conversation>(conversations[0]);
     const [newMessage, setNewMessage] = useState("");
 
-    const handleSend = (e: React.FormEvent) => {
+    const handleSend = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!newMessage.trim()) return;
-        // TODO: Send message via API
+
+        const content = newMessage;
         setNewMessage("");
+
+        const optimisticId = Date.now();
+        const newMsg: Message = {
+            id: optimisticId,
+            content: content,
+            sender: "me",
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        };
+
+        // Optimistic update
+        setActiveConversation(prev => ({
+            ...prev,
+            messages: [...prev.messages, newMsg]
+        }));
+
+        try {
+            await messagesService.send(String(activeConversation.id), content);
+        } catch (error) {
+            toast.error("Échec de l'envoi du message");
+            // Rollback
+            setActiveConversation(prev => ({
+                ...prev,
+                messages: prev.messages.filter(m => m.id !== optimisticId)
+            }));
+        }
     };
 
     return (
