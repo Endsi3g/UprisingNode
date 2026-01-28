@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { PageHeader } from "@/components/uprising/page-header";
 import { DataCard } from "@/components/uprising/data-card";
 import { dashboardService } from "@/services/api.service";
@@ -53,6 +53,10 @@ export default function EarningsPage() {
     };
 
     const commissions = data.history;
+
+    const filteredCommissions = useMemo(() => {
+        return commissions.filter((c) => selectedPeriod === "all" || c.status === selectedPeriod);
+    }, [commissions, selectedPeriod]);
 
     const getStatusColor = (status: Commission["status"]) => {
         switch (status) {
@@ -162,11 +166,9 @@ export default function EarningsPage() {
 
                 {/* Commission List */}
                 <div className="divide-y divide-gray-50">
-                    {commissions
-                        .filter((c) => selectedPeriod === "all" || c.status === selectedPeriod)
-                        .map((commission) => (
-                            <div
-                                key={commission.id}
+                    {filteredCommissions.map((commission) => (
+                        <div
+                            key={commission.id}
                                 className="flex items-center justify-between py-6 group hover:bg-gray-50/50 -mx-4 px-4 transition-colors"
                             >
                                 <div className="flex items-center gap-8">
