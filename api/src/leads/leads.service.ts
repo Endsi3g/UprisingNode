@@ -6,6 +6,17 @@ import { CreateLeadDto, UpdateLeadDto } from './dto/lead.dto';
 export class LeadsService {
     constructor(private prisma: PrismaService) { }
 
+    async getStats(userId: string) {
+        return {
+            currentBalance: 12450,
+            targetBalance: 15000,
+            activeLeads: 7,
+            inAudit: 3,
+            signedDeals: 12,
+            monthlyGrowth: 18
+        };
+    }
+
     async create(userId: string, dto: CreateLeadDto) {
         return this.prisma.lead.create({
             data: {
