@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node - Récapitulatif Dossier PDF Complet</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent-gray": "#fafafa",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-feature-settings: "cv11", "ss01";
+        }
+        .pdf-preview-stack {
+            perspective: 1000px;
+        }
+        .pdf-page {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border: 1px solid #f0f0f0;
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
+<header class="w-full bg-white/90 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-100">
+<div class="px-6 md:px-12 py-6 flex items-center justify-between max-w-7xl mx-auto">
+<div class="flex items-center gap-4 text-black">
+<div class="text-black opacity-80">
+<span class="material-symbols-outlined text-2xl font-light">hub</span>
+</div>
+<h2 class="text-base font-medium tracking-wide font-serif text-black italic">Uprising Node</h2>
+</div>
+<div class="flex items-center gap-8">
+<div class="hidden md:flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-green-500/80"></div>
+<span class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">Opérationnel</span>
+</div>
+<div class="flex items-center gap-4 pl-8 border-l border-gray-100">
+<div class="text-right hidden sm:block">
+<p class="text-[9px] font-semibold uppercase text-gray-400 tracking-widest mb-0.5">Analyste</p>
+<p class="text-sm font-medium leading-none text-black font-serif">K. Miller</p>
+</div>
+<div class="bg-center bg-no-repeat bg-cover grayscale opacity-90 size-8 rounded-full border border-gray-100 ring-2 ring-white" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMflAqpGYir9XOgJftZNEspNP4YhL4rOPhdqw0jK_aScxv1hEB3L_lzTmM9Yhh7p9Bx-zR8FPI8BGHUHUllrAJDb-KhtUBsqU-ow4gz1n2Xk6fA8mW9g47-WRYmuNS0QAW_9o-jagO5g5z8bKdLzEnz2LlxLpmlbixX3D_b0WsSTorkGrwc3J7RGALpmKOBVUrUK7iA48qG0b4tWxQnQOXK_S9JVfjK6tVa4xwe4PR4q82uVCiUq2Ob5fW4_0YZ9Smp0LT32pSxHGh");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-7xl mx-auto px-6 py-12 md:py-16 flex flex-col">
+<div class="mb-12 md:mb-20 space-y-4">
+<p class="text-gray-400 font-sans text-[10px] uppercase tracking-[0.3em]">Livrable Stratégique • Rapport Final</p>
+<h1 class="text-4xl md:text-6xl font-serif font-normal text-black tracking-tight max-w-2xl leading-[1.1]">
+            Dossier Stratégique Complet
+        </h1>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+<div class="lg:col-span-8 space-y-12">
+<div class="relative bg-neutral-50 p-8 md:p-16 border border-gray-100">
+<div class="pdf-preview-stack relative aspect-[4/3] flex items-center justify-center">
+<div class="pdf-page absolute w-[55%] aspect-[1/1.41] bg-white translate-x-12 translate-y-6 rotate-3 z-10 flex flex-col p-6 overflow-hidden">
+<div class="w-1/2 h-2 bg-gray-100 mb-2"></div>
+<div class="space-y-1">
+<div class="w-full h-1 bg-gray-50"></div>
+<div class="w-full h-1 bg-gray-50"></div>
+<div class="w-2/3 h-1 bg-gray-50"></div>
+</div>
+</div>
+<div class="pdf-page absolute w-[55%] aspect-[1/1.41] bg-white -translate-x-6 translate-y-2 -rotate-2 z-20 flex flex-col p-6 overflow-hidden">
+<div class="flex justify-between mb-8">
+<div class="w-8 h-8 border border-black flex items-center justify-center text-[8px] font-serif italic">UN</div>
+<div class="w-12 h-1 bg-gray-100"></div>
+</div>
+<div class="h-4 w-3/4 bg-gray-100 mb-4"></div>
+<div class="space-y-2">
+<div class="w-full h-2 bg-gray-50"></div>
+<div class="w-full h-2 bg-gray-50"></div>
+<div class="w-full h-2 bg-gray-50"></div>
+<div class="w-5/6 h-2 bg-gray-50"></div>
+</div>
+</div>
+<div class="pdf-page absolute w-[55%] aspect-[1/1.41] bg-white shadow-2xl z-30 flex flex-col items-center justify-center p-8 text-center border-t-4 border-black">
+<span class="material-symbols-outlined text-3xl font-light mb-6 opacity-30">shield_lock</span>
+<h3 class="font-serif text-xl mb-2 italic">Uprising Node</h3>
+<div class="w-8 h-px bg-gray-200 mb-6"></div>
+<p class="text-[10px] font-semibold uppercase tracking-widest text-black mb-1">Rapport d'Audit &amp; Vente</p>
+<p class="text-[8px] text-gray-400 font-mono">ID: 2024-STRAT-092</p>
+<div class="mt-auto pt-8">
+<p class="text-[7px] text-gray-300 uppercase tracking-tighter">Confidentiel • Strictement Privé</p>
+</div>
+</div>
+</div>
+<div class="mt-8 flex justify-center gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-gray-400">description</span>
+<span class="text-[10px] uppercase tracking-wider text-gray-500">Rapport d'Audit de Sécurité</span>
+</div>
+<div class="w-1 h-1 rounded-full bg-gray-200 self-center"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-gray-400">history_edu</span>
+<span class="text-[10px] uppercase tracking-wider text-gray-500">Scripts de Vente Stratégiques</span>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-4 sticky top-32 space-y-10">
+<div>
+<h4 class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-6 border-b border-gray-100 pb-2">Contenu du Dossier</h4>
+<nav class="space-y-8">
+<div class="group">
+<p class="text-xs font-serif italic text-gray-400 mb-1">Section I</p>
+<h5 class="text-lg font-serif text-black group-hover:pl-2 transition-all duration-300">Analyse de Surface</h5>
+<p class="text-sm text-gray-400 mt-2 font-light leading-relaxed">Exposition numérique complète et vulnérabilités infrastructurelles identifiées.</p>
+</div>
+<div class="group">
+<p class="text-xs font-serif italic text-gray-400 mb-1">Section II</p>
+<h5 class="text-lg font-serif text-black group-hover:pl-2 transition-all duration-300">Angles d'Attaque</h5>
+<p class="text-sm text-gray-400 mt-2 font-light leading-relaxed">Vecteurs de persuasion psychologique et leviers de négociation spécifiques.</p>
+</div>
+<div class="group">
+<p class="text-xs font-serif italic text-gray-400 mb-1">Section III</p>
+<h5 class="text-lg font-serif text-black group-hover:pl-2 transition-all duration-300">Scripts de Closing</h5>
+<p class="text-sm text-gray-400 mt-2 font-light leading-relaxed">Modèles de dialogue optimisés pour la conversion et la rétention partenaire.</p>
+</div>
+</nav>
+</div>
+<div class="pt-6 border-t border-gray-100 space-y-6">
+<div class="flex justify-between items-center text-[10px] uppercase tracking-widest text-gray-400">
+<span>Format : PDF (A4)</span>
+<span>Poids : 4.2 MB</span>
+</div>
+<button class="w-full bg-black text-white py-6 px-6 text-xs font-semibold uppercase tracking-[0.25em] hover:bg-neutral-800 transition-all duration-300 flex items-center justify-center gap-4 group">
+<span>Télécharger le Dossier PDF</span>
+<span class="material-symbols-outlined text-lg font-light group-hover:translate-y-0.5 transition-transform duration-300">download</span>
+</button>
+<div class="flex items-center justify-center gap-3 py-4 border border-dashed border-gray-200">
+<span class="material-symbols-outlined text-lg text-gray-400 font-light">verified_user</span>
+<p class="text-[9px] uppercase tracking-widest text-gray-400 leading-none">Intégrité des données certifiée</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="mt-auto border-t border-gray-100 py-12 px-6">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex items-center gap-4 opacity-30">
+<span class="material-symbols-outlined text-xl">hub</span>
+<span class="text-[10px] uppercase tracking-[0.4em] font-medium">Uprising Node</span>
+</div>
+<p class="text-[10px] text-gray-400 font-light uppercase tracking-widest italic">Le futur appartient à ceux qui maîtrisent l'information.</p>
+<div class="flex gap-8 text-[10px] uppercase tracking-widest text-gray-400 font-medium">
+<a class="hover:text-black transition-colors" href="#">Mentions Légales</a>
+<a class="hover:text-black transition-colors" href="#">Confidentialité</a>
+</div>
+</div>
+</footer>
+
+</body></html>

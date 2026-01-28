@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node - Quotas et Limites</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent-gray": "#fafafa",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-feature-settings: "cv11", "ss01";
+        }
+        .chart-grid line {
+            stroke: #f3f4f6;
+            stroke-width: 1;
+        }
+        .chart-line {
+            fill: none;
+            stroke: #000;
+            stroke-width: 1.5;
+        }
+        .chart-limit {
+            fill: none;
+            stroke: #9ca3af;
+            stroke-width: 1;
+            stroke-dasharray: 4, 4;
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
+<header class="w-full bg-white/90 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-100">
+<div class="px-6 md:px-12 py-6 flex items-center justify-between max-w-6xl mx-auto">
+<div class="flex items-center gap-4 text-black">
+<div class="text-black opacity-80">
+<span class="material-symbols-outlined text-2xl font-light">hub</span>
+</div>
+<h2 class="text-base font-medium tracking-wide font-serif text-black italic">Uprising Node</h2>
+</div>
+<div class="flex items-center gap-8">
+<div class="hidden md:flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-green-500/80"></div>
+<span class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">En ligne</span>
+</div>
+<div class="flex items-center gap-4 pl-8 border-l border-gray-100">
+<div class="text-right hidden sm:block">
+<p class="text-[9px] font-semibold uppercase text-gray-400 tracking-widest mb-0.5">Opérateur</p>
+<p class="text-sm font-medium leading-none text-black font-serif">K. Miller</p>
+</div>
+<div class="bg-center bg-no-repeat bg-cover grayscale opacity-90 size-8 rounded-full border border-gray-100 ring-2 ring-white" data-alt="User profile avatar, abstract digital face" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMflAqpGYir9XOgJftZNEspNP4YhL4rOPhdqw0jK_aScxv1hEB3L_lzTmM9Yhh7p9Bx-zR8FPI8BGHUHUllrAJDb-KhtUBsqU-ow4gz1n2Xk6fA8mW9g47-WRYmuNS0QAW_9o-jagO5g5z8bKdLzEnz2LlxLpmlbixX3D_b0WsSTorkGrwc3J7RGALpmKOBVUrUK7iA48qG0b4tWxQnQOXK_S9JVfjK6tVa4xwe4PR4q82uVCiUq2Ob5fW4_0YZ9Smp0LT32pSxHGh");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-6xl mx-auto px-6 py-12 md:py-16 flex flex-col gap-12">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-gray-100 pb-8">
+<div class="space-y-3">
+<h1 class="text-3xl md:text-4xl font-serif font-normal text-black tracking-tight">
+                Quotas &amp; Limites
+            </h1>
+<p class="text-gray-400 font-sans text-[10px] uppercase tracking-[0.2em]">
+                Surveillance de la Consommation API
+            </p>
+</div>
+<div class="flex items-center gap-2 text-xs border border-gray-200 px-4 py-2 rounded-sm hover:border-black transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-base font-light text-gray-400 group-hover:text-black">file_download</span>
+<span class="uppercase tracking-widest text-gray-500 group-hover:text-black">Exporter le rapport</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+<div class="flex flex-col items-center justify-center space-y-6 p-6 border border-gray-50 hover:border-gray-100 transition-colors">
+<div class="relative size-32 md:size-40">
+<svg class="size-full -rotate-90" viewBox="0 0 36 36">
+<path class="text-gray-100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="0.5"></path>
+<path class="text-black" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="78, 100" stroke-width="1"></path>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-2xl md:text-3xl font-serif text-black">78%</span>
+</div>
+</div>
+<div class="text-center space-y-1">
+<h3 class="text-xs font-semibold uppercase tracking-widest text-black">Appels API Mensuels</h3>
+<p class="text-[10px] text-gray-400 font-light">780k / 1M Requetes</p>
+</div>
+</div>
+<div class="flex flex-col items-center justify-center space-y-6 p-6 border border-gray-50 hover:border-gray-100 transition-colors">
+<div class="relative size-32 md:size-40">
+<svg class="size-full -rotate-90" viewBox="0 0 36 36">
+<path class="text-gray-100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="0.5"></path>
+<path class="text-black" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="45, 100" stroke-width="1"></path>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-2xl md:text-3xl font-serif text-black">45%</span>
+</div>
+</div>
+<div class="text-center space-y-1">
+<h3 class="text-xs font-semibold uppercase tracking-widest text-black">Volume de Données</h3>
+<p class="text-[10px] text-gray-400 font-light">45 GB / 100 GB</p>
+</div>
+</div>
+<div class="flex flex-col items-center justify-center space-y-6 p-6 border border-gray-50 hover:border-gray-100 transition-colors">
+<div class="relative size-32 md:size-40">
+<svg class="size-full -rotate-90" viewBox="0 0 36 36">
+<path class="text-gray-100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="0.5"></path>
+<path class="text-black" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="92, 100" stroke-width="1"></path>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-2xl md:text-3xl font-serif text-black">92%</span>
+</div>
+</div>
+<div class="text-center space-y-1">
+<h3 class="text-xs font-semibold uppercase tracking-widest text-black">Leads Actifs</h3>
+<p class="text-[10px] text-gray-400 font-light">4,600 / 5,000 Leads</p>
+</div>
+</div>
+</div>
+<div class="space-y-6">
+<div class="flex justify-between items-end border-b border-gray-100 pb-2">
+<h3 class="text-sm font-serif italic text-black">Clés API &amp; Limites Spécifiques</h3>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-gray-100 text-[10px] uppercase tracking-widest text-gray-400 font-sans">
+<th class="py-4 font-semibold w-1/4">Identifiant Clé</th>
+<th class="py-4 font-semibold w-1/5">Service</th>
+<th class="py-4 font-semibold w-1/5">Utilisation</th>
+<th class="py-4 font-semibold w-1/5">Plafond</th>
+<th class="py-4 font-semibold text-right">Action</th>
+</tr>
+</thead>
+<tbody class="font-light text-sm">
+<tr class="group border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+<td class="py-4 font-mono text-xs text-gray-600">pk_live_...9x2</td>
+<td class="py-4 font-serif text-black">Core Banking</td>
+<td class="py-4 font-sans text-gray-500">
+<div class="flex items-center gap-2">
+<div class="w-16 h-0.5 bg-gray-100 rounded-full overflow-hidden">
+<div class="h-full bg-black w-[85%]"></div>
+</div>
+<span class="text-xs">85%</span>
+</div>
+</td>
+<td class="py-4 font-serif text-black">1.0M req/mois</td>
+<td class="py-4 text-right">
+<button class="text-[10px] uppercase tracking-wider font-semibold hover:text-gray-500 transition-colors border-b border-black hover:border-gray-500 pb-0.5">
+                                Augmenter
+                            </button>
+</td>
+</tr>
+<tr class="group border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+<td class="py-4 font-mono text-xs text-gray-600">sk_test_...k21</td>
+<td class="py-4 font-serif text-black">Data Stream</td>
+<td class="py-4 font-sans text-gray-500">
+<div class="flex items-center gap-2">
+<div class="w-16 h-0.5 bg-gray-100 rounded-full overflow-hidden">
+<div class="h-full bg-black w-[45%]"></div>
+</div>
+<span class="text-xs">45%</span>
+</div>
+</td>
+<td class="py-4 font-serif text-black">100 GB/mois</td>
+<td class="py-4 text-right">
+<button class="text-[10px] uppercase tracking-wider font-semibold hover:text-gray-500 transition-colors border-b border-transparent hover:border-gray-500 pb-0.5">
+                                Augmenter
+                            </button>
+</td>
+</tr>
+<tr class="group border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+<td class="py-4 font-mono text-xs text-gray-600">pk_live_...m44</td>
+<td class="py-4 font-serif text-black">Identity Verification</td>
+<td class="py-4 font-sans text-gray-500">
+<div class="flex items-center gap-2">
+<div class="w-16 h-0.5 bg-gray-100 rounded-full overflow-hidden">
+<div class="h-full bg-black w-[92%]"></div>
+</div>
+<span class="text-xs">92%</span>
+</div>
+</td>
+<td class="py-4 font-serif text-black">5k req/jour</td>
+<td class="py-4 text-right">
+<button class="text-[10px] uppercase tracking-wider font-semibold hover:text-gray-500 transition-colors border-b border-black hover:border-gray-500 pb-0.5">
+                                Augmenter
+                            </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="space-y-8 pt-8">
+<div class="flex justify-between items-end">
+<div class="space-y-1">
+<h3 class="text-sm font-serif italic text-black">Prévisions de Consommation</h3>
+<p class="text-[10px] uppercase tracking-widest text-gray-400">Tendance sur 30 jours</p>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-px bg-black"></span>
+<span class="text-[10px] text-gray-500 uppercase tracking-wider">Réel</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-px border-t border-dashed border-gray-400"></span>
+<span class="text-[10px] text-gray-500 uppercase tracking-wider">Limite</span>
+</div>
+</div>
+</div>
+<div class="w-full h-64 border border-gray-50 p-6 relative bg-white">
+<svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 800 200">
+<line stroke="#f3f4f6" stroke-width="1" x1="0" x2="800" y1="199" y2="199"></line>
+<line stroke="#f3f4f6" stroke-dasharray="2,2" stroke-width="1" x1="0" x2="800" y1="150" y2="150"></line>
+<line stroke="#f3f4f6" stroke-dasharray="2,2" stroke-width="1" x1="0" x2="800" y1="100" y2="100"></line>
+<line stroke="#f3f4f6" stroke-dasharray="2,2" stroke-width="1" x1="0" x2="800" y1="50" y2="50"></line>
+<line stroke="#f3f4f6" stroke-width="1" x1="0" x2="800" y1="1" y2="1"></line>
+<line class="chart-limit" x1="0" x2="800" y1="40" y2="40"></line>
+<polyline class="chart-line" points="0,180 50,175 100,160 150,165 200,140 250,130 300,145 350,120 400,110 450,105 500,90 550,85 600,70 650,65 700,55 750,50 800,45" vector-effect="non-scaling-stroke"></polyline>
+<path d="M600,70 L650,65 L700,55 L750,50 L800,45 L800,200 L600,200 Z" fill="#fafafa" opacity="0.5"></path>
+</svg>
+<div class="absolute left-2 top-4 text-[9px] text-gray-400 font-mono">1M</div>
+<div class="absolute left-2 top-1/2 text-[9px] text-gray-400 font-mono">500k</div>
+<div class="absolute left-2 bottom-2 text-[9px] text-gray-400 font-mono">0</div>
+<div class="absolute bottom-2 left-6 text-[9px] text-gray-400 font-mono">1 Nov</div>
+<div class="absolute bottom-2 left-1/4 text-[9px] text-gray-400 font-mono">8 Nov</div>
+<div class="absolute bottom-2 left-1/2 text-[9px] text-gray-400 font-mono">15 Nov</div>
+<div class="absolute bottom-2 left-3/4 text-[9px] text-gray-400 font-mono">22 Nov</div>
+<div class="absolute bottom-2 right-6 text-[9px] text-gray-400 font-mono">30 Nov</div>
+</div>
+</div>
+<div class="border-t border-gray-100 pt-8 flex items-center justify-between text-[10px] text-gray-400 uppercase tracking-widest">
+<p>Mise à jour toutes les 15 minutes</p>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm font-light">info</span>
+<p>Les quotas sont réinitialisés le 1er du mois</p>
+</div>
+</div>
+</main>
+
+</body></html>

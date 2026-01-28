@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Header } from "@/components/layout";
 import { Button } from "@/components/ui";
+import { transactionsService } from "@/services/api.service";
 
 export default function TransferPage() {
     const router = useRouter();
@@ -20,11 +21,15 @@ export default function TransferPage() {
 
         setIsSubmitting(true);
 
-        // TODO: Submit to API
-        setTimeout(() => {
-            setIsSubmitting(false);
+        try {
+            await transactionsService.createWithdrawal(parseFloat(amount));
             setSubmitted(true);
-        }, 2000);
+        } catch (error) {
+            console.error("Transfer failed", error);
+            // In a real app, I'd show a toast error here
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     if (submitted) {

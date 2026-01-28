@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node - Sandbox API</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent-gray": "#fafafa",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-feature-settings: "cv11", "ss01";
+        }
+        .code-font {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+        textarea:focus, input:focus, select:focus {
+            box-shadow: none;
+            outline: none;
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
+<header class="w-full bg-white/90 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-100">
+<div class="px-6 md:px-12 py-6 flex items-center justify-between max-w-[1400px] mx-auto">
+<div class="flex items-center gap-4 text-black">
+<div class="text-black opacity-80">
+<span class="material-symbols-outlined text-2xl font-light">hub</span>
+</div>
+<h2 class="text-base font-medium tracking-wide font-serif text-black italic">Uprising Node</h2>
+</div>
+<div class="flex items-center gap-8">
+<div class="hidden md:flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-green-500/80"></div>
+<span class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">Sandbox API</span>
+</div>
+<div class="flex items-center gap-4 pl-8 border-l border-gray-100">
+<div class="text-right hidden sm:block">
+<p class="text-[9px] font-semibold uppercase text-gray-400 tracking-widest mb-0.5">Développeur</p>
+<p class="text-sm font-medium leading-none text-black font-serif">K. Miller</p>
+</div>
+<div class="bg-center bg-no-repeat bg-cover grayscale opacity-90 size-8 rounded-full border border-gray-100 ring-2 ring-white" data-alt="User profile avatar, abstract digital face" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMflAqpGYir9XOgJftZNEspNP4YhL4rOPhdqw0jK_aScxv1hEB3L_lzTmM9Yhh7p9Bx-zR8FPI8BGHUHUllrAJDb-KhtUBsqU-ow4gz1n2Xk6fA8mW9g47-WRYmuNS0QAW_9o-jagO5g5z8bKdLzEnz2LlxLpmlbixX3D_b0WsSTorkGrwc3J7RGALpmKOBVUrUK7iA48qG0b4tWxQnQOXK_S9JVfjK6tVa4xwe4PR4q82uVCiUq2Ob5fW4_0YZ9Smp0LT32pSxHGh");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-[1400px] mx-auto px-6 py-12 md:py-16 flex flex-col">
+<div class="mb-12 md:mb-16 border-b border-gray-50 pb-8">
+<h1 class="text-3xl md:text-5xl font-serif font-normal text-black tracking-tight mb-3">
+            Sandbox API
+        </h1>
+<p class="text-gray-400 font-sans text-[10px] uppercase tracking-[0.2em] flex items-center gap-2">
+            Environnement de test v2.4 <span class="w-1 h-1 bg-gray-300 rounded-full"></span> Latence &lt; 24ms
+        </p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 h-full">
+<div class="lg:col-span-5 flex flex-col gap-8">
+<div class="flex items-center justify-between">
+<h3 class="text-xs font-semibold uppercase tracking-widest text-black border-b border-black pb-1">Constructeur de Requête</h3>
+<span class="material-symbols-outlined text-gray-300 text-lg">tune</span>
+</div>
+<div class="space-y-4">
+<label class="text-[10px] uppercase tracking-widest text-gray-400 block">Endpoint</label>
+<div class="flex items-center border-b border-gray-200 focus-within:border-black transition-colors duration-300">
+<div class="relative">
+<select class="appearance-none bg-transparent font-mono text-xs font-bold uppercase py-3 pl-0 pr-8 focus:ring-0 border-none cursor-pointer text-black">
+<option>POST</option>
+<option>GET</option>
+<option>PUT</option>
+<option>DELETE</option>
+</select>
+<span class="material-symbols-outlined absolute right-0 top-1/2 -translate-y-1/2 text-sm pointer-events-none text-gray-400">expand_more</span>
+</div>
+<div class="w-px h-4 bg-gray-200 mx-2"></div>
+<input class="w-full bg-transparent border-none focus:ring-0 font-mono text-xs text-gray-600 py-3 placeholder-gray-300" type="text" value="https://api.uprising.node/v1/virements"/>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<label class="text-[10px] uppercase tracking-widest text-gray-400">Authentification</label>
+<span class="text-[10px] text-green-600 font-mono bg-green-50 px-2 py-0.5 rounded-sm">Bearer Token Active</span>
+</div>
+</div>
+<div class="flex-1 flex flex-col space-y-4">
+<div class="flex justify-between items-end">
+<label class="text-[10px] uppercase tracking-widest text-gray-400">Corps de la requête (JSON)</label>
+<button class="text-[10px] text-gray-400 hover:text-black transition-colors underline">Formater</button>
+</div>
+<textarea class="w-full flex-1 min-h-[240px] bg-white border border-gray-100 p-4 font-mono text-xs text-black resize-y focus:border-black focus:ring-0 transition-colors placeholder:text-gray-200 leading-relaxed" spellcheck="false">{
+  "amount": 4250.00,
+  "currency": "EUR",
+  "recipient": {
+    "bank_id": "bt_fr_76_transatlantique",
+    "account_holder": "K. Miller"
+  },
+  "description": "Retrait mensuel partenaires",
+  "instant_settlement": true
+}</textarea>
+</div>
+<button class="w-full bg-black text-white py-4 px-6 text-xs font-semibold uppercase tracking-[0.2em] hover:bg-gray-800 transition-all duration-300 flex items-center justify-center gap-3 shadow-sm hover:shadow-md group mt-auto">
+<span>Exécuter la requête</span>
+<span class="material-symbols-outlined text-base font-light group-hover:translate-x-1 transition-transform duration-300">play_arrow</span>
+</button>
+</div>
+<div class="lg:col-span-7 flex flex-col gap-6 pt-12 lg:pt-0 border-t lg:border-t-0 border-gray-100">
+<div class="flex items-center justify-between">
+<h3 class="text-xs font-semibold uppercase tracking-widest text-gray-400">Réponse en temps réel</h3>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 px-3 py-1 rounded-full bg-gray-50 border border-gray-100">
+<div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+<span class="font-mono text-xs font-medium text-black">200 OK</span>
+</div>
+<span class="font-mono text-[10px] text-gray-400">145ms</span>
+</div>
+</div>
+<div class="flex-1 w-full bg-[#FAFAFA] border border-gray-100 rounded-sm p-6 relative group overflow-hidden min-h-[500px]">
+<div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-gray-400 hover:text-black p-1">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+</button>
+</div>
+<pre class="font-mono text-xs text-gray-800 whitespace-pre-wrap leading-loose">{
+  "id": "tr_192837465_live",
+  "object": "transfer",
+  "created": 1715421294,
+  "status": "pending",
+  "livemode": false,
+  "amount": 4250.00,
+  "currency": "EUR",
+  "fees": {
+    "amount": 0.00,
+    "currency": "EUR"
+  },
+  "recipient": {
+    "id": "acc_88339922",
+    "bank_name": "Banque Transatlantique",
+    "last4": "4242",
+    "country": "FR"
+  },
+  "settlement_date": "2024-05-12",
+  "metadata": {
+    "user_reference": "partners_monthly_w_05"
+  },
+  "request_log": {
+    "ip_address": "203.0.113.195",
+    "user_agent": "UprisingNode/v2.4 Sandbox"
+  }
+}</pre>
+<div class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#FAFAFA] to-transparent pointer-events-none"></div>
+</div>
+<div class="flex items-center justify-between text-[10px] text-gray-400 uppercase tracking-widest border-t border-gray-50 pt-4">
+<span>Format JSON</span>
+<span>Taille: 482 B</span>
+</div>
+</div>
+</div>
+</main>
+
+</body></html>

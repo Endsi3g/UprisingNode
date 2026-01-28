@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node - Gestion des Clés API</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent-gray": "#fafafa",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-feature-settings: "cv11", "ss01";
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
+<header class="w-full bg-white/90 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-100">
+<div class="px-6 md:px-12 py-6 flex items-center justify-between max-w-5xl mx-auto">
+<div class="flex items-center gap-4 text-black">
+<div class="text-black opacity-80">
+<span class="material-symbols-outlined text-2xl font-light">hub</span>
+</div>
+<h2 class="text-base font-medium tracking-wide font-serif text-black italic">Uprising Node</h2>
+</div>
+<div class="flex items-center gap-8">
+<div class="hidden md:flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-green-500/80"></div>
+<span class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">En ligne</span>
+</div>
+<div class="flex items-center gap-4 pl-8 border-l border-gray-100">
+<div class="text-right hidden sm:block">
+<p class="text-[9px] font-semibold uppercase text-gray-400 tracking-widest mb-0.5">Opérateur</p>
+<p class="text-sm font-medium leading-none text-black font-serif">K. Miller</p>
+</div>
+<div class="bg-center bg-no-repeat bg-cover grayscale opacity-90 size-8 rounded-full border border-gray-100 ring-2 ring-white" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC__NSIHa9h9q-whl7KbwZSgxeFkIJQSoGaOt2JcobJFA2vxwpWuQbRq0IMZ7HgA4CICh7jkIkf9DSADib066yqBMVOUPwqg_BM2QtkNdfBOrYQ7L5hd-wPk3r6OoEqim_PU-R4SBNiEv376Avv32cehwpQJWGUiWs9ONqcw9PrB35sjzo6DZN14iWwPG52RqwQuEcifPcHBMoxuIo0S2zlWPFBdguTFAysMvAGEoIdABScbhV5nKXdLKmEbLo3aTYvopIrid1vyXVY");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-4xl mx-auto px-6 py-12 md:py-20 flex flex-col gap-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-gray-100 pb-12">
+<div class="space-y-4">
+<h1 class="text-3xl md:text-5xl font-serif font-normal text-black tracking-tight">
+                    Gestion des Clés API
+                </h1>
+<p class="text-gray-400 font-sans text-[10px] uppercase tracking-[0.2em]">
+                    Interface d'accès programmatique • Partenaire Expert
+                </p>
+</div>
+<div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+<a class="flex items-center gap-2 text-gray-400 hover:text-black transition-colors group" href="#">
+<span class="material-symbols-outlined text-sm font-light">menu_book</span>
+<span class="text-[10px] font-semibold uppercase tracking-widest">Accéder à la Doc API</span>
+</a>
+<button class="bg-black text-white py-4 px-8 text-[10px] font-semibold uppercase tracking-[0.2em] hover:bg-gray-800 transition-all duration-300 shadow-sm">
+                    Générer une nouvelle clé
+                </button>
+</div>
+</div>
+<section class="space-y-8">
+<div class="flex items-center justify-between">
+<h3 class="text-xs font-semibold uppercase tracking-widest text-gray-400">Clés API Actives</h3>
+<span class="text-[10px] text-gray-300 font-mono">3 Clés actives</span>
+</div>
+<div class="divide-y divide-gray-100">
+<div class="py-8 first:pt-0 group">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="space-y-3">
+<div class="flex items-center gap-3">
+<h4 class="text-base font-serif font-medium text-black">Production Main Node</h4>
+<span class="px-2 py-0.5 bg-gray-50 text-[9px] text-gray-400 uppercase tracking-widest border border-gray-100">Full Access</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex flex-col">
+<span class="text-[9px] uppercase tracking-widest text-gray-300 mb-1">Créée le</span>
+<span class="text-xs font-mono text-gray-500">12 Oct. 2023</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[9px] uppercase tracking-widest text-gray-300 mb-1">Dernière utilisation</span>
+<span class="text-xs font-mono text-gray-500">Il y a 2 minutes</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-100 rounded-sm">
+<span class="text-xs font-mono text-gray-400">up_live_••••••••••••••••42k8</span>
+<button class="material-symbols-outlined text-base text-gray-300 hover:text-black transition-colors">content_copy</button>
+</div>
+<button class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 hover:text-red-600 transition-colors">Révoquer</button>
+</div>
+</div>
+</div>
+<div class="py-8 group">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="space-y-3">
+<div class="flex items-center gap-3">
+<h4 class="text-base font-serif font-medium text-black">Reporting Automation</h4>
+<span class="px-2 py-0.5 bg-gray-50 text-[9px] text-gray-400 uppercase tracking-widest border border-gray-100">Read Only</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex flex-col">
+<span class="text-[9px] uppercase tracking-widest text-gray-300 mb-1">Créée le</span>
+<span class="text-xs font-mono text-gray-500">05 Jan. 2024</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[9px] uppercase tracking-widest text-gray-300 mb-1">Dernière utilisation</span>
+<span class="text-xs font-mono text-gray-500">Il y a 4 heures</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-100 rounded-sm">
+<span class="text-xs font-mono text-gray-400">up_live_••••••••••••••••99x1</span>
+<button class="material-symbols-outlined text-base text-gray-300 hover:text-black transition-colors">content_copy</button>
+</div>
+<button class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 hover:text-red-600 transition-colors">Révoquer</button>
+</div>
+</div>
+</div>
+<div class="py-8 group">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="space-y-3">
+<div class="flex items-center gap-3">
+<h4 class="text-base font-serif font-medium text-black">Staging Environment</h4>
+<span class="px-2 py-0.5 bg-gray-50 text-[9px] text-gray-400 uppercase tracking-widest border border-gray-100">Sandboxed</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex flex-col">
+<span class="text-[9px] uppercase tracking-widest text-gray-300 mb-1">Créée le</span>
+<span class="text-xs font-mono text-gray-500">18 Fév. 2024</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[9px] uppercase tracking-widest text-gray-300 mb-1">Dernière utilisation</span>
+<span class="text-xs font-mono text-gray-500">Hier, 14:20</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-100 rounded-sm">
+<span class="text-xs font-mono text-gray-400">up_test_••••••••••••••••01z3</span>
+<button class="material-symbols-outlined text-base text-gray-300 hover:text-black transition-colors">content_copy</button>
+</div>
+<button class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 hover:text-red-600 transition-colors">Révoquer</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="mt-8 p-10 bg-gray-50/50 border border-gray-100 space-y-4">
+<div class="flex items-center gap-3 text-black">
+<span class="material-symbols-outlined text-xl font-light">security</span>
+<h3 class="text-xs font-semibold uppercase tracking-widest">Recommandations de sécurité</h3>
+</div>
+<p class="text-sm text-gray-500 font-light leading-relaxed max-w-2xl">
+                Vos clés API accordent un accès complet à vos données de nœud. Ne les partagez jamais dans des environnements publics, ne les commitez pas sur des dépôts de code et assurez-vous d'utiliser des variables d'environnement sécurisées.
+            </p>
+</section>
+</main>
+<footer class="mt-auto border-t border-gray-100 py-12">
+<div class="max-w-4xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex items-center gap-2 opacity-30 grayscale">
+<span class="material-symbols-outlined text-sm font-light">hub</span>
+<span class="text-[10px] font-serif italic tracking-widest uppercase">Uprising Node</span>
+</div>
+<div class="flex gap-8 text-[9px] uppercase tracking-[0.2em] text-gray-400 font-medium">
+<a class="hover:text-black transition-colors" href="#">Conditions d'Utilisation</a>
+<a class="hover:text-black transition-colors" href="#">Confidentialité</a>
+<a class="hover:text-black transition-colors" href="#">Support Technique</a>
+</div>
+</div>
+</footer>
+
+</body></html>

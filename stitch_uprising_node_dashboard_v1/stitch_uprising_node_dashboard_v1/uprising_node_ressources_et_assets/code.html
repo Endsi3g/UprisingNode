@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node - Ressources et Assets</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0f66bd",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Newsreader", "serif"],
+                        "sans": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #e5e7eb;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="bg-white text-[#111] font-display antialiased overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- Sidebar -->
+<aside class="flex w-64 flex-col border-r border-gray-100 bg-white h-full flex-shrink-0">
+<div class="p-6 flex items-center gap-3">
+<div class="size-8 rounded-full bg-gradient-to-br from-gray-900 to-gray-600" data-alt="Abstract gradient logo for Uprising Node"></div>
+<div>
+<h1 class="text-lg font-bold tracking-tight text-gray-900">Uprising Node</h1>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-1 px-4 mt-4">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] text-gray-400 group-hover:text-gray-900">dashboard</span>
+<span class="text-sm font-medium">Tableau de bord</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-gray-50 text-gray-900 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px] text-primary">folder_open</span>
+<span class="text-sm font-medium">Ressources</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] text-gray-400 group-hover:text-gray-900">handshake</span>
+<span class="text-sm font-medium">Partenaires</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] text-gray-400 group-hover:text-gray-900">settings</span>
+<span class="text-sm font-medium">Paramètres</span>
+</a>
+</nav>
+<div class="p-4 border-t border-gray-100">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-gray-200 bg-cover bg-center" data-alt="User profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAUHn__FNBIQsRP4wCCcmqoOJr1Z6kpjNrUHCDlthQuOC8B6TtifoIfy8fNHFcQNH1h3Q3JIq1sjxo5q-_Cb_Vnd-kjH-fxx6-8xiqwwgGPZsbvfQAW99I0ancVoMp3JN0edcQdEBX9elMHylQDfR91KaEaxERnJLJUHkTT-ka8F6oaByw942lhTf4bU_YXRMJyCbM6FK0IoU_1P7a61jBsqQPJ-flqBJJp-2hW12CJ0CMelMTHRTvsU-P6IXzWjlF243-LCk0VseQN');"></div>
+<div class="flex flex-col">
+<p class="text-sm font-semibold text-gray-900">Jean Dupont</p>
+<p class="text-xs text-gray-500">Partenaire Gold</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-hidden bg-white relative">
+<!-- Content Scroll Area -->
+<div class="flex-1 overflow-y-auto px-12 py-10 w-full max-w-7xl mx-auto">
+<!-- Page Heading -->
+<div class="flex flex-col gap-4 mb-12">
+<div class="max-w-2xl">
+<h1 class="text-4xl md:text-5xl font-bold tracking-tight text-[#111] mb-3">Ressources et Assets</h1>
+<p class="text-lg text-gray-500 font-normal leading-relaxed">
+                            Accédez à tous les scripts, documents stratégiques et supports marketing pour accélérer votre croissance.
+                        </p>
+</div>
+</div>
+<!-- Search and Filter Bar -->
+<div class="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between mb-12 border-b border-gray-100 pb-8">
+<!-- Search -->
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 bg-transparent border border-gray-200 rounded-md text-sm text-[#111] placeholder:text-gray-400 focus:outline-none focus:border-[#111] focus:ring-0 transition-all font-sans" placeholder="Rechercher une ressource, un document..." type="text"/>
+</div>
+<!-- Chips -->
+<div class="flex flex-wrap gap-2">
+<button class="px-4 py-1.5 rounded-full bg-[#111] text-white text-sm font-medium hover:bg-gray-800 transition-colors">Tout voir</button>
+<button class="px-4 py-1.5 rounded-full border border-gray-200 text-gray-600 text-sm font-medium hover:border-gray-400 hover:text-gray-900 transition-colors">Scripts</button>
+<button class="px-4 py-1.5 rounded-full border border-gray-200 text-gray-600 text-sm font-medium hover:border-gray-400 hover:text-gray-900 transition-colors">Stratégie</button>
+<button class="px-4 py-1.5 rounded-full border border-gray-200 text-gray-600 text-sm font-medium hover:border-gray-400 hover:text-gray-900 transition-colors">Marketing</button>
+</div>
+</div>
+<!-- Section 1: Scripts de Vente (List View) -->
+<section class="mb-16">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-2xl font-bold text-[#111]">Scripts de Vente</h2>
+<a class="text-sm font-medium text-gray-500 hover:text-[#111] font-sans flex items-center gap-1 group" href="#">
+                            Voir tout <span class="material-symbols-outlined text-[16px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+</a>
+</div>
+<div class="flex flex-col border-t border-gray-100">
+<!-- Item 1 -->
+<div class="group flex items-center justify-between py-5 border-b border-gray-100 hover:bg-gray-50 transition-colors px-4 -mx-4 rounded-lg">
+<div class="flex items-start gap-4">
+<div class="bg-gray-50 p-2 rounded border border-gray-100 text-gray-400 group-hover:text-[#111] group-hover:border-gray-300 transition-colors">
+<span class="material-symbols-outlined block">description</span>
+</div>
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h3 class="text-lg font-medium text-[#111] group-hover:text-primary transition-colors">Script d'appel à froid - T3 2023</h3>
+<span class="px-2 py-0.5 bg-gray-100 text-[#111] text-[10px] uppercase tracking-wider font-bold rounded-full font-sans">Nouveauté</span>
+</div>
+<p class="text-sm text-gray-500 font-sans">PDF • 2.4 MB • Mis à jour il y a 2 jours</p>
+</div>
+</div>
+<button class="p-2 text-gray-400 hover:text-primary hover:bg-blue-50 rounded-full transition-colors">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+<!-- Item 2 -->
+<div class="group flex items-center justify-between py-5 border-b border-gray-100 hover:bg-gray-50 transition-colors px-4 -mx-4 rounded-lg">
+<div class="flex items-start gap-4">
+<div class="bg-gray-50 p-2 rounded border border-gray-100 text-gray-400 group-hover:text-[#111] group-hover:border-gray-300 transition-colors">
+<span class="material-symbols-outlined block">description</span>
+</div>
+<div>
+<h3 class="text-lg font-medium text-[#111] mb-1 group-hover:text-primary transition-colors">Guide de traitement des objections</h3>
+<p class="text-sm text-gray-500 font-sans">PDF • 1.1 MB • Mis à jour le 15 Oct</p>
+</div>
+</div>
+<button class="p-2 text-gray-400 hover:text-primary hover:bg-blue-50 rounded-full transition-colors">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+<!-- Item 3 -->
+<div class="group flex items-center justify-between py-5 border-b border-gray-100 hover:bg-gray-50 transition-colors px-4 -mx-4 rounded-lg">
+<div class="flex items-start gap-4">
+<div class="bg-gray-50 p-2 rounded border border-gray-100 text-gray-400 group-hover:text-[#111] group-hover:border-gray-300 transition-colors">
+<span class="material-symbols-outlined block">mail</span>
+</div>
+<div>
+<h3 class="text-lg font-medium text-[#111] mb-1 group-hover:text-primary transition-colors">Séquence Email de Prospection</h3>
+<p class="text-sm text-gray-500 font-sans">DOCX • 450 KB • Mis à jour le 10 Oct</p>
+</div>
+</div>
+<button class="p-2 text-gray-400 hover:text-primary hover:bg-blue-50 rounded-full transition-colors">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Section 2: Documents Stratégiques (Card Grid) -->
+<section class="mb-16">
+<h2 class="text-2xl font-bold text-[#111] mb-6">Documents Stratégiques</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Card 1 -->
+<div class="group border border-gray-200 p-6 rounded-xl hover:border-gray-400 transition-colors cursor-pointer bg-white">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-gray-50 rounded-lg text-gray-600">
+<span class="material-symbols-outlined">analytics</span>
+</div>
+<span class="text-xs font-sans text-gray-400">PPTX</span>
+</div>
+<h3 class="text-xl font-medium text-[#111] mb-2 group-hover:underline decoration-1 underline-offset-4">Analyse du marché B2B</h3>
+<p class="text-sm text-gray-500 font-sans mb-4 leading-relaxed">Une analyse approfondie des tendances du marché pour le Q4 2024, incluant les opportunités émergentes.</p>
+<div class="flex items-center gap-2 text-primary text-sm font-medium font-sans">
+<span>Télécharger</span>
+<span class="material-symbols-outlined text-[16px]">arrow_downward</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group border border-gray-200 p-6 rounded-xl hover:border-gray-400 transition-colors cursor-pointer bg-white">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-gray-50 rounded-lg text-gray-600">
+<span class="material-symbols-outlined">map</span>
+</div>
+<span class="text-xs font-sans text-gray-400">NOTION</span>
+</div>
+<div class="flex items-center gap-3 mb-2">
+<h3 class="text-xl font-medium text-[#111] group-hover:underline decoration-1 underline-offset-4">Roadmap Produit 2024</h3>
+<span class="px-2 py-0.5 bg-gray-100 text-[#111] text-[10px] uppercase tracking-wider font-bold rounded-full font-sans">Nouveauté</span>
+</div>
+<p class="text-sm text-gray-500 font-sans mb-4 leading-relaxed">Vision produit complète et jalons clés pour l'année à venir. Accès direct au workspace Notion.</p>
+<div class="flex items-center gap-2 text-primary text-sm font-medium font-sans">
+<span>Ouvrir</span>
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Matériel Marketing (List View Compact) -->
+<section class="mb-12">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-2xl font-bold text-[#111]">Matériel Marketing</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Marketing Item 1 -->
+<div class="flex items-center gap-4 p-4 border border-gray-100 rounded-lg bg-gray-50/50 hover:bg-white hover:border-gray-300 hover:shadow-sm transition-all group cursor-pointer">
+<div class="size-12 rounded bg-white border border-gray-200 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-gray-400">folder_zip</span>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="text-base font-medium text-gray-900 truncate">Brand Kit &amp; Logos</h4>
+<p class="text-xs text-gray-500 font-sans">ZIP • 120 MB</p>
+</div>
+<span class="material-symbols-outlined text-gray-300 group-hover:text-primary">download</span>
+</div>
+<!-- Marketing Item 2 -->
+<div class="flex items-center gap-4 p-4 border border-gray-100 rounded-lg bg-gray-50/50 hover:bg-white hover:border-gray-300 hover:shadow-sm transition-all group cursor-pointer">
+<div class="size-12 rounded bg-white border border-gray-200 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-gray-400">html</span>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="text-base font-medium text-gray-900 truncate">Templates Email HTML</h4>
+<p class="text-xs text-gray-500 font-sans">Code • 2 MB</p>
+</div>
+<span class="material-symbols-outlined text-gray-300 group-hover:text-primary">download</span>
+</div>
+<!-- Marketing Item 3 -->
+<div class="flex items-center gap-4 p-4 border border-gray-100 rounded-lg bg-gray-50/50 hover:bg-white hover:border-gray-300 hover:shadow-sm transition-all group cursor-pointer">
+<div class="size-12 rounded bg-white border border-gray-200 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-gray-400">image</span>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="text-base font-medium text-gray-900 truncate">Social Media Assets Pack</h4>
+<p class="text-xs text-gray-500 font-sans">FIG • 45 MB</p>
+</div>
+<span class="material-symbols-outlined text-gray-300 group-hover:text-primary">download</span>
+</div>
+</div>
+</section>
+<footer class="mt-20 border-t border-gray-100 pt-8 pb-12 flex justify-between items-center text-xs text-gray-400 font-sans">
+<p>© 2024 Uprising Node Inc. Tous droits réservés.</p>
+<div class="flex gap-4">
+<a class="hover:text-gray-900" href="#">Confidentialité</a>
+<a class="hover:text-gray-900" href="#">Support</a>
+</div>
+</footer>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node Salle de Guerre</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent-gray": "#fafafa",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-feature-settings: "cv11", "ss01";
+        }
+        .lindy-input:focus {
+            box-shadow: none;
+            outline: none;
+            border-bottom-color: #000;
+        }
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 10px;
+            bottom: -20px;
+            width: 1px;
+            background-color: #f0f0f0;
+            z-index: 0;
+        }
+        .timeline-item:last-child .timeline-line::before {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
+<header class="w-full bg-white/95 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-100/50">
+<div class="px-6 md:px-12 py-6 flex items-center justify-between max-w-7xl mx-auto w-full">
+<div class="flex items-center gap-4 text-black cursor-pointer group">
+<div class="text-black opacity-80 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-2xl font-light">arrow_back</span>
+</div>
+<h2 class="text-base font-medium tracking-wide font-serif text-black italic group-hover:underline decoration-1 underline-offset-4 decoration-gray-300">Retour au Pipeline</h2>
+</div>
+<div class="flex items-center gap-8">
+<div class="hidden md:flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-red-500/80 animate-pulse"></div>
+<span class="text-[10px] font-medium text-black uppercase tracking-widest">Salle de Guerre : Active</span>
+</div>
+<div class="flex items-center gap-4 pl-8 border-l border-gray-100">
+<div class="text-right hidden sm:block">
+<p class="text-[9px] font-semibold uppercase text-gray-400 tracking-widest mb-0.5">Opérateur</p>
+<p class="text-sm font-medium leading-none text-black font-serif">K. Miller</p>
+</div>
+<div class="bg-center bg-no-repeat bg-cover grayscale opacity-90 size-8 rounded-full border border-gray-100 ring-2 ring-white" data-alt="User profile avatar, abstract digital face" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMflAqpGYir9XOgJftZNEspNP4YhL4rOPhdqw0jK_aScxv1hEB3L_lzTmM9Yhh7p9Bx-zR8FPI8BGHUHUllrAJDb-KhtUBsqU-ow4gz1n2Xk6fA8mW9g47-WRYmuNS0QAW_9o-jagO5g5z8bKdLzEnz2LlxLpmlbixX3D_b0WsSTorkGrwc3J7RGALpmKOBVUrUK7iA48qG0b4tWxQnQOXK_S9JVfjK6tVa4xwe4PR4q82uVCiUq2Ob5fW4_0YZ9Smp0LT32pSxHGh");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-7xl mx-auto px-6 py-12 md:py-16 flex flex-col">
+<section class="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 border-b border-gray-100 pb-12 mb-12">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<span class="inline-flex items-center justify-center h-6 px-2 text-[10px] font-medium border border-black text-black uppercase tracking-wider bg-white">
+                        Cible Prioritaire
+                    </span>
+<span class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">Réf: #SDG-2024-88</span>
+</div>
+<h1 class="text-4xl md:text-6xl font-serif font-normal text-black tracking-tight leading-none">
+                    Cyberdyne Systems
+                </h1>
+<a class="text-gray-400 hover:text-black transition-colors font-mono text-xs flex items-center gap-1 group w-max" href="#">
+                    cyberdyne.io <span class="material-symbols-outlined text-[14px] opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all">arrow_outward</span>
+</a>
+</div>
+<div class="flex flex-col items-start md:items-end gap-2 w-full md:w-auto">
+<p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400">Score de Conversion</p>
+<div class="flex items-baseline gap-1">
+<span class="text-5xl font-serif text-black font-normal">78</span>
+<span class="text-2xl font-serif text-gray-300 font-light">%</span>
+</div>
+<div class="w-full md:w-48 h-px bg-gray-100 mt-2 relative">
+<div class="absolute left-0 top-0 h-px bg-black" style="width: 78%"></div>
+</div>
+</div>
+</section>
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+<div class="lg:col-span-7 flex flex-col gap-16">
+<div class="space-y-6">
+<div class="flex items-center justify-between border-b border-gray-100 pb-4">
+<h3 class="text-xl font-serif text-black italic">Analyse Stratégique</h3>
+<span class="material-symbols-outlined text-gray-300 font-light">manage_search</span>
+</div>
+<ul class="space-y-6">
+<li class="flex gap-4 group">
+<span class="material-symbols-outlined text-gray-300 group-hover:text-black transition-colors mt-0.5 text-lg">check_circle</span>
+<div>
+<h4 class="text-sm font-medium text-black mb-1 uppercase tracking-wide">Point de Douleur Critique</h4>
+<p class="text-sm text-gray-600 font-light leading-relaxed">
+                                    Le CTO a exprimé des inquiétudes concernant la latence de leur infrastructure actuelle. Notre solution offre une réduction de 40% garantie.
+                                </p>
+</div>
+</li>
+<li class="flex gap-4 group">
+<span class="material-symbols-outlined text-gray-300 group-hover:text-black transition-colors mt-0.5 text-lg">check_circle</span>
+<div>
+<h4 class="text-sm font-medium text-black mb-1 uppercase tracking-wide">Fenêtre d'Opportunité</h4>
+<p class="text-sm text-gray-600 font-light leading-relaxed">
+                                    Renouvellement du contrat concurrent prévu pour le T1 2024. Décision finale attendue avant le 15 décembre.
+                                </p>
+</div>
+</li>
+<li class="flex gap-4 group">
+<span class="material-symbols-outlined text-gray-300 group-hover:text-black transition-colors mt-0.5 text-lg">check_circle</span>
+<div>
+<h4 class="text-sm font-medium text-black mb-1 uppercase tracking-wide">Levier Politique</h4>
+<p class="text-sm text-gray-600 font-light leading-relaxed">
+                                    Miles Dyson (Décideur) cherche à innover pour sécuriser son budget départemental. Positionner l'offre comme un "Avantage Concurrentiel" plutôt qu'un outil.
+                                </p>
+</div>
+</li>
+</ul>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between border-b border-gray-100 pb-4">
+<h3 class="text-xl font-serif text-black italic">Notes de l'Opérateur</h3>
+<button class="text-[10px] uppercase tracking-widest font-medium text-gray-400 hover:text-black transition-colors">Éditer</button>
+</div>
+<div class="bg-gray-50/50 p-8 border border-gray-100 min-h-[200px]">
+<p class="text-sm font-mono text-gray-600 leading-7">
+                            [12/11/23 - KM] Appel de découverte très positif. Dyson est réceptif mais prudent. Il a besoin de preuves concrètes de ROI pour le présenter au board.
+                            <br/><br/>
+                            [14/11/23 - KM] Envoi du whitepaper sur l'IA neuronale. Il a ouvert le lien 3 fois en 2 heures. C'est un signal fort.
+                            <br/><br/>
+                            ACTION REQUISE : Préparer une démo personnalisée sur le module de sécurité pour mardi prochain.
+                        </p>
+</div>
+</div>
+</div>
+<div class="lg:col-span-5 flex flex-col gap-12 border-l border-gray-50 lg:pl-12">
+<div class="space-y-6">
+<h3 class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-6">Chronologie des Actions</h3>
+<div class="relative space-y-0">
+<div class="relative pl-8 pb-8 timeline-item timeline-line">
+<div class="absolute left-0 top-1.5 w-3.5 h-3.5 border border-black bg-white rounded-full z-10"></div>
+<div class="flex flex-col gap-1">
+<span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Aujourd'hui, 09:30</span>
+<p class="text-sm font-medium text-black">Analyse concurrentielle terminée</p>
+<p class="text-xs text-gray-500 font-light">Rapport généré et partagé avec l'équipe.</p>
+</div>
+</div>
+<div class="relative pl-8 pb-8 timeline-item timeline-line">
+<div class="absolute left-0 top-1.5 w-3.5 h-3.5 border border-gray-200 bg-white rounded-full z-10"></div>
+<div class="flex flex-col gap-1">
+<span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">14 Nov, 16:45</span>
+<p class="text-sm font-medium text-gray-800">Email envoyé : "Approche Stratégique"</p>
+<div class="flex items-center gap-2 mt-1">
+<span class="px-1.5 py-0.5 bg-gray-100 text-[9px] uppercase tracking-wider text-gray-600 font-medium">Ouvert 3x</span>
+</div>
+</div>
+</div>
+<div class="relative pl-8 pb-8 timeline-item timeline-line">
+<div class="absolute left-0 top-1.5 w-3.5 h-3.5 border border-gray-200 bg-white rounded-full z-10"></div>
+<div class="flex flex-col gap-1">
+<span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">12 Nov, 10:00</span>
+<p class="text-sm font-medium text-gray-800">Appel Découverte (30 min)</p>
+<p class="text-xs text-gray-500 font-light">Qualification: Budget confirmé.</p>
+</div>
+</div>
+<div class="relative pl-8 timeline-item timeline-line">
+<div class="absolute left-0 top-1.5 w-3.5 h-3.5 border border-gray-200 bg-gray-50 rounded-full z-10"></div>
+<div class="flex flex-col gap-1">
+<span class="text-[9px] font-bold text-gray-300 uppercase tracking-widest">08 Nov</span>
+<p class="text-sm font-medium text-gray-400">Lead capturé via LinkedIn</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-black p-8 text-white mt-auto">
+<h3 class="text-lg font-serif italic mb-6">Prochaine Étape</h3>
+<div class="space-y-4">
+<div class="flex items-center gap-3 pb-4 border-b border-white/20">
+<span class="material-symbols-outlined text-white font-light">calendar_today</span>
+<div>
+<p class="text-[10px] uppercase tracking-widest opacity-70">Mardi 21 Nov, 14:00</p>
+<p class="text-sm font-medium">Démo Technique avec Miles Dyson</p>
+</div>
+</div>
+<div class="pt-2 flex gap-3">
+<button class="flex-1 py-3 px-4 bg-white text-black text-[10px] font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors">
+                                Démarrer
+                            </button>
+<button class="py-3 px-4 border border-white/30 hover:bg-white/10 text-white transition-colors">
+<span class="material-symbols-outlined text-lg">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+
+</body></html>

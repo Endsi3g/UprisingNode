@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node Onboarding Bienvenue</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent-gray": "#fafafa",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-feature-settings: "cv11", "ss01";
+        }
+        .fade-in {
+            animation: fadeIn 1s ease-out forwards;
+            opacity: 0;
+        }
+        .fade-in-delay-1 {
+            animation: fadeIn 1s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+        .fade-in-delay-2 {
+            animation: fadeIn 1s ease-out 0.6s forwards;
+            opacity: 0;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
+<header class="w-full bg-white/95 sticky top-0 z-40 border-b border-transparent transition-colors duration-300">
+<div class="px-6 md:px-12 py-8 flex items-center justify-between max-w-7xl mx-auto">
+<div class="flex items-center gap-4 text-black">
+<div class="text-black opacity-80">
+<span class="material-symbols-outlined text-2xl font-light">hub</span>
+</div>
+<h2 class="text-sm font-medium tracking-widest font-serif text-black italic">Uprising Node</h2>
+</div>
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 pl-8">
+<div class="text-right hidden sm:block">
+<p class="text-[9px] font-semibold uppercase text-gray-300 tracking-widest mb-0.5">Nouveau Membre</p>
+<p class="text-sm font-medium leading-none text-black font-serif">Initialisation...</p>
+</div>
+<div class="bg-gray-50 flex items-center justify-center size-8 rounded-full border border-gray-100">
+<span class="material-symbols-outlined text-gray-300 text-sm">person</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-6xl mx-auto px-6 flex flex-col items-center justify-center min-h-[calc(100vh-140px)] pb-20">
+<section class="flex flex-col items-center text-center max-w-3xl mx-auto mb-20 md:mb-28 fade-in">
+<h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-black mb-8 tracking-tight font-normal">
+            Bienvenue dans l'Élite.
+        </h1>
+<p class="text-base md:text-lg text-gray-500 font-light leading-relaxed max-w-xl mx-auto">
+            Vous avez rejoint le Node. Votre potentiel de croissance est désormais sans limite. 
+            Connectez-vous à l'infrastructure qui transforme les opportunités en capital prévisible.
+        </p>
+</section>
+<section class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl mx-auto mb-24 fade-in-delay-1">
+<div class="group flex flex-col p-8 border border-gray-50 hover:border-gray-200 transition-all duration-500 bg-white hover:shadow-sm">
+<div class="mb-6 text-gray-300 group-hover:text-black transition-colors duration-500 flex justify-between items-start">
+<span class="material-symbols-outlined text-3xl font-light">input_circle</span>
+<span class="text-[10px] font-medium uppercase tracking-widest text-gray-200 group-hover:text-gray-400">Étape 01</span>
+</div>
+<h3 class="text-2xl font-serif text-black mb-3">1. Déposez</h3>
+<p class="text-sm text-gray-400 font-light leading-relaxed">
+                Soumettez vos leads qualifiés via notre interface épurée. Une seule ligne suffit pour activer le réseau.
+            </p>
+</div>
+<div class="group flex flex-col p-8 border border-gray-50 hover:border-gray-200 transition-all duration-500 bg-white hover:shadow-sm">
+<div class="mb-6 text-gray-300 group-hover:text-black transition-colors duration-500 flex justify-between items-start">
+<span class="material-symbols-outlined text-3xl font-light">query_stats</span>
+<span class="text-[10px] font-medium uppercase tracking-widest text-gray-200 group-hover:text-gray-400">Étape 02</span>
+</div>
+<h3 class="text-2xl font-serif text-black mb-3">2. Suivez</h3>
+<p class="text-sm text-gray-400 font-light leading-relaxed">
+                Gardez le contrôle total. Suivez l'évolution de chaque opportunité en temps réel sur votre pipeline.
+            </p>
+</div>
+<div class="group flex flex-col p-8 border border-gray-50 hover:border-gray-200 transition-all duration-500 bg-white hover:shadow-sm">
+<div class="mb-6 text-gray-300 group-hover:text-black transition-colors duration-500 flex justify-between items-start">
+<span class="material-symbols-outlined text-3xl font-light">account_balance_wallet</span>
+<span class="text-[10px] font-medium uppercase tracking-widest text-gray-200 group-hover:text-gray-400">Étape 03</span>
+</div>
+<h3 class="text-2xl font-serif text-black mb-3">3. Encaissez</h3>
+<p class="text-sm text-gray-400 font-light leading-relaxed">
+                La performance récompensée. Recevez vos commissions automatiquement dès la clôture des dossiers.
+            </p>
+</div>
+</section>
+<div class="flex justify-center fade-in-delay-2 w-full">
+<button class="bg-black text-white px-12 py-5 text-xs font-medium uppercase tracking-[0.2em] hover:bg-gray-800 hover:shadow-lg transition-all duration-300 w-full sm:w-auto">
+            Commencer l'Onboarding
+        </button>
+</div>
+</main>
+
+</body></html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node - Journal d'Erreurs et Logs</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent-gray": "#fafafa",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-feature-settings: "cv11", "ss01";
+        }
+        .lindy-input:focus {
+            box-shadow: none;
+            outline: none;
+            border-bottom-color: #000;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
+<header class="w-full bg-white/90 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-100">
+<div class="px-6 md:px-12 py-6 flex items-center justify-between max-w-7xl mx-auto">
+<div class="flex items-center gap-4 text-black">
+<div class="text-black opacity-80">
+<span class="material-symbols-outlined text-2xl font-light">hub</span>
+</div>
+<h2 class="text-base font-medium tracking-wide font-serif text-black italic">Uprising Node</h2>
+</div>
+<div class="flex items-center gap-8">
+<div class="hidden md:flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-green-500/80"></div>
+<span class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">En ligne</span>
+</div>
+<div class="flex items-center gap-4 pl-8 border-l border-gray-100">
+<div class="text-right hidden sm:block">
+<p class="text-[9px] font-semibold uppercase text-gray-400 tracking-widest mb-0.5">Développeur</p>
+<p class="text-sm font-medium leading-none text-black font-serif">K. Miller</p>
+</div>
+<div class="bg-center bg-no-repeat bg-cover grayscale opacity-90 size-8 rounded-full border border-gray-100 ring-2 ring-white" data-alt="User profile avatar, abstract digital face" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMflAqpGYir9XOgJftZNEspNP4YhL4rOPhdqw0jK_aScxv1hEB3L_lzTmM9Yhh7p9Bx-zR8FPI8BGHUHUllrAJDb-KhtUBsqU-ow4gz1n2Xk6fA8mW9g47-WRYmuNS0QAW_9o-jagO5g5z8bKdLzEnz2LlxLpmlbixX3D_b0WsSTorkGrwc3J7RGALpmKOBVUrUK7iA48qG0b4tWxQnQOXK_S9JVfjK6tVa4xwe4PR4q82uVCiUq2Ob5fW4_0YZ9Smp0LT32pSxHGh");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-7xl mx-auto px-6 py-12 md:py-16">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+<div class="space-y-2">
+<h1 class="text-3xl md:text-4xl font-serif font-normal text-black tracking-tight">
+                Journal d'Erreurs &amp; Logs API
+            </h1>
+<p class="text-gray-400 font-sans text-[10px] uppercase tracking-[0.2em]">
+                Diagnostic et Surveillance Système • v2.4.0
+            </p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 border border-gray-200 hover:border-black transition-colors text-xs uppercase tracking-wider font-medium">
+<span class="material-symbols-outlined text-sm">download</span>
+<span class="hidden sm:inline">Exporter CSV</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-black text-white hover:bg-gray-800 transition-colors text-xs uppercase tracking-wider font-medium shadow-sm">
+<span class="material-symbols-outlined text-sm">refresh</span>
+<span>Actualiser</span>
+</button>
+</div>
+</div>
+<div class="mb-8 p-1">
+<div class="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between">
+<div class="relative w-full max-w-md group">
+<span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 text-lg group-focus-within:text-black transition-colors">search</span>
+<input class="w-full pl-8 pr-4 py-2.5 bg-transparent border-b border-gray-200 focus:border-black focus:ring-0 outline-none font-sans text-sm transition-colors placeholder:text-gray-300" placeholder="Rechercher par endpoint, trace ID, IP..." type="text"/>
+</div>
+<div class="flex flex-wrap gap-4 w-full lg:w-auto">
+<div class="relative flex items-center group">
+<label class="absolute -top-2 left-2 px-1 bg-white text-[9px] uppercase tracking-widest text-gray-400 font-semibold group-focus-within:text-black">Statut</label>
+<select class="form-select w-full md:w-40 border-gray-200 focus:border-black focus:ring-0 text-xs font-medium py-2.5 pl-3 pr-8 bg-none cursor-pointer hover:border-gray-300 transition-colors">
+<option>Tous les statuts</option>
+<option>2xx Succès</option>
+<option>4xx Erreur Client</option>
+<option>5xx Erreur Serveur</option>
+</select>
+</div>
+<div class="relative flex items-center group">
+<label class="absolute -top-2 left-2 px-1 bg-white text-[9px] uppercase tracking-widest text-gray-400 font-semibold group-focus-within:text-black">Période</label>
+<select class="form-select w-full md:w-40 border-gray-200 focus:border-black focus:ring-0 text-xs font-medium py-2.5 pl-3 pr-8 bg-none cursor-pointer hover:border-gray-300 transition-colors">
+<option>Dernières 24h</option>
+<option>7 derniers jours</option>
+<option>Ce mois</option>
+<option>Personnalisé</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<div class="border border-gray-100 rounded-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[800px]">
+<thead>
+<tr class="border-b border-gray-100 bg-gray-50/50">
+<th class="py-4 px-6 font-sans text-[10px] uppercase tracking-widest text-gray-400 font-semibold w-40">Horodatage</th>
+<th class="py-4 px-6 font-sans text-[10px] uppercase tracking-widest text-gray-400 font-semibold w-24">Méthode</th>
+<th class="py-4 px-6 font-sans text-[10px] uppercase tracking-widest text-gray-400 font-semibold">Endpoint</th>
+<th class="py-4 px-6 font-sans text-[10px] uppercase tracking-widest text-gray-400 font-semibold w-32">Statut</th>
+<th class="py-4 px-6 font-sans text-[10px] uppercase tracking-widest text-gray-400 font-semibold w-32 text-right">Latence</th>
+<th class="py-4 px-4 w-12"></th>
+</tr>
+</thead>
+<tbody class="font-sans text-sm divide-y divide-gray-50">
+<tr class="hover:bg-gray-50 cursor-pointer group transition-colors">
+<td class="py-4 px-6 font-mono text-xs text-gray-500">2023-10-27 14:42:05</td>
+<td class="py-4 px-6"><span class="font-bold text-xs">GET</span></td>
+<td class="py-4 px-6 font-mono text-xs text-gray-600">/v1/partners/profile</td>
+<td class="py-4 px-6"><span class="inline-flex items-center px-2 py-0.5 border border-gray-200 text-[10px] font-medium text-gray-500 rounded-sm">200 OK</span></td>
+<td class="py-4 px-6 text-right font-mono text-xs text-gray-500">45ms</td>
+<td class="py-4 px-4 text-center"><span class="material-symbols-outlined text-gray-300 text-lg group-hover:text-black transition-colors">expand_more</span></td>
+</tr>
+<tr class="bg-gray-50/80 cursor-pointer border-l-2 border-l-black">
+<td class="py-4 px-6 font-mono text-xs text-black font-medium">2023-10-27 14:41:58</td>
+<td class="py-4 px-6"><span class="font-bold text-xs text-black">POST</span></td>
+<td class="py-4 px-6 font-mono text-xs text-black">/v1/transactions/initiate</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-1 bg-black text-white text-[10px] font-bold tracking-wide rounded-sm shadow-sm">500 ERR</span>
+</td>
+<td class="py-4 px-6 text-right font-mono text-xs text-black font-medium">1204ms</td>
+<td class="py-4 px-4 text-center"><span class="material-symbols-outlined text-black text-lg transform rotate-180 transition-transform">expand_more</span></td>
+</tr>
+<tr class="bg-gray-50 border-l-2 border-l-black border-b border-gray-200">
+<td class="p-0" colspan="6">
+<div class="px-6 py-8 md:px-10 space-y-8 border-t border-gray-200/50">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h3 class="font-serif text-lg italic text-black">Détails de l'erreur</h3>
+<p class="text-[10px] text-gray-500 mt-1 uppercase tracking-wide">Exception non gérée</p>
+</div>
+<div class="flex gap-4 font-mono text-xs text-gray-500 bg-white px-3 py-2 border border-gray-200 rounded-sm">
+<span>Trace ID: <span class="text-black">req_8f92h912d9</span></span>
+<span class="text-gray-300">|</span>
+<span>IP: <span class="text-black">192.168.1.42</span></span>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<div class="space-y-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-gray-400">arrow_forward</span>
+<p class="text-[10px] uppercase tracking-widest text-black font-semibold">En-têtes de Requête</p>
+</div>
+<div class="font-mono text-[11px] text-gray-600 bg-white border border-gray-200 p-4 rounded-sm leading-loose shadow-sm">
+<span class="text-gray-400">Host:</span> api.uprising-node.com<br/>
+<span class="text-gray-400">Authorization:</span> Bearer sk_live_...<br/>
+<span class="text-gray-400">Content-Type:</span> application/json<br/>
+<span class="text-gray-400">User-Agent:</span> Uprising-Client/2.4
+                                        </div>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-red-500">warning</span>
+<p class="text-[10px] uppercase tracking-widest text-black font-semibold">Stack Trace (Extrait)</p>
+</div>
+<div class="font-mono text-[11px] text-red-900 bg-red-50 border border-red-100 p-4 rounded-sm leading-loose shadow-sm overflow-x-auto">
+                                            Error: Database connection timeout<br/>
+                                              at Query.run (/app/node_modules/pg/lib/query.js:52:23)<br/>
+                                              at Client.query (/app/db/index.js:42:12)<br/>
+                                              at TransactionService.create (/app/services/transaction.js:15:20)
+                                        </div>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-gray-400">data_object</span>
+<p class="text-[10px] uppercase tracking-widest text-black font-semibold">Corps de la Réponse</p>
+</div>
+<pre class="font-mono text-[11px] text-gray-800 bg-white border border-gray-200 p-4 rounded-sm shadow-sm overflow-x-auto border-l-4 border-l-black">{
+  "error": {
+    "code": "internal_server_error",
+    "message": "Une erreur inattendue est survenue lors du traitement de la transaction.",
+    "doc_url": "https://docs.uprising-node.com/errors/500",
+    "timestamp": "2023-10-27T14:41:58Z"
+  }
+}</pre>
+</div>
+<div class="flex justify-end pt-2">
+<button class="text-[10px] uppercase tracking-wider font-bold text-black border-b border-black hover:opacity-70 pb-0.5">Voir les logs complets</button>
+</div>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 cursor-pointer group transition-colors">
+<td class="py-4 px-6 font-mono text-xs text-gray-500">2023-10-27 14:38:12</td>
+<td class="py-4 px-6"><span class="font-bold text-xs">POST</span></td>
+<td class="py-4 px-6 font-mono text-xs text-gray-600">/v1/auth/refresh</td>
+<td class="py-4 px-6"><span class="inline-flex items-center px-2.5 py-1 bg-black text-white text-[10px] font-bold tracking-wide rounded-sm shadow-sm">401 ERR</span></td>
+<td class="py-4 px-6 text-right font-mono text-xs text-gray-500">22ms</td>
+<td class="py-4 px-4 text-center"><span class="material-symbols-outlined text-gray-300 text-lg group-hover:text-black transition-colors">expand_more</span></td>
+</tr>
+<tr class="hover:bg-gray-50 cursor-pointer group transition-colors">
+<td class="py-4 px-6 font-mono text-xs text-gray-500">2023-10-27 14:35:44</td>
+<td class="py-4 px-6"><span class="font-bold text-xs">GET</span></td>
+<td class="py-4 px-6 font-mono text-xs text-gray-600">/v1/partners/analytics</td>
+<td class="py-4 px-6"><span class="inline-flex items-center px-2 py-0.5 border border-gray-200 text-[10px] font-medium text-gray-500 rounded-sm">200 OK</span></td>
+<td class="py-4 px-6 text-right font-mono text-xs text-gray-500">180ms</td>
+<td class="py-4 px-4 text-center"><span class="material-symbols-outlined text-gray-300 text-lg group-hover:text-black transition-colors">expand_more</span></td>
+</tr>
+<tr class="hover:bg-gray-50 cursor-pointer group transition-colors">
+<td class="py-4 px-6 font-mono text-xs text-gray-500">2023-10-27 14:32:10</td>
+<td class="py-4 px-6"><span class="font-bold text-xs">GET</span></td>
+<td class="py-4 px-6 font-mono text-xs text-gray-600">/v1/webhooks/status</td>
+<td class="py-4 px-6"><span class="inline-flex items-center px-2 py-0.5 border border-gray-200 text-[10px] font-medium text-gray-500 rounded-sm">200 OK</span></td>
+<td class="py-4 px-6 text-right font-mono text-xs text-gray-500">95ms</td>
+<td class="py-4 px-4 text-center"><span class="material-symbols-outlined text-gray-300 text-lg group-hover:text-black transition-colors">expand_more</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="flex justify-between items-center mt-6 pt-4 border-t border-gray-100">
+<p class="text-[10px] text-gray-400 font-sans tracking-wide uppercase">Affichage 1-5 sur 12,304 événements</p>
+<div class="flex items-center gap-1">
+<button class="p-2 text-gray-300 hover:text-black transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+</button>
+<div class="flex font-mono text-xs gap-1">
+<button class="w-6 h-6 flex items-center justify-center bg-black text-white rounded-[2px]">1</button>
+<button class="w-6 h-6 flex items-center justify-center text-gray-500 hover:bg-gray-50 rounded-[2px]">2</button>
+<button class="w-6 h-6 flex items-center justify-center text-gray-500 hover:bg-gray-50 rounded-[2px]">3</button>
+<span class="w-6 h-6 flex items-center justify-center text-gray-300">...</span>
+<button class="w-6 h-6 flex items-center justify-center text-gray-500 hover:bg-gray-50 rounded-[2px]">42</button>
+</div>
+<button class="p-2 text-black hover:text-gray-600 transition-colors">
+<span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+</div>
+</main>
+
+</body></html>

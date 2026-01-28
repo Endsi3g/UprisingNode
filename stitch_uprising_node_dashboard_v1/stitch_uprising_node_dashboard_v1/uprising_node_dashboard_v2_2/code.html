@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node - Demande de Virement</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent-gray": "#fafafa",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-feature-settings: "cv11", "ss01";
+        }
+        .lindy-input:focus {
+            box-shadow: none;
+            outline: none;
+            border-bottom-color: #000;
+        }input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
+<header class="w-full bg-white/90 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-100">
+<div class="px-6 md:px-12 py-6 flex items-center justify-between max-w-5xl mx-auto">
+<div class="flex items-center gap-4 text-black">
+<div class="text-black opacity-80">
+<span class="material-symbols-outlined text-2xl font-light">hub</span>
+</div>
+<h2 class="text-base font-medium tracking-wide font-serif text-black italic">Uprising Node</h2>
+</div>
+<div class="flex items-center gap-8">
+<div class="hidden md:flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-green-500/80"></div>
+<span class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">En ligne</span>
+</div>
+<div class="flex items-center gap-4 pl-8 border-l border-gray-100">
+<div class="text-right hidden sm:block">
+<p class="text-[9px] font-semibold uppercase text-gray-400 tracking-widest mb-0.5">Opérateur</p>
+<p class="text-sm font-medium leading-none text-black font-serif">K. Miller</p>
+</div>
+<div class="bg-center bg-no-repeat bg-cover grayscale opacity-90 size-8 rounded-full border border-gray-100 ring-2 ring-white" data-alt="User profile avatar, abstract digital face" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMflAqpGYir9XOgJftZNEspNP4YhL4rOPhdqw0jK_aScxv1hEB3L_lzTmM9Yhh7p9Bx-zR8FPI8BGHUHUllrAJDb-KhtUBsqU-ow4gz1n2Xk6fA8mW9g47-WRYmuNS0QAW_9o-jagO5g5z8bKdLzEnz2LlxLpmlbixX3D_b0WsSTorkGrwc3J7RGALpmKOBVUrUK7iA48qG0b4tWxQnQOXK_S9JVfjK6tVa4xwe4PR4q82uVCiUq2Ob5fW4_0YZ9Smp0LT32pSxHGh");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-2xl mx-auto px-6 py-12 md:py-20 flex flex-col gap-16">
+<div class="text-center space-y-4">
+<h1 class="text-3xl md:text-5xl font-serif font-normal text-black tracking-tight">
+            Demande de Virement
+        </h1>
+<p class="text-gray-400 font-sans text-[10px] uppercase tracking-[0.2em]">
+            Transfert de Fonds Partenaire
+        </p>
+</div>
+<div class="w-full space-y-8">
+<label class="block text-xs font-semibold uppercase tracking-widest text-gray-400 text-center md:text-left">
+            Montant à retirer
+        </label>
+<div class="relative flex items-center justify-center md:justify-start group">
+<span class="text-4xl md:text-6xl font-serif text-gray-300 mr-4 group-focus-within:text-black transition-colors">$</span>
+<input class="w-full max-w-md bg-transparent border-b border-gray-200 focus:border-black p-0 pb-2 text-4xl md:text-6xl font-serif text-black placeholder:text-gray-200 focus:ring-0 transition-all duration-300 text-center md:text-left" placeholder="0.00" type="text" value="4 250.00"/>
+</div>
+<p class="text-[10px] text-gray-400 font-light text-center md:text-left">Solde disponible : 12 450,00 $</p>
+</div>
+<div class="w-full space-y-6 pt-4">
+<div class="flex justify-between items-end border-b border-gray-50 pb-2">
+<h3 class="text-xs font-semibold uppercase tracking-widest text-gray-400">Méthode de Paiement</h3>
+<button class="text-[10px] uppercase tracking-wider text-black hover:text-gray-500 transition-colors font-medium">Gérer</button>
+</div>
+<div class="group relative cursor-pointer">
+<div class="absolute inset-0 bg-gray-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 rounded-sm"></div>
+<div class="flex items-center justify-between py-4 px-2 border-b border-gray-100 group-hover:border-transparent transition-colors">
+<div class="flex items-center gap-5">
+<div class="h-10 w-10 flex items-center justify-center rounded-full bg-white border border-gray-100 text-gray-600 shadow-sm">
+<span class="material-symbols-outlined font-light text-xl">account_balance</span>
+</div>
+<div>
+<p class="text-sm font-medium font-serif text-black">Banque Transatlantique</p>
+<p class="text-[10px] text-gray-400 tracking-wider font-mono uppercase mt-1">FR76 **** **** 4242</p>
+</div>
+</div>
+<div class="flex items-center">
+<div class="h-4 w-4 rounded-full border border-gray-300 flex items-center justify-center group-hover:border-black transition-colors">
+<div class="h-2 w-2 rounded-full bg-black"></div>
+</div>
+</div>
+</div>
+</div>
+<button class="flex items-center gap-2 text-gray-400 hover:text-black transition-colors group px-2">
+<span class="material-symbols-outlined text-sm font-light group-hover:rotate-90 transition-transform duration-300">add</span>
+<span class="text-[10px] uppercase tracking-widest">Ajouter un compte</span>
+</button>
+</div>
+<div class="border-t border-b border-gray-100 py-8 space-y-4">
+<div class="flex justify-between items-center text-sm font-light">
+<span class="text-gray-500 font-sans">Solde actuel</span>
+<span class="font-serif text-gray-600">12 450,00 $</span>
+</div>
+<div class="flex justify-between items-center text-sm font-light">
+<span class="text-gray-500 font-sans">Montant du retrait</span>
+<span class="font-serif text-black">- 4 250,00 $</span>
+</div>
+<div class="w-full h-px bg-gray-50 my-2"></div>
+<div class="flex justify-between items-center text-base">
+<span class="font-medium text-black uppercase tracking-wide text-xs">Solde restant</span>
+<span class="font-serif font-medium text-black">8 200,00 $</span>
+</div>
+</div>
+<div class="space-y-6 pt-2">
+<button class="w-full bg-black text-white py-5 px-6 text-xs font-semibold uppercase tracking-[0.25em] hover:bg-gray-800 transition-all duration-300 flex items-center justify-center gap-3 shadow-sm hover:shadow-md group">
+<span>Confirmer le Virement</span>
+<span class="material-symbols-outlined text-lg font-light group-hover:translate-x-1 transition-transform duration-300">arrow_forward</span>
+</button>
+<div class="flex items-center justify-center gap-2 text-gray-400">
+<span class="material-symbols-outlined text-sm font-light">lock</span>
+<p class="text-[9px] uppercase tracking-widest">Sécurisé SSL • Traitement 24-48H</p>
+</div>
+</div>
+</main>
+
+</body></html>

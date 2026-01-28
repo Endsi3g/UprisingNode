@@ -20,6 +20,11 @@ model User {
   leads        Lead[]
   transactions Transaction[]
   messages     Message[]
+
+  // Preferences
+  twoFactorEnabled   Boolean @default(false)
+  emailNotifications Boolean @default(true)
+  pushNotifications  Boolean @default(true)
 }
 
 model Lead {

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node Prévisualisation PDF</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent-gray": "#fafafa",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-feature-settings: "cv11", "ss01";
+        }
+        .lindy-input:focus {
+            box-shadow: none;
+            outline: none;
+            border-bottom-color: #000;
+        }.pdf-page {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .pdf-content p {
+            text-indent: 1.5em;
+            margin-bottom: 1em;
+            line-height: 1.6;
+        }
+        .pdf-content h2 {
+            margin-top: 2em;
+            margin-bottom: 0.8em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.2em;
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-hidden antialiased selection:bg-gray-100 selection:text-black">
+<div class="filter blur-[2px] opacity-40 pointer-events-none select-none transition-all duration-500">
+<header class="w-full bg-white/90 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-100">
+<div class="px-6 md:px-12 py-6 flex items-center justify-between max-w-5xl mx-auto">
+<div class="flex items-center gap-4 text-black">
+<div class="text-black opacity-80">
+<span class="material-symbols-outlined text-2xl font-light">hub</span>
+</div>
+<h2 class="text-base font-medium tracking-wide font-serif text-black italic">Uprising Node</h2>
+</div>
+<div class="flex items-center gap-8">
+<div class="hidden md:flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-green-500/80"></div>
+<span class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">En ligne</span>
+</div>
+<div class="flex items-center gap-4 pl-8 border-l border-gray-100">
+<div class="text-right hidden sm:block">
+<p class="text-[9px] font-semibold uppercase text-gray-400 tracking-widest mb-0.5">Opérateur</p>
+<p class="text-sm font-medium leading-none text-black font-serif">K. Miller</p>
+</div>
+<div class="bg-center bg-no-repeat bg-cover grayscale opacity-90 size-8 rounded-full border border-gray-100 ring-2 ring-white" data-alt="User profile avatar, abstract digital face" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMflAqpGYir9XOgJftZNEspNP4YhL4rOPhdqw0jK_aScxv1hEB3L_lzTmM9Yhh7p9Bx-zR8FPI8BGHUHUllrAJDb-KhtUBsqU-ow4gz1n2Xk6fA8mW9g47-WRYmuNS0QAW_9o-jagO5g5z8bKdLzEnz2LlxLpmlbixX3D_b0WsSTorkGrwc3J7RGALpmKOBVUrUK7iA48qG0b4tWxQnQOXK_S9JVfjK6tVa4xwe4PR4q82uVCiUq2Ob5fW4_0YZ9Smp0LT32pSxHGh");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-4xl mx-auto px-6 py-16 md:py-24 flex flex-col gap-20">
+<section class="flex flex-col gap-8 items-center w-full max-w-2xl mx-auto">
+<div class="text-center space-y-3">
+<h1 class="text-3xl md:text-5xl font-serif font-normal text-black tracking-tight">
+                    Dépôt de Lead
+                </h1>
+<p class="text-gray-400 font-sans text-[10px] uppercase tracking-[0.2em]">
+                    Système prêt pour saisie
+                </p>
+</div>
+<div class="w-full relative mt-4 group">
+<div class="relative flex w-full items-end">
+<div class="absolute left-0 bottom-4 text-gray-300 group-hover:text-gray-600 transition-colors duration-300">
+<span class="material-symbols-outlined font-light text-xl">link</span>
+</div>
+<input class="lindy-input flex-1 bg-transparent border-b border-gray-200 hover:border-gray-300 focus:border-black text-black placeholder:text-gray-300 placeholder:font-light h-14 pl-8 pr-12 focus:ring-0 text-lg font-light transition-all duration-300" placeholder="URL Cible / Nom de l'entreprise" type="text"/>
+<button class="absolute right-0 bottom-3 text-gray-400 hover:text-black transition-colors duration-300 p-1">
+<span class="material-symbols-outlined font-light text-xl">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+<section class="w-full pt-10 border-t border-gray-50 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
+<div class="md:col-span-3 flex flex-col justify-center items-start border-r border-gray-50 pr-8">
+<h3 class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-4">Accès Rapide</h3>
+<button class="w-full py-3 px-4 border border-gray-200 hover:border-black text-xs font-medium uppercase tracking-widest text-gray-600 hover:text-black transition-all duration-300 flex items-center justify-between group bg-white">
+<span>Salle de Guerre</span>
+<span class="material-symbols-outlined text-sm text-gray-300 group-hover:text-black transition-colors">security</span>
+</button>
+</div>
+<div class="md:col-span-9 space-y-5">
+<div class="flex items-baseline justify-between">
+<h3 class="text-[10px] font-semibold uppercase tracking-widest text-gray-400">Suivi des Commissions</h3>
+<div class="text-right flex items-baseline gap-2">
+<span class="text-2xl font-serif text-black font-normal">12 450 $</span>
+<span class="text-xs font-light text-gray-400">/ 15 000 $</span>
+</div>
+</div>
+<div class="relative w-full h-px bg-gray-100 mt-2">
+<div class="absolute left-0 top-0 h-px bg-black transition-all duration-1000 ease-out" style="width: 83%"></div>
+<div class="absolute top-0 -mt-[3px] h-1.5 w-1.5 rounded-full bg-black" style="left: 83%"></div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<div aria-modal="true" class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6" role="dialog">
+<div class="absolute inset-0 bg-stone-100/60 backdrop-blur-sm transition-opacity"></div>
+<div class="relative w-full max-w-6xl h-[90vh] bg-[#fdfdfd] shadow-2xl flex flex-col border border-gray-200 overflow-hidden animate-in fade-in zoom-in-95 duration-300">
+<div class="h-12 bg-black text-white flex items-center justify-between px-4 md:px-6 shrink-0 z-10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg font-light opacity-70">description</span>
+<span class="text-xs md:text-sm font-mono tracking-wide opacity-90">Audit_Cyberdyne_V2.pdf</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 hover:bg-white/10 px-3 py-1.5 rounded transition-colors group">
+<span class="material-symbols-outlined text-lg font-light">download</span>
+<span class="text-[10px] uppercase tracking-widest font-medium hidden md:block">Télécharger</span>
+</button>
+<div class="h-4 w-px bg-white/20 mx-1"></div>
+<button class="hover:text-red-400 transition-colors p-1">
+<span class="material-symbols-outlined text-xl font-light">close</span>
+</button>
+</div>
+</div>
+<div class="flex-1 bg-[#e5e5e5] overflow-y-auto flex justify-center p-8 md:p-12 relative">
+<div class="bg-white w-full max-w-[800px] min-h-[1100px] shadow-lg p-12 md:p-20 text-black relative pdf-page mx-auto">
+<div class="flex flex-col h-full font-serif">
+<div class="flex justify-between items-start border-b border-black pb-6 mb-12">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-2xl">security</span>
+<span class="text-xs font-sans font-bold uppercase tracking-[0.2em]">Uprising Node Intel</span>
+</div>
+<h1 class="text-3xl font-medium italic">Rapport d'Audit de Sécurité</h1>
+</div>
+<div class="text-right font-sans">
+<div class="text-[9px] font-bold uppercase tracking-widest text-gray-400 mb-1">Cible</div>
+<div class="text-sm font-medium">Cyberdyne Systems</div>
+<div class="text-[9px] font-bold uppercase tracking-widest text-gray-400 mt-2 mb-1">Date</div>
+<div class="text-sm font-medium">14 NOV 2023</div>
+</div>
+</div>
+<div class="pdf-content text-[15px] leading-relaxed text-gray-800">
+<div class="mb-8 p-4 bg-gray-50 border-l-2 border-black font-sans">
+<p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 !indent-0">Résumé Exécutif</p>
+<p class="!indent-0 italic text-gray-900 mb-0">
+                                Ce document présente les vulnérabilités critiques identifiées lors de l'analyse préliminaire de l'infrastructure réseau de Cyberdyne Systems. L'audit révèle une exposition significative sur les protocoles d'intégration tiers.
+                            </p>
+</div>
+<h2 class="text-xl font-medium text-black">1. Analyse de la Surface d'Attaque</h2>
+<p>
+                            L'analyse approfondie des points d'entrée externes a démontré une résilience variable selon les sous-systèmes. Le module de traitement neuronal (NPM-V4) présente une architecture robuste, cependant, les passerelles API héritées (Legacy Gateways) exposent des vecteurs d'attaque potentiels.
+                        </p>
+<p>
+                            Nous avons observé une latence anormale dans les réponses du pare-feu principal lors de tests de charge simulés, suggérant une configuration sous-optimale des règles de filtrage dynamique.
+                        </p>
+<div class="my-8 border border-gray-200 p-6">
+<div class="flex justify-between items-end mb-4">
+<span class="font-sans text-[10px] uppercase tracking-widest font-bold">Score de Risque Global</span>
+<span class="font-serif text-4xl">72<span class="text-lg text-gray-400">/100</span></span>
+</div>
+<div class="w-full h-1.5 bg-gray-100">
+<div class="h-1.5 bg-black w-[72%]"></div>
+</div>
+<div class="grid grid-cols-3 gap-4 mt-6">
+<div class="text-center">
+<div class="h-20 bg-gray-50 flex items-end justify-center pb-2 mb-2 relative group">
+<div class="w-8 bg-gray-300 h-[40%] group-hover:bg-black transition-colors"></div>
+</div>
+<span class="font-sans text-[9px] uppercase tracking-widest text-gray-500">Intrusion</span>
+</div>
+<div class="text-center">
+<div class="h-20 bg-gray-50 flex items-end justify-center pb-2 mb-2 relative group">
+<div class="w-8 bg-gray-800 h-[85%]"></div>
+</div>
+<span class="font-sans text-[9px] uppercase tracking-widest text-gray-500">Fuite</span>
+</div>
+<div class="text-center">
+<div class="h-20 bg-gray-50 flex items-end justify-center pb-2 mb-2 relative group">
+<div class="w-8 bg-gray-300 h-[30%] group-hover:bg-black transition-colors"></div>
+</div>
+<span class="font-sans text-[9px] uppercase tracking-widest text-gray-500">DDoS</span>
+</div>
+</div>
+</div>
+<h2 class="text-xl font-medium text-black">2. Recommandations Stratégiques</h2>
+<p>
+                            Il est impératif de procéder à une segmentation immédiate du réseau de développement. L'accès aux serveurs de production doit être restreint via une authentification multifacteur matérielle (Uprising Node Secure Key).
+                        </p>
+<ul class="list-none space-y-2 mt-4 ml-6 font-sans text-xs text-gray-600">
+<li class="flex items-center gap-2">
+<span class="w-1 h-1 bg-black rounded-full"></span>
+                                Implémentation du chiffrement E2E sur les logs.
+                            </li>
+<li class="flex items-center gap-2">
+<span class="w-1 h-1 bg-black rounded-full"></span>
+                                Révision des droits d'accès administrateur (Matrice RACI).
+                            </li>
+<li class="flex items-center gap-2">
+<span class="w-1 h-1 bg-black rounded-full"></span>
+                                Patching des vulnérabilités CVE-2023-4482 sous 48h.
+                            </li>
+</ul>
+</div>
+<div class="mt-auto pt-12 border-t border-gray-100 flex justify-between items-center font-sans text-[9px] text-gray-400 uppercase tracking-widest">
+<span>Confidentiel - Ne pas distribuer</span>
+<span>Page 1 / 12</span>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-black text-white px-6 py-2 rounded-full shadow-xl opacity-90 hover:opacity-100 transition-opacity z-20">
+<button class="hover:text-gray-300 transition-colors">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+</button>
+<span class="text-[10px] font-sans font-medium tracking-widest min-w-[60px] text-center">1 / 12</span>
+<button class="hover:text-gray-300 transition-colors">
+<span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+
+</body></html>

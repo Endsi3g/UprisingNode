@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { AuthProvider } from "@/context/auth-context";
 
 const sfPro = localFont({
   src: [
@@ -46,7 +47,9 @@ export default function RootLayout({
       <body
         className={`${agmena.variable} ${sfPro.variable} bg-white min-h-screen font-sans text-text-main overflow-x-hidden antialiased`}
       >
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

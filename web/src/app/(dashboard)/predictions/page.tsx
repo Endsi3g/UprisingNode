@@ -1,200 +1,134 @@
 "use client";
 
+import React from "react";
 import { Header } from "@/components/layout";
-
-interface Prediction {
-    id: number;
-    company: string;
-    industry: string;
-    score: number;
-    trend: "up" | "down" | "stable";
-    outlook: string;
-    signals: string[];
-    lastUpdated: string;
-}
-
-const predictions: Prediction[] = [
-    {
-        id: 1,
-        company: "TechVision Corp",
-        industry: "SaaS / B2B",
-        score: 94,
-        trend: "up",
-        outlook: "Très favorable",
-        signals: ["Levée de fonds récente", "Expansion équipe", "Recrutement agressif"],
-        lastUpdated: "Il y a 2 heures",
-    },
-    {
-        id: 2,
-        company: "DataFlow Industries",
-        industry: "Data Analytics",
-        score: 87,
-        trend: "up",
-        outlook: "Favorable",
-        signals: ["Nouveau contrat entreprise", "Croissance LinkedIn +45%"],
-        lastUpdated: "Il y a 6 heures",
-    },
-    {
-        id: 3,
-        company: "CloudScale Solutions",
-        industry: "Infrastructure",
-        score: 72,
-        trend: "stable",
-        outlook: "Neutre",
-        signals: ["Stabilité des effectifs", "Pas de signaux forts"],
-        lastUpdated: "Il y a 1 jour",
-    },
-    {
-        id: 4,
-        company: "FinanceHub",
-        industry: "FinTech",
-        score: 81,
-        trend: "down",
-        outlook: "À surveiller",
-        signals: ["Réduction d'effectifs", "Pivot produit en cours"],
-        lastUpdated: "Il y a 3 heures",
-    },
-];
+import { MetricDisplay, DataCard, StatusBadge, ActionButton } from "@/components/uprising";
+import { toast } from "sonner";
+import { TrendingUp, TrendingDown, Target, BrainCircuit, Sparkles, ArrowRight } from "lucide-react";
 
 export default function PredictionsPage() {
+    const handleGenerateReport = () => {
+        toast.promise(new Promise((resolve) => setTimeout(resolve, 2000)), {
+            loading: 'Génération de l\'analyse en cours...',
+            success: 'Rapport généré avec succès',
+            error: 'Erreur lors de la génération',
+        });
+    };
+
     return (
-        <div className="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
-            <Header userName="K. Miller" userRole="Opérateur" />
+        <main className="flex flex-col h-full bg-white font-sans text-text-main pb-20">
+            <Header
+                title="Prédictions & IA"
+                subtitle="Analyse prédictive et recommandations stratégiques"
+            />
 
-            <main className="flex-1 w-full max-w-5xl mx-auto px-6 py-16 md:py-24 flex flex-col gap-12">
-                {/* Page Header */}
-                <section className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
-                    <div className="space-y-3">
-                        <h1 className="text-3xl md:text-4xl font-serif font-normal text-black tracking-tight">
-                            Prédictions & Opportunités
-                        </h1>
-                        <p className="text-gray-400 font-sans text-[10px] uppercase tracking-[0.2em]">
-                            Intelligence IA • Analyse en temps réel
-                        </p>
-                    </div>
-                    <div className="flex items-center gap-2 text-green-600">
-                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                        <span className="text-[10px] font-medium uppercase tracking-widest">
-                            Modèle actif
-                        </span>
-                    </div>
-                </section>
+            <div className="px-6 md:px-12 max-w-7xl mx-auto w-full space-y-12">
 
-                {/* Heat Map Overview */}
-                <section className="grid grid-cols-3 md:grid-cols-6 gap-2">
-                    {[94, 87, 72, 81, 65, 88, 91, 78, 84, 69, 76, 93].map((score, i) => (
-                        <div
-                            key={i}
-                            className="aspect-square flex items-center justify-center text-xs font-mono transition-all duration-300 cursor-pointer hover:scale-105 bg-(--bg) text-(--text)"
-                            style={{
-                                "--bg": `rgba(0, 0, 0, ${score / 100 * 0.8})`,
-                                "--text": score > 60 ? "white" : "black",
-                            } as React.CSSProperties}
-                        >
-                            {score}
+                {/* Top Section: Analysis Grid */}
+                <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Revenue Forecast */}
+                    <div className="p-6 rounded-none border border-black/10 flex flex-col justify-between h-48 bg-gray-50/50">
+                        <div className="flex justify-between items-start">
+                            <span className="text-sm font-medium uppercase tracking-widest text-gray-500">Projection M+1</span>
+                            <TrendingUp className="w-5 h-5 text-emerald-600" />
                         </div>
-                    ))}
-                </section>
-
-                {/* Predictions List */}
-                <section className="space-y-6">
-                    <h2 className="text-[10px] font-semibold uppercase tracking-widest text-gray-400">
-                        Top Opportunités
-                    </h2>
-
-                    <div className="space-y-4">
-                        {predictions.map((pred) => (
-                            <div
-                                key={pred.id}
-                                className="p-6 border border-gray-100 hover:border-black transition-all duration-300 cursor-pointer group"
-                            >
-                                <div className="flex items-start justify-between gap-6">
-                                    {/* Left: Company Info */}
-                                    <div className="flex-1 space-y-4">
-                                        <div className="flex items-center gap-4">
-                                            <h3 className="text-lg font-serif text-black group-hover:underline underline-offset-4">
-                                                {pred.company}
-                                            </h3>
-                                            <span className="text-[9px] uppercase tracking-widest text-gray-400 px-2 py-0.5 bg-gray-50">
-                                                {pred.industry}
-                                            </span>
-                                        </div>
-
-                                        {/* Signals */}
-                                        <div className="flex flex-wrap gap-2">
-                                            {pred.signals.map((signal, i) => (
-                                                <span
-                                                    key={i}
-                                                    className="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider text-gray-500"
-                                                >
-                                                    <span className="w-1 h-1 rounded-full bg-gray-300" />
-                                                    {signal}
-                                                </span>
-                                            ))}
-                                        </div>
-
-                                        <p className="text-[10px] text-gray-300 uppercase tracking-wider">
-                                            {pred.lastUpdated}
-                                        </p>
-                                    </div>
-
-                                    {/* Right: Score */}
-                                    <div className="text-right space-y-2">
-                                        <div className="flex items-center gap-2 justify-end">
-                                            <span className="material-symbols-outlined text-lg">
-                                                {pred.trend === "up"
-                                                    ? "trending_up"
-                                                    : pred.trend === "down"
-                                                        ? "trending_down"
-                                                        : "trending_flat"}
-                                            </span>
-                                            <span className="text-4xl font-serif text-black">
-                                                {pred.score}
-                                            </span>
-                                        </div>
-                                        <span
-                                            className={`text-[9px] uppercase tracking-widest px-2 py-0.5 ${pred.score >= 85
-                                                ? "bg-green-50 text-green-600"
-                                                : pred.score >= 70
-                                                    ? "bg-amber-50 text-amber-600"
-                                                    : "bg-gray-50 text-gray-500"
-                                                }`}
-                                        >
-                                            {pred.outlook}
-                                        </span>
-                                    </div>
-                                </div>
+                        <div>
+                            <span className="text-4xl font-serif font-bold">15 400 €</span>
+                            <div className="flex items-center gap-2 mt-2">
+                                <StatusBadge status="succès" />
+                                <span className="text-sm text-gray-600">+12% vs actuel</span>
                             </div>
-                        ))}
+                        </div>
+                    </div>
+
+                    {/* Conversion Probability */}
+                    <div className="p-6 rounded-none border border-black/10 flex flex-col justify-between h-48 bg-gray-50/50">
+                        <div className="flex justify-between items-start">
+                            <span className="text-sm font-medium uppercase tracking-widest text-gray-500">Probabilité Conversion</span>
+                            <Target className="w-5 h-5 text-blue-600" />
+                        </div>
+                        <div>
+                            <span className="text-4xl font-serif font-bold">68%</span>
+                            <p className="text-sm text-gray-600 mt-2">Score de qualité des leads élevé</p>
+                        </div>
+                        {/* Simple progress bar mock */}
+                        <div className="w-full h-1 bg-gray-200 mt-2">
+                            <div className="h-full bg-blue-600 w-[68%]"></div>
+                        </div>
+                    </div>
+
+                    {/* Market Trend */}
+                    <div className="p-6 rounded-none border border-black/10 flex flex-col justify-between h-48 bg-gray-50/50">
+                        <div className="flex justify-between items-start">
+                            <span className="text-sm font-medium uppercase tracking-widest text-gray-500">Tendance Marché</span>
+                            <BrainCircuit className="w-5 h-5 text-purple-600" />
+                        </div>
+                        <div>
+                            <span className="text-2xl font-serif font-bold">Haussier / Tech</span>
+                            <p className="text-sm text-gray-600 mt-2">Demande forte sur le secteur SaaS B2B</p>
+                        </div>
                     </div>
                 </section>
 
-                {/* AI Insights */}
-                <section className="pt-8 border-t border-gray-50 space-y-6">
-                    <h2 className="text-[10px] font-semibold uppercase tracking-widest text-gray-400">
-                        Analyse IA du Marché
-                    </h2>
+                <div className="h-px bg-black/5 w-full"></div>
 
-                    <div className="p-6 bg-gray-50/50 border border-gray-100">
-                        <div className="flex items-start gap-4">
-                            <span className="material-symbols-outlined text-lg text-gray-400">
-                                psychology
-                            </span>
-                            <div className="space-y-3">
-                                <p className="text-sm text-gray-600 leading-relaxed font-light">
-                                    « Le secteur SaaS B2B montre des signaux de reprise significatifs ce trimestre.
-                                    Les entreprises ayant récemment levé des fonds présentent un score de réceptivité
-                                    3x supérieur à la moyenne. Focus recommandé sur les segments Data Analytics
-                                    et Infrastructure Cloud. »
-                                </p>
-                                <p className="text-[10px] text-gray-400 uppercase tracking-wider">
-                                    Modèle: GPT-4o • Confiance: 89% • Mis à jour il y a 15 min
-                                </p>
+                {/* Strategic Recommendations */}
+                <section>
+                    <div className="flex items-center gap-2 mb-6">
+                        <Sparkles className="w-5 h-5 text-amber-500" />
+                        <h3 className="text-xl font-serif italic">Recommandations Stratégiques</h3>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <DataCard
+                            title="Focus Secteur"
+                            value="Ciblez les ESN régionales"
+                            trend="Opportunité détectée"
+                            trendDirection="up"
+                        />
+                        <DataCard
+                            title="Action Prioritaire"
+                            value="Relancez le Lead #124"
+                            trend="Risque de churn"
+                            trendDirection="down"
+                        />
+                        <div className="p-6 border border-black/10 flex flex-col gap-4">
+                            <h4 className="font-serif text-lg">Suggestion d'Amélioration</h4>
+                            <p className="text-sm text-gray-600 leading-relaxed">
+                                L'analyse de vos derniers échanges suggère que vous devriez insister davantage sur le ROI à court terme lors de vos présentations.
+                                <br /><br />
+                                <span className="font-medium text-black">Conseil :</span> Utilisez le template "ROI Calculator" disponible dans les ressources.
+                            </p>
+                            <ActionButton label="Voir le template" />
+                        </div>
+                        <div className="p-6 border border-black/10 flex flex-col gap-4 bg-black text-white">
+                            <h4 className="font-serif text-lg text-white">Objectif Hebdomadaire</h4>
+                            <p className="text-sm text-gray-300 leading-relaxed">
+                                Pour atteindre votre prévision de 15k€, vous devez générer 3 nouveaux leads qualifiés cette semaine.
+                            </p>
+                            <div className="mt-auto pt-4 border-t border-white/20 flex justify-between items-center text-sm">
+                                <span>Progression : 1 / 3</span>
+                                <span className="uppercase tracking-widest opacity-70">En cours</span>
                             </div>
                         </div>
                     </div>
                 </section>
-            </main>
-        </div>
+
+                {/* Actions */}
+                <div className="flex justify-end gap-4">
+                    <button className="px-6 py-3 border border-gray-200 text-sm hover:bg-gray-50 transition-colors uppercase tracking-widest">
+                        Exporter les données
+                    </button>
+                    <button
+                        onClick={handleGenerateReport}
+                        className="px-6 py-3 bg-black text-white text-sm hover:bg-gray-900 transition-colors uppercase tracking-widest flex items-center gap-2"
+                    >
+                        <Sparkles className="w-4 h-4" />
+                        Générer un nouveau rapport
+                    </button>
+                </div>
+
+            </div>
+        </main>
     );
 }

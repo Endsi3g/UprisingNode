@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node Style Lindy V1</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent-gray": "#fafafa",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-feature-settings: "cv11", "ss01";
+        }
+        .lindy-input:focus {
+            box-shadow: none;
+            outline: none;
+            border-bottom-color: #000;
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
+<header class="w-full bg-white/90 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-100">
+<div class="px-6 md:px-12 py-6 flex items-center justify-between max-w-5xl mx-auto">
+<div class="flex items-center gap-4 text-black">
+<div class="text-black opacity-80">
+<span class="material-symbols-outlined text-2xl font-light">hub</span>
+</div>
+<h2 class="text-base font-medium tracking-wide font-serif text-black italic">Uprising Node</h2>
+</div>
+<div class="flex items-center gap-8">
+<div class="hidden md:flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-green-500/80"></div>
+<span class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">En ligne</span>
+</div>
+<div class="flex items-center gap-4 pl-8 border-l border-gray-100">
+<div class="text-right hidden sm:block">
+<p class="text-[9px] font-semibold uppercase text-gray-400 tracking-widest mb-0.5">Opérateur</p>
+<p class="text-sm font-medium leading-none text-black font-serif">K. Miller</p>
+</div>
+<div class="bg-center bg-no-repeat bg-cover grayscale opacity-90 size-8 rounded-full border border-gray-100 ring-2 ring-white" data-alt="User profile avatar, abstract digital face" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMflAqpGYir9XOgJftZNEspNP4YhL4rOPhdqw0jK_aScxv1hEB3L_lzTmM9Yhh7p9Bx-zR8FPI8BGHUHUllrAJDb-KhtUBsqU-ow4gz1n2Xk6fA8mW9g47-WRYmuNS0QAW_9o-jagO5g5z8bKdLzEnz2LlxLpmlbixX3D_b0WsSTorkGrwc3J7RGALpmKOBVUrUK7iA48qG0b4tWxQnQOXK_S9JVfjK6tVa4xwe4PR4q82uVCiUq2Ob5fW4_0YZ9Smp0LT32pSxHGh");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-4xl mx-auto px-6 py-16 md:py-24 flex flex-col gap-20">
+<section class="flex flex-col gap-8 items-center w-full max-w-2xl mx-auto">
+<div class="text-center space-y-3">
+<h1 class="text-3xl md:text-5xl font-serif font-normal text-black tracking-tight">
+                Dépôt de Lead
+            </h1>
+<p class="text-gray-400 font-sans text-[10px] uppercase tracking-[0.2em]">
+                Système prêt pour saisie
+            </p>
+</div>
+<div class="w-full relative mt-4 group">
+<div class="relative flex w-full items-end">
+<div class="absolute left-0 bottom-4 text-gray-300 group-hover:text-gray-600 transition-colors duration-300">
+<span class="material-symbols-outlined font-light text-xl">link</span>
+</div>
+<input autofocus="" class="lindy-input flex-1 bg-transparent border-b border-gray-200 hover:border-gray-300 focus:border-black text-black placeholder:text-gray-300 placeholder:font-light h-14 pl-8 pr-12 focus:ring-0 text-lg font-light transition-all duration-300" placeholder="URL Cible / Nom de l'entreprise" type="text"/>
+<button class="absolute right-0 bottom-3 text-gray-400 hover:text-black transition-colors duration-300 p-1">
+<span class="material-symbols-outlined font-light text-xl">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+<section class="w-full pt-10 border-t border-gray-50 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
+<div class="md:col-span-3 flex flex-col justify-center items-start border-r border-gray-50 pr-8">
+<h3 class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-4">Accès Rapide</h3>
+<button class="w-full py-3 px-4 border border-gray-200 hover:border-black text-xs font-medium uppercase tracking-widest text-gray-600 hover:text-black transition-all duration-300 flex items-center justify-between group bg-white">
+<span>Salle de Guerre</span>
+<span class="material-symbols-outlined text-sm text-gray-300 group-hover:text-black transition-colors">security</span>
+</button>
+</div>
+<div class="md:col-span-9 space-y-5">
+<div class="flex items-baseline justify-between">
+<h3 class="text-[10px] font-semibold uppercase tracking-widest text-gray-400">Suivi des Commissions</h3>
+<div class="text-right flex items-baseline gap-2">
+<span class="text-2xl font-serif text-black font-normal">12 450 $</span>
+<span class="text-xs font-light text-gray-400">/ 15 000 $</span>
+</div>
+</div>
+<div class="relative w-full h-px bg-gray-100 mt-2">
+<div class="absolute left-0 top-0 h-px bg-black transition-all duration-1000 ease-out" style="width: 83%"></div>
+<div class="absolute top-0 -mt-[3px] h-1.5 w-1.5 rounded-full bg-black" style="left: 83%"></div>
+</div>
+<div class="flex justify-between text-[10px] font-medium text-gray-400 uppercase tracking-widest pt-2">
+<span>Période: NOV 2023</span>
+<span>Prochain: Platine (+15%)</span>
+</div>
+</div>
+</section>
+<section class="flex flex-col gap-8 pt-6">
+<div class="flex items-center justify-between pb-2 border-b border-gray-100">
+<h3 class="text-xl font-serif font-normal text-black italic">Le Pipeline</h3>
+<div class="flex gap-4">
+<button class="text-gray-300 hover:text-black transition-colors duration-300 text-[10px] uppercase tracking-widest font-medium">Filtrer</button>
+<button class="text-gray-300 hover:text-black transition-colors duration-300 text-[10px] uppercase tracking-widest font-medium">Exporter</button>
+</div>
+</div>
+<div class="flex flex-col w-full">
+<div class="grid grid-cols-12 gap-4 px-2 py-3 text-[9px] font-bold uppercase text-gray-300 tracking-[0.15em] border-b border-gray-50">
+<div class="col-span-2 md:col-span-1">État</div>
+<div class="col-span-4 md:col-span-4 pl-2">Entité</div>
+<div class="col-span-3 md:col-span-2 text-right">Valuation</div>
+<div class="hidden md:block md:col-span-3 pl-4">Action</div>
+<div class="col-span-3 md:col-span-2 text-right">Intel</div>
+</div>
+<div class="group relative bg-white border-b border-gray-50 hover:bg-gray-50/50 transition-colors duration-200">
+<div class="grid grid-cols-12 gap-4 px-2 py-5 items-center">
+<div class="col-span-2 md:col-span-1 flex">
+<span class="inline-flex items-center justify-center h-5 px-1.5 text-[9px] font-medium border border-black text-black uppercase tracking-wider min-w-[40px]">
+                            Négo
+                        </span>
+</div>
+<div class="col-span-4 md:col-span-4 pl-2">
+<p class="font-medium text-black text-sm tracking-wide">Cyberdyne Systems</p>
+<p class="text-[10px] text-gray-400 font-light truncate mt-0.5">cyberdyne.io</p>
+</div>
+<div class="col-span-3 md:col-span-2 text-right text-sm text-gray-800 font-light">
+                        45 000 $
+                    </div>
+<div class="hidden md:block md:col-span-3 pl-4 text-[10px] font-medium text-gray-500 uppercase tracking-widest">
+                        Revue de contrat
+                    </div>
+<div class="col-span-3 md:col-span-2 flex justify-end">
+<span class="material-symbols-outlined text-gray-200 group-hover:text-black transition-colors text-lg font-light cursor-help">visibility</span>
+</div>
+</div>
+<div class="hidden group-hover:block absolute z-20 left-4 right-4 md:left-auto md:right-0 top-full mt-2 border border-gray-100 bg-white p-6 shadow-sm w-auto md:w-[320px]">
+<div class="flex items-center gap-2 mb-3 text-black text-[9px] font-bold uppercase tracking-widest border-b border-gray-50 pb-2">
+<span class="material-symbols-outlined text-xs">security</span>
+                        Intel Salle de Guerre
+                    </div>
+<p class="text-[11px] font-light text-gray-600 leading-relaxed font-mono">
+                        &gt; DÉCIDEUR : MILES DYSON<br/>
+                        &gt; URGENCE : CRITIQUE<br/>
+                        &gt; STRATÉGIE : Vitesse d'intégration sécurité. Expiration contrat concurrent J-14.
+                    </p>
+</div>
+</div>
+<div class="group relative bg-white border-b border-gray-50 hover:bg-gray-50/50 transition-colors duration-200">
+<div class="grid grid-cols-12 gap-4 px-2 py-5 items-center">
+<div class="col-span-2 md:col-span-1 flex">
+<span class="inline-flex items-center justify-center h-5 px-1.5 text-[9px] font-medium border border-gray-200 text-gray-600 uppercase tracking-wider min-w-[40px]">
+                            Nouv
+                        </span>
+</div>
+<div class="col-span-4 md:col-span-4 pl-2">
+<p class="font-medium text-black text-sm tracking-wide">Tyrell Corp</p>
+<p class="text-[10px] text-gray-400 font-light truncate mt-0.5">tyrell.com</p>
+</div>
+<div class="col-span-3 md:col-span-2 text-right text-sm text-gray-800 font-light">
+                        120 000 $
+                    </div>
+<div class="hidden md:block md:col-span-3 pl-4 text-[10px] font-medium text-gray-500 uppercase tracking-widest">
+                        Premier Contact
+                    </div>
+<div class="col-span-3 md:col-span-2 flex justify-end">
+<span class="material-symbols-outlined text-gray-200 group-hover:text-black transition-colors text-lg font-light cursor-help">visibility</span>
+</div>
+</div>
+<div class="hidden group-hover:block absolute z-20 left-4 right-4 md:left-auto md:right-0 top-full mt-2 border border-gray-100 bg-white p-6 shadow-sm w-auto md:w-[320px]">
+<div class="flex items-center gap-2 mb-3 text-black text-[9px] font-bold uppercase tracking-widest border-b border-gray-50 pb-2">
+<span class="material-symbols-outlined text-xs">security</span>
+                        Intel Salle de Guerre
+                    </div>
+<p class="text-[11px] font-light text-gray-600 leading-relaxed font-mono">
+                        &gt; Allocation budget T3 ouverte.<br/>
+                        &gt; CTO préfère solutions sur site.<br/>
+                        &gt; NOTE : Attention aux systèmes hérités.
+                    </p>
+</div>
+</div>
+<div class="group relative bg-white border-b border-gray-50 hover:bg-gray-50/50 transition-colors duration-200">
+<div class="grid grid-cols-12 gap-4 px-2 py-5 items-center">
+<div class="col-span-2 md:col-span-1 flex">
+<span class="inline-flex items-center justify-center h-5 px-1.5 text-[9px] font-medium bg-gray-50 text-gray-500 uppercase tracking-wider min-w-[40px]">
+                            Disco
+                        </span>
+</div>
+<div class="col-span-4 md:col-span-4 pl-2">
+<p class="font-medium text-black text-sm tracking-wide">Massive Dynamic</p>
+<p class="text-[10px] text-gray-400 font-light truncate mt-0.5">massivedynamic.com</p>
+</div>
+<div class="col-span-3 md:col-span-2 text-right text-sm text-gray-800 font-light">
+                        85 000 $
+                    </div>
+<div class="hidden md:block md:col-span-3 pl-4 text-[10px] font-medium text-gray-500 uppercase tracking-widest">
+                        Démo Prévue
+                    </div>
+<div class="col-span-3 md:col-span-2 flex justify-end">
+<span class="material-symbols-outlined text-gray-200 group-hover:text-black transition-colors text-lg font-light cursor-help">visibility</span>
+</div>
+</div>
+<div class="hidden group-hover:block absolute z-20 left-4 right-4 md:left-auto md:right-0 top-full mt-2 border border-gray-100 bg-white p-6 shadow-sm w-auto md:w-[320px]">
+<div class="flex items-center gap-2 mb-3 text-black text-[9px] font-bold uppercase tracking-widest border-b border-gray-50 pb-2">
+<span class="material-symbols-outlined text-xs">security</span>
+                        Intel Salle de Guerre
+                    </div>
+<p class="text-[11px] font-light text-gray-600 leading-relaxed font-mono">
+                        &gt; CONTACT CLÉ : NINA SHARP<br/>
+                        &gt; Utiliser news acquisition robotique.<br/>
+                        &gt; Requiert haute personnalisation.
+                    </p>
+</div>
+</div>
+<div class="group relative bg-white border-b border-gray-50 hover:bg-gray-50/50 transition-colors duration-200 opacity-60 hover:opacity-100">
+<div class="grid grid-cols-12 gap-4 px-2 py-5 items-center">
+<div class="col-span-2 md:col-span-1 flex">
+<span class="inline-flex items-center justify-center h-5 px-1.5 text-[9px] font-medium text-gray-300 border border-gray-100 uppercase tracking-wider min-w-[40px]">
+                            Froid
+                        </span>
+</div>
+<div class="col-span-4 md:col-span-4 pl-2">
+<p class="font-medium text-gray-500 text-sm tracking-wide">Soylent Corp</p>
+<p class="text-[10px] text-gray-300 font-light truncate mt-0.5">soylent.green</p>
+</div>
+<div class="col-span-3 md:col-span-2 text-right text-sm text-gray-400 font-light">
+                        22 000 $
+                    </div>
+<div class="hidden md:block md:col-span-3 pl-4 text-[10px] font-medium text-gray-400 uppercase tracking-widest">
+                        Relance Drip #3
+                    </div>
+<div class="col-span-3 md:col-span-2 flex justify-end">
+<span class="material-symbols-outlined text-gray-200 group-hover:text-black transition-colors text-lg font-light cursor-help">visibility</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-center mt-12 pb-12">
+<button class="text-[10px] font-medium uppercase tracking-[0.2em] text-gray-400 hover:text-black transition-all flex flex-col items-center gap-2 group">
+<span class="group-hover:translate-y-0.5 transition-transform duration-300">Charger les Archives</span>
+<span class="material-symbols-outlined text-base font-light opacity-50">expand_more</span>
+</button>
+</div>
+</section>
+</main>
+
+</body></html>

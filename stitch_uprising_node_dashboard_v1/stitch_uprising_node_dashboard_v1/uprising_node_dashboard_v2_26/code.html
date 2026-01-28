@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node - Gains Accélérés</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent-gray": "#fafafa",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-feature-settings: "cv11", "ss01";
+        }
+        .fade-in-up {
+            animation: fade-in-up 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .draw-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw 2s ease-out forwards 0.5s;
+        }
+        @keyframes fade-in-up {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes draw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
+<header class="w-full bg-white/95 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-50">
+<div class="px-6 md:px-12 py-6 flex items-center justify-between max-w-7xl mx-auto">
+<div class="flex items-center gap-4 text-black">
+<div class="text-black opacity-80">
+<span class="material-symbols-outlined text-2xl font-light">hub</span>
+</div>
+<h2 class="text-base font-medium tracking-wide font-serif text-black italic">Uprising Node</h2>
+</div>
+<div class="flex items-center gap-8">
+<div class="hidden md:flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-emerald-500/80"></div>
+<span class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">Connecté</span>
+</div>
+<div class="flex items-center gap-4 pl-8 border-l border-gray-100">
+<div class="bg-center bg-no-repeat bg-cover grayscale opacity-90 size-8 rounded-full border border-gray-100 ring-2 ring-white" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMflAqpGYir9XOgJftZNEspNP4YhL4rOPhdqw0jK_aScxv1hEB3L_lzTmM9Yhh7p9Bx-zR8FPI8BGHUHUllrAJDb-KhtUBsqU-ow4gz1n2Xk6fA8mW9g47-WRYmuNS0QAW_9o-jagO5g5z8bKdLzEnz2LlxLpmlbixX3D_b0WsSTorkGrwc3J7RGALpmKOBVUrUK7iA48qG0b4tWxQnQOXK_S9JVfjK6tVa4xwe4PR4q82uVCiUq2Ob5fW4_0YZ9Smp0LT32pSxHGh");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-7xl mx-auto px-6 py-12 md:py-16 flex flex-col h-full">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center flex-1 min-h-[60vh]">
+<div class="lg:col-span-5 space-y-12 fade-in-up">
+<div class="space-y-6">
+<p class="text-gray-400 font-sans text-[10px] uppercase tracking-[0.3em] font-medium pl-1">
+                        Analyse Financière
+                    </p>
+<h1 class="text-5xl md:text-6xl font-serif text-black leading-[1.1] tracking-tight">
+                        Gains <br/><span class="italic">Accélérés</span>
+</h1>
+<p class="text-gray-500 font-light leading-relaxed text-lg max-w-md">
+                        Notre architecture financière débloque une courbe de rendement exponentielle, maximisant l'impact de chaque nouveau nœud connecté au réseau.
+                    </p>
+</div>
+<div class="relative pl-8 py-4 border-l-2 border-black/80">
+<div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-gray-50 to-transparent opacity-50 -z-10"></div>
+<span class="block text-6xl md:text-7xl font-serif text-black leading-none mb-2">25%</span>
+<div class="space-y-1">
+<p class="text-xs uppercase tracking-widest text-black font-semibold">Commission Perpétuelle</p>
+<p class="text-sm text-gray-500 font-light leading-snug max-w-xs">
+                            Revenu récurrent généré automatiquement sur l'ensemble de votre volume d'affaires direct et indirect.
+                        </p>
+</div>
+</div>
+</div>
+<div class="lg:col-span-7 w-full fade-in-up delay-200">
+<div class="relative w-full aspect-[4/3] md:aspect-[16/9] lg:aspect-[4/3] p-6 md:p-12">
+<div class="absolute inset-0 border border-gray-100 bg-gray-50/30"></div>
+<svg class="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 400 250">
+<line stroke="#e5e5e5" stroke-width="1" x1="0" x2="400" y1="250" y2="250"></line>
+<line stroke="#e5e5e5" stroke-width="1" x1="0" x2="0" y1="0" y2="250"></line>
+<defs>
+<linearGradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#000000" stop-opacity="0.03"></stop>
+<stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop>
+</linearGradient>
+</defs>
+<path class="opacity-0 animation-fill-mode-forwards" d="M0,240 C120,240 200,220 260,140 S360,20 400,10 V250 H0 Z" fill="url(#chartGradient)" style="animation: fade-in-up 1s ease-out forwards 1s;"></path>
+<path class="draw-line" d="M0,240 C120,240 200,220 260,140 S360,20 400,10" fill="none" stroke="black" stroke-linecap="round" stroke-width="1.5"></path>
+<g class="fade-in-up delay-300">
+<circle cx="260" cy="140" fill="white" r="3" stroke="black" stroke-width="1.5"></circle>
+<line stroke="#d4d4d4" stroke-dasharray="2 2" stroke-width="1" x1="260" x2="260" y1="140" y2="250"></line>
+<text class="text-[10px] font-serif italic fill-black font-medium" x="268" y="135">Effet de Levier</text>
+</g>
+<g class="fade-in-up delay-300">
+<circle cx="380" cy="25" fill="black" r="3" stroke="none"></circle>
+<text class="text-[9px] font-sans uppercase tracking-widest fill-black font-semibold" x="360" y="45">Scale</text>
+</g>
+<text class="text-[9px] font-sans uppercase tracking-[0.2em] fill-gray-400 rotate-0" x="10" y="20">Revenus Passifs</text>
+<text class="text-[9px] font-sans uppercase tracking-[0.2em] fill-gray-400" x="360" y="240">Temps</text>
+</svg>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-end pt-8 md:pt-12 mt-auto border-t border-gray-50 fade-in-up delay-300">
+<div class="hidden md:flex gap-1 mb-6 md:mb-0">
+<div class="h-0.5 w-8 bg-black"></div>
+<div class="h-0.5 w-8 bg-gray-200"></div>
+<div class="h-0.5 w-8 bg-gray-200"></div>
+</div>
+<button class="group relative overflow-hidden bg-black text-white px-12 py-5 min-w-[240px] flex items-center justify-center gap-4 transition-all duration-500 hover:bg-gray-900 shadow-sm hover:shadow-xl hover:-translate-y-0.5">
+<span class="text-xs font-semibold uppercase tracking-[0.25em] relative z-10">Suivant</span>
+<span class="material-symbols-outlined text-sm relative z-10 group-hover:translate-x-2 transition-transform duration-300">arrow_forward</span>
+</button>
+</div>
+</main>
+
+</body></html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node - Documentation API</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "code-bg": "#f5f5f5",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px"},
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-feature-settings: "cv11", "ss01";
+        }
+        pre {
+            scrollbar-width: thin;
+            scrollbar-color: #d4d4d4 transparent;
+        }
+        .sidebar-link.active {
+            border-left: 2px solid black;
+            padding-left: 14px;font-weight: 500;
+            color: black;
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
+<header class="w-full bg-white/95 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-100">
+<div class="px-6 md:px-12 py-5 flex items-center justify-between mx-auto w-full">
+<div class="flex items-center gap-4 text-black">
+<div class="text-black opacity-80">
+<span class="material-symbols-outlined text-2xl font-light">hub</span>
+</div>
+<h2 class="text-base font-medium tracking-wide font-serif text-black italic">Uprising Node</h2>
+<span class="mx-2 text-gray-300 text-xs">/</span>
+<span class="text-xs font-mono uppercase tracking-widest text-gray-500">Docs API v2.0</span>
+</div>
+<div class="flex items-center gap-8">
+<nav class="hidden md:flex gap-6 text-xs uppercase tracking-widest text-gray-500 font-medium">
+<a class="hover:text-black transition-colors" href="#">Support</a>
+<a class="hover:text-black transition-colors" href="#">Statut</a>
+</nav>
+<div class="flex items-center gap-4 pl-8 border-l border-gray-100">
+<div class="text-right hidden sm:block">
+<p class="text-[9px] font-semibold uppercase text-gray-400 tracking-widest mb-0.5">Développeur</p>
+<p class="text-sm font-medium leading-none text-black font-serif">K. Miller</p>
+</div>
+<div class="bg-center bg-no-repeat bg-cover grayscale opacity-90 size-8 rounded-full border border-gray-100 ring-2 ring-white" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMflAqpGYir9XOgJftZNEspNP4YhL4rOPhdqw0jK_aScxv1hEB3L_lzTmM9Yhh7p9Bx-zR8FPI8BGHUHUllrAJDb-KhtUBsqU-ow4gz1n2Xk6fA8mW9g47-WRYmuNS0QAW_9o-jagO5g5z8bKdLzEnz2LlxLpmlbixX3D_b0WsSTorkGrwc3J7RGALpmKOBVUrUK7iA48qG0b4tWxQnQOXK_S9JVfjK6tVa4xwe4PR4q82uVCiUq2Ob5fW4_0YZ9Smp0LT32pSxHGh");'></div>
+</div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 max-w-[1600px] mx-auto w-full">
+<aside class="w-64 hidden lg:block sticky top-[81px] h-[calc(100vh-81px)] overflow-y-auto border-r border-gray-50 py-12 pl-12 pr-6">
+<nav class="space-y-10">
+<div class="space-y-4">
+<h3 class="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-400 mb-6">Général</h3>
+<ul class="space-y-3 text-sm font-serif text-gray-600">
+<li><a class="sidebar-link active block py-1 pl-4 hover:text-black transition-colors duration-200" href="#">Introduction</a></li>
+<li><a class="sidebar-link block py-1 pl-4 hover:text-black transition-colors duration-200" href="#">Authentification</a></li>
+<li><a class="sidebar-link block py-1 pl-4 hover:text-black transition-colors duration-200" href="#">Pagination</a></li>
+<li><a class="sidebar-link block py-1 pl-4 hover:text-black transition-colors duration-200" href="#">Erreurs</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h3 class="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-400 mb-6">Ressources</h3>
+<ul class="space-y-3 text-sm font-serif text-gray-600">
+<li><a class="sidebar-link block py-1 pl-4 hover:text-black transition-colors duration-200" href="#">Transactions</a></li>
+<li><a class="sidebar-link block py-1 pl-4 hover:text-black transition-colors duration-200" href="#">Comptes</a></li>
+<li><a class="sidebar-link block py-1 pl-4 hover:text-black transition-colors duration-200" href="#">Webhooks</a></li>
+</ul>
+</div>
+</nav>
+</aside>
+<main class="flex-1 min-w-0 py-12 px-6 md:px-16 lg:px-24">
+<div class="max-w-4xl mx-auto space-y-20 pb-20">
+<section class="space-y-8">
+<div class="space-y-4">
+<p class="text-[10px] font-mono text-gray-400 uppercase tracking-widest">Introduction</p>
+<h1 class="text-4xl md:text-5xl font-serif font-bold text-black tracking-tight leading-tight">
+                        Bienvenue sur l'API Uprising Node
+                    </h1>
+</div>
+<div class="prose prose-lg prose-neutral max-w-none text-gray-600 font-light leading-relaxed">
+<p>
+                        L'API Uprising Node est conçue autour des principes <span class="text-black font-medium">REST</span>. Notre API utilise des codes de réponse HTTP standard, supporte le partage de ressources cross-origin (CORS) et renvoie des données structurées en JSON. C'est le socle technique pour une intégration transparente avec notre infrastructure bancaire B2B.
+                    </p>
+</div>
+<div class="flex items-center gap-3 p-4 border border-gray-100 bg-gray-50/50 rounded-sm">
+<span class="material-symbols-outlined text-gray-500 text-lg">info</span>
+<p class="text-xs text-gray-600 font-medium">Toutes les requêtes API doivent être effectuées via <span class="font-mono bg-white px-1.5 py-0.5 border border-gray-200 text-black rounded text-[10px]">HTTPS</span>. Les appels via HTTP simple échoueront.</p>
+</div>
+</section>
+<div class="w-full h-px bg-gray-100"></div>
+<section class="space-y-12">
+<div class="space-y-4">
+<h2 class="text-3xl font-serif font-bold text-black">Authentification</h2>
+<p class="text-gray-600 font-light max-w-2xl">
+                        L'authentification s'effectue via des clés API Bearer. Vous pouvez gérer vos clés dans le tableau de bord développeur. Ne partagez jamais vos clés secrètes.
+                    </p>
+</div>
+<div class="space-y-6">
+<div class="flex items-baseline justify-between border-b border-gray-100 pb-2">
+<h3 class="text-sm font-bold font-serif uppercase tracking-widest text-black">Requête</h3>
+<span class="text-[10px] font-mono text-gray-400">cURL</span>
+</div>
+<div class="bg-code-bg border border-gray-200 rounded p-6 overflow-x-auto relative group">
+<button class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-black">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+</button>
+<pre class="font-mono text-sm leading-relaxed text-gray-800"><code>curl https://api.uprisingnode.com/v1/comptes \
+  -H <span class="text-green-700">"Authorization: Bearer sk_live_..."</span> \
+  -H <span class="text-blue-700">"Content-Type: application/json"</span></code></pre>
+</div>
+</div>
+</section>
+<div class="w-full h-px bg-gray-100"></div>
+<section class="space-y-12">
+<div class="space-y-4">
+<h2 class="text-3xl font-serif font-bold text-black">Créer un virement</h2>
+<p class="text-gray-600 font-light max-w-2xl">
+                        Cet endpoint initie une demande de virement vers un compte externe pré-approuvé. La réponse est synchrone mais le traitement est asynchrone.
+                    </p>
+<div class="flex items-center gap-3 pt-2">
+<span class="bg-black text-white px-2 py-1 text-[10px] font-bold font-mono tracking-wider rounded-sm uppercase">Post</span>
+<span class="font-mono text-sm text-gray-600">/v1/virements</span>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+<div class="space-y-8">
+<div class="border-b border-gray-100 pb-2">
+<h3 class="text-sm font-bold font-serif uppercase tracking-widest text-black">Paramètres</h3>
+</div>
+<div class="space-y-6">
+<div class="group">
+<div class="flex items-center gap-3 mb-1">
+<span class="font-mono text-sm font-medium text-black">montant</span>
+<span class="text-[10px] text-gray-400 uppercase tracking-wider">Entier</span>
+<span class="text-[9px] text-red-600 font-medium uppercase border border-red-100 bg-red-50 px-1 rounded">Requis</span>
+</div>
+<p class="text-sm text-gray-500 font-light pl-4 border-l border-gray-100 group-hover:border-gray-300 transition-colors">
+                                    Montant à transférer en centimes. Par exemple, pour 10,00 $, envoyez 1000.
+                                </p>
+</div>
+<div class="group">
+<div class="flex items-center gap-3 mb-1">
+<span class="font-mono text-sm font-medium text-black">devise</span>
+<span class="text-[10px] text-gray-400 uppercase tracking-wider">String</span>
+<span class="text-[9px] text-red-600 font-medium uppercase border border-red-100 bg-red-50 px-1 rounded">Requis</span>
+</div>
+<p class="text-sm text-gray-500 font-light pl-4 border-l border-gray-100 group-hover:border-gray-300 transition-colors">
+                                    Code ISO à 3 lettres de la devise. Actuellement supporte <span class="font-mono text-xs bg-gray-50 px-1">usd</span>, <span class="font-mono text-xs bg-gray-50 px-1">eur</span>.
+                                </p>
+</div>
+<div class="group">
+<div class="flex items-center gap-3 mb-1">
+<span class="font-mono text-sm font-medium text-black">destination</span>
+<span class="text-[10px] text-gray-400 uppercase tracking-wider">String</span>
+</div>
+<p class="text-sm text-gray-500 font-light pl-4 border-l border-gray-100 group-hover:border-gray-300 transition-colors">
+                                    ID du compte de destination. Si omis, utilise le compte par défaut.
+                                </p>
+</div>
+</div>
+</div>
+<div class="space-y-8">
+<div class="space-y-4">
+<div class="flex items-baseline justify-between border-b border-gray-100 pb-2">
+<h3 class="text-sm font-bold font-serif uppercase tracking-widest text-black">Réponse</h3>
+<span class="text-[10px] font-mono text-gray-400">JSON</span>
+</div>
+<div class="bg-code-bg border border-gray-200 rounded p-6 overflow-x-auto text-xs md:text-sm">
+<pre class="font-mono leading-relaxed text-gray-800"><code>{
+  <span class="text-purple-700">"id"</span>: <span class="text-green-700">"tr_1M5k9A2eZvKYlo2CLp"</span>,
+  <span class="text-purple-700">"object"</span>: <span class="text-green-700">"transfer"</span>,
+  <span class="text-purple-700">"amount"</span>: <span class="text-blue-700">425000</span>,
+  <span class="text-purple-700">"currency"</span>: <span class="text-green-700">"usd"</span>,
+  <span class="text-purple-700">"status"</span>: <span class="text-green-700">"pending"</span>,
+  <span class="text-purple-700">"created"</span>: <span class="text-blue-700">1678892445</span>,
+  <span class="text-purple-700">"destination"</span>: {
+    <span class="text-purple-700">"id"</span>: <span class="text-green-700">"ba_1M5k8z2eZvKYlo2C"</span>,
+    <span class="text-purple-700">"bank_name"</span>: <span class="text-green-700">"Banque Transatlantique"</span>,
+    <span class="text-purple-700">"last4"</span>: <span class="text-green-700">"4242"</span>
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+<div class="w-full h-px bg-gray-100"></div>
+<section class="space-y-8">
+<div class="space-y-4">
+<h2 class="text-3xl font-serif font-bold text-black">Codes d'Erreur</h2>
+<p class="text-gray-600 font-light">
+                        Uprising Node utilise les codes de réponse HTTP conventionnels pour indiquer le succès ou l'échec d'une requête API.
+                    </p>
+</div>
+<div class="border border-gray-100 rounded-sm overflow-hidden">
+<table class="w-full text-left text-sm">
+<thead class="bg-gray-50 border-b border-gray-100 font-serif text-black uppercase tracking-wider text-xs">
+<tr>
+<th class="px-6 py-4 font-semibold w-24">Code</th>
+<th class="px-6 py-4 font-semibold">Description</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-100">
+<tr>
+<td class="px-6 py-4 font-mono font-medium text-black">200</td>
+<td class="px-6 py-4 text-gray-600 font-light">OK - Tout a fonctionné comme prévu.</td>
+</tr>
+<tr>
+<td class="px-6 py-4 font-mono font-medium text-black">400</td>
+<td class="px-6 py-4 text-gray-600 font-light">Bad Request - La requête était inacceptable (souvent un paramètre manquant).</td>
+</tr>
+<tr>
+<td class="px-6 py-4 font-mono font-medium text-black">401</td>
+<td class="px-6 py-4 text-gray-600 font-light">Unauthorized - Aucune clé API valide fournie.</td>
+</tr>
+<tr>
+<td class="px-6 py-4 font-mono font-medium text-black">402</td>
+<td class="px-6 py-4 text-gray-600 font-light">Request Failed - Les paramètres étaient valides mais la requête a échoué.</td>
+</tr>
+<tr>
+<td class="px-6 py-4 font-mono font-medium text-black">404</td>
+<td class="px-6 py-4 text-gray-600 font-light">Not Found - La ressource demandée n'existe pas.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</main>
+</div>
+<footer class="border-t border-gray-100 bg-white py-12 px-6">
+<div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+<p class="text-[10px] text-gray-400 uppercase tracking-widest">© 2024 Uprising Node. Tous droits réservés.</p>
+<div class="flex gap-6">
+<a class="text-[10px] text-gray-500 hover:text-black uppercase tracking-widest transition-colors" href="#">Confidentialité</a>
+<a class="text-[10px] text-gray-500 hover:text-black uppercase tracking-widest transition-colors" href="#">Conditions</a>
+<a class="text-[10px] text-gray-500 hover:text-black uppercase tracking-widest transition-colors" href="#">Contact</a>
+</div>
+</div>
+</footer>
+
+</body></html>

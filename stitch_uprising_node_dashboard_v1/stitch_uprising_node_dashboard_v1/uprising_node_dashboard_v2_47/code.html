@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node - Simulateur de Gains</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent-gray": "#fafafa",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-feature-settings: "cv11", "ss01";
+        }input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+            margin-top: -9.5px; 
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+            border: 2px solid #000000;
+            transition: transform 0.1s ease;
+        }
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 1px;
+            cursor: pointer;
+            background: #000000;
+        }
+        input[type=range]:focus {
+            outline: none;
+        }
+        input[type=range]:focus::-webkit-slider-thumb {
+            box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
+<header class="w-full bg-white/90 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-100">
+<div class="px-6 md:px-12 py-6 flex items-center justify-between max-w-5xl mx-auto">
+<div class="flex items-center gap-4 text-black">
+<div class="text-black opacity-80">
+<span class="material-symbols-outlined text-2xl font-light">hub</span>
+</div>
+<h2 class="text-base font-medium tracking-wide font-serif text-black italic">Uprising Node</h2>
+</div>
+<div class="flex items-center gap-8">
+<div class="hidden md:flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-green-500/80"></div>
+<span class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">Connecté</span>
+</div>
+<div class="flex items-center gap-4 pl-8 border-l border-gray-100">
+<div class="text-right hidden sm:block">
+<p class="text-[9px] font-semibold uppercase text-gray-400 tracking-widest mb-0.5">Partenaire</p>
+<p class="text-sm font-medium leading-none text-black font-serif">K. Miller</p>
+</div>
+<div class="bg-center bg-no-repeat bg-cover grayscale opacity-90 size-8 rounded-full border border-gray-100 ring-2 ring-white" data-alt="User profile avatar, abstract digital face" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMflAqpGYir9XOgJftZNEspNP4YhL4rOPhdqw0jK_aScxv1hEB3L_lzTmM9Yhh7p9Bx-zR8FPI8BGHUHUllrAJDb-KhtUBsqU-ow4gz1n2Xk6fA8mW9g47-WRYmuNS0QAW_9o-jagO5g5z8bKdLzEnz2LlxLpmlbixX3D_b0WsSTorkGrwc3J7RGALpmKOBVUrUK7iA48qG0b4tWxQnQOXK_S9JVfjK6tVa4xwe4PR4q82uVCiUq2Ob5fW4_0YZ9Smp0LT32pSxHGh");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-3xl mx-auto px-6 py-12 md:py-20 flex flex-col gap-12">
+<div class="text-center space-y-4">
+<h1 class="text-3xl md:text-5xl font-serif font-normal text-black tracking-tight">
+                Simulateur de Gains Node
+            </h1>
+<p class="text-gray-400 font-sans text-[10px] uppercase tracking-[0.2em]">
+                Projection de Revenus Mensuels
+            </p>
+</div>
+<div class="w-full space-y-16 pt-8">
+<div class="space-y-6 group">
+<div class="flex justify-between items-end">
+<label class="text-xs font-semibold uppercase tracking-widest text-gray-500">
+                        Volume de Leads Mensuels
+                    </label>
+<span class="font-serif text-3xl md:text-4xl text-black">142</span>
+</div>
+<div class="relative w-full h-6 flex items-center">
+<input class="w-full bg-transparent z-10" max="500" min="0" type="range" value="142"/>
+</div>
+<div class="flex justify-between text-[10px] text-gray-300 font-mono uppercase tracking-wider">
+<span>0</span>
+<span>250</span>
+<span>500+</span>
+</div>
+</div>
+<div class="space-y-6 group">
+<div class="flex justify-between items-end">
+<label class="text-xs font-semibold uppercase tracking-widest text-gray-500">
+                        Valuation Moyenne par Deal
+                    </label>
+<span class="font-serif text-3xl md:text-4xl text-black">4 250 €</span>
+</div>
+<div class="relative w-full h-6 flex items-center">
+<input class="w-full bg-transparent z-10" max="20000" min="500" step="50" type="range" value="4250"/>
+</div>
+<div class="flex justify-between text-[10px] text-gray-300 font-mono uppercase tracking-wider">
+<span>500 €</span>
+<span>10 k€</span>
+<span>20 k€</span>
+</div>
+</div>
+</div>
+<div class="border-t border-b border-gray-100 py-12 md:py-16 text-center space-y-6 bg-white relative">
+<div class="absolute inset-0 bg-gray-50/30 -z-10 transform skew-y-1"></div>
+<p class="text-[10px] uppercase tracking-[0.25em] text-gray-400 font-medium">Vos Revenus Estimés</p>
+<div class="flex flex-col items-center justify-center gap-2">
+<h2 class="text-5xl md:text-7xl font-serif text-black tracking-tight">
+                    28 450,00 €
+                </h2>
+<span class="text-xl md:text-2xl text-gray-400 font-serif italic font-light">/ mois</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-8 pt-4">
+<div class="space-y-3 p-6 border border-gray-50 hover:border-gray-100 transition-colors duration-500">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-lg font-light text-gray-400">pie_chart</span>
+<h3 class="text-sm font-semibold uppercase tracking-widest text-black">Commission de 25%</h3>
+</div>
+<div class="h-px w-8 bg-black mb-4"></div>
+<p class="text-sm text-gray-500 font-light leading-relaxed">
+                    Application du modèle de partage de revenus standard sur la totalité du volume d'affaires généré par votre Node.
+                </p>
+</div>
+<div class="space-y-3 p-6 border border-gray-50 hover:border-gray-100 transition-colors duration-500">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-lg font-light text-gray-400">auto_awesome</span>
+<h3 class="text-sm font-semibold uppercase tracking-widest text-black">Effet de Levier IA</h3>
+</div>
+<div class="h-px w-8 bg-black mb-4"></div>
+<p class="text-sm text-gray-500 font-light leading-relaxed">
+                    L'algorithme de matching optimise la qualification des leads, augmentant le taux de conversion moyen de 3.2x par rapport au marché.
+                </p>
+</div>
+</div>
+<div class="flex justify-center pt-8">
+<button class="bg-black text-white py-4 px-10 text-xs font-semibold uppercase tracking-[0.2em] hover:bg-gray-800 transition-all duration-300 shadow-sm hover:shadow-md group flex items-center gap-4">
+<span>Lancer le Node</span>
+<span class="material-symbols-outlined text-base font-light group-hover:translate-x-1 transition-transform duration-300">arrow_forward</span>
+</button>
+</div>
+</main>
+
+</body></html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Connexion Uprising Node</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent-gray": "#fafafa",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-feature-settings: "cv11", "ss01";
+        }
+        .lindy-input:focus {
+            box-shadow: none;
+            outline: none;
+            border-bottom-color: #000;
+        }
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active{
+            -webkit-box-shadow: 0 0 0 30px white inset !important;
+            -webkit-text-fill-color: black !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
+<header class="w-full bg-white/90 backdrop-blur-sm fixed top-0 z-40">
+<div class="px-6 md:px-12 py-8 flex items-center justify-center md:justify-start max-w-5xl mx-auto">
+<div class="flex items-center gap-4 text-black cursor-pointer hover:opacity-80 transition-opacity">
+<div class="text-black opacity-80">
+<span class="material-symbols-outlined text-2xl font-light">hub</span>
+</div>
+<h2 class="text-base font-medium tracking-wide font-serif text-black italic">Uprising Node</h2>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-md mx-auto px-6 flex flex-col justify-center py-24 md:py-32">
+<div class="text-center space-y-6 mb-12">
+<h1 class="text-4xl md:text-5xl font-serif font-normal text-black tracking-tight">
+            Connexion au Node
+        </h1>
+<div class="w-16 h-px bg-black/10 mx-auto"></div>
+<p class="text-gray-400 font-sans text-[10px] uppercase tracking-[0.25em]">
+            Portail Partenaire B2B
+        </p>
+</div>
+<form action="#" class="space-y-10" method="POST" onsubmit="event.preventDefault();">
+<div class="space-y-2 group">
+<label class="block text-[10px] font-semibold uppercase tracking-widest text-gray-400 group-focus-within:text-black transition-colors" for="email">
+            Email
+        </label>
+<input class="w-full bg-transparent border-0 border-b border-gray-200 focus:border-black p-0 py-3 text-lg font-serif text-black placeholder:text-gray-200 focus:ring-0 transition-all duration-300" id="email" name="email" placeholder="votre@email.com" type="email"/>
+</div>
+<div class="space-y-2 group">
+<div class="flex justify-between items-end">
+<label class="block text-[10px] font-semibold uppercase tracking-widest text-gray-400 group-focus-within:text-black transition-colors" for="password">
+                Mot de passe
+            </label>
+</div>
+<input class="w-full bg-transparent border-0 border-b border-gray-200 focus:border-black p-0 py-3 text-lg font-serif text-black placeholder:text-gray-200 focus:ring-0 transition-all duration-300" id="password" name="password" placeholder="••••••••••••" type="password"/>
+<div class="flex justify-end pt-1">
+<a class="text-[10px] text-gray-400 hover:text-black transition-colors font-medium tracking-wide" href="#">
+                Mot de passe oublié ?
+            </a>
+</div>
+</div>
+<div class="pt-6 space-y-6">
+<button class="w-full bg-black text-white py-5 px-6 text-xs font-semibold uppercase tracking-[0.25em] hover:bg-gray-800 transition-all duration-300 flex items-center justify-center gap-3 shadow-sm hover:shadow-md group">
+<span>Se connecter</span>
+<span class="material-symbols-outlined text-lg font-light group-hover:translate-x-1 transition-transform duration-300">arrow_forward</span>
+</button>
+<div class="flex items-center justify-center gap-2 text-gray-300">
+<span class="material-symbols-outlined text-sm font-light">lock</span>
+<p class="text-[9px] uppercase tracking-widest">Sécurisé SSL</p>
+</div>
+</div>
+</form>
+<div class="mt-16 pt-8 border-t border-gray-50 text-center">
+<a class="inline-flex flex-col items-center gap-2 group" href="#">
+<span class="text-[10px] uppercase tracking-widest text-gray-400">Pas encore membre ?</span>
+<span class="text-sm font-serif text-black border-b border-gray-200 group-hover:border-black pb-0.5 transition-all">Devenir Partenaire</span>
+</a>
+</div>
+</main>
+<footer class="fixed bottom-4 left-0 w-full text-center pointer-events-none hidden md:block">
+<p class="text-[9px] text-gray-200 uppercase tracking-widest">Uprising Node System v2.4</p>
+</footer>
+</body></html>

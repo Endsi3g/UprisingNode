@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node - Angles d'Attaque</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent-gray": "#fafafa",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-white text-text-main antialiased selection:bg-gray-100 selection:text-black;
+                font-feature-settings: "cv11", "ss01";
+            }
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+        }
+        .section-divider {
+            @apply border-t border-gray-100 my-10;
+        }
+        .icon-thin {
+            font-variation-settings: 'wght' 200;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+<header class="w-full bg-white/90 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-100">
+<div class="px-6 md:px-12 py-6 flex items-center justify-between max-w-7xl mx-auto">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-black">
+<span class="material-symbols-outlined text-2xl font-light icon-thin">hub</span>
+<h2 class="text-base font-medium tracking-wide font-serif text-black italic">Uprising Node</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6 border-l border-gray-100 pl-8">
+<span class="text-[10px] uppercase tracking-widest text-gray-400">Salle de Guerre</span>
+<span class="text-gray-300">/</span>
+<span class="text-[10px] uppercase tracking-widest text-black font-medium">Angles d'Attaque</span>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="text-right hidden sm:block">
+<p class="text-[9px] font-semibold uppercase text-gray-400 tracking-widest mb-0.5">Opérateur</p>
+<p class="text-sm font-medium leading-none text-black font-serif italic">K. Miller</p>
+</div>
+<div class="bg-center bg-no-repeat bg-cover grayscale opacity-90 size-9 rounded-full border border-gray-100" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA9E0G0ziEji9oHCoE2amRMwFTfOBcAfggdZ-G4mN2Sa23h6-JgMxThz-SPDGgsS2HOh9WndnNzRrHLAAs_wRMmYAKMC0r--1Lhc8i1AG30eNO30Gs32FUhhpEFZyJJfJYKMxd03sO-yA9eMmWu0E9A8rfCJzfxCRUr00LvxpANHohiUM1xVolO11A0DBq3z2N00cdW5Fx-R3bitZcrIwxPqXO0PGvmkpsuiGGdFb10nECN6nC0k7ZAEMl4JXcW6UHC_2wQ7qoT0vXG");'></div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-20">
+<div class="flex flex-col md:flex-row gap-16 items-start">
+<div class="flex-1 space-y-16">
+<div class="max-w-xl">
+<h1 class="text-4xl md:text-5xl font-serif font-normal text-black tracking-tight mb-4">
+                    Lead: Consortium Hermès
+                </h1>
+<p class="text-gray-400 font-sans text-[10px] uppercase tracking-[0.2em]">
+                    Analyse Stratégique &amp; Tactiques de Pénétration
+                </p>
+</div>
+<section class="space-y-8">
+<div class="flex items-center gap-4">
+<span class="text-[10px] font-semibold uppercase tracking-[0.3em] text-gray-400">01</span>
+<h3 class="text-xs font-semibold uppercase tracking-widest text-black">Points de Douleur</h3>
+<div class="flex-1 h-px bg-gray-100"></div>
+</div>
+<ul class="space-y-6">
+<li class="flex gap-4 group">
+<span class="material-symbols-outlined text-black icon-thin mt-1">emergency_home</span>
+<div>
+<p class="font-serif text-lg text-black">Inertie Décisionnelle Interne</p>
+<p class="text-sm text-gray-500 font-light mt-1 leading-relaxed">Le processus actuel de validation ralentit l'innovation de 4 à 6 mois par cycle, causant une perte d'opportunité marché majeure.</p>
+</div>
+</li>
+<li class="flex gap-4 group">
+<span class="material-symbols-outlined text-black icon-thin mt-1">monitoring</span>
+<div>
+<p class="font-serif text-lg text-black">Opacité des Données Partenaires</p>
+<p class="text-sm text-gray-500 font-light mt-1 leading-relaxed">Manque de visibilité en temps réel sur les flux secondaires, empêchant une gestion proactive des stocks.</p>
+</div>
+</li>
+<li class="flex gap-4 group">
+<span class="material-symbols-outlined text-black icon-thin mt-1">release_alert</span>
+<div>
+<p class="font-serif text-lg text-black">Érosion des Marges Traditionnelles</p>
+<p class="text-sm text-gray-500 font-light mt-1 leading-relaxed">L'augmentation des coûts opérationnels compresse le bénéfice net de 12% sur le dernier semestre.</p>
+</div>
+</li>
+</ul>
+</section>
+<section class="space-y-8">
+<div class="flex items-center gap-4">
+<span class="text-[10px] font-semibold uppercase tracking-[0.3em] text-gray-400">02</span>
+<h3 class="text-xs font-semibold uppercase tracking-widest text-black">Leviers Psychologiques</h3>
+<div class="flex-1 h-px bg-gray-100"></div>
+</div>
+<div class="grid md:grid-cols-2 gap-8">
+<div class="p-6 border border-gray-100 bg-gray-50/30">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-black text-lg icon-thin">psychology</span>
+<span class="text-[10px] uppercase tracking-widest font-medium">Biais d'Autorité</span>
+</div>
+<p class="text-sm text-gray-600 leading-relaxed italic font-serif">"Nous ne sommes pas un fournisseur, nous sommes l'infrastructure sur laquelle repose votre souveraineté."</p>
+</div>
+<div class="p-6 border border-gray-100">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-black text-lg icon-thin">timer</span>
+<span class="text-[10px] uppercase tracking-widest font-medium">Aversion à la Perte</span>
+</div>
+<p class="text-sm text-gray-600 leading-relaxed italic font-serif">"Le coût du statu quo est désormais plus élevé que le coût du changement radical."</p>
+</div>
+</div>
+</section>
+<section class="space-y-8">
+<div class="flex items-center gap-4">
+<span class="text-[10px] font-semibold uppercase tracking-[0.3em] text-gray-400">03</span>
+<h3 class="text-xs font-semibold uppercase tracking-widest text-black">Contre-Objections</h3>
+<div class="flex-1 h-px bg-gray-100"></div>
+</div>
+<div class="space-y-6">
+<div class="flex flex-col md:flex-row gap-4 md:items-start border-l-2 border-black pl-6 py-2">
+<div class="w-full md:w-1/3">
+<p class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-1">Objection</p>
+<p class="text-sm font-serif italic font-medium">"L'intégration technique semble trop complexe."</p>
+</div>
+<div class="flex-1">
+<p class="text-xs font-bold uppercase tracking-widest text-black mb-1">Réfutation</p>
+<p class="text-sm text-gray-600 leading-relaxed">Notre protocole Node s'adapte à l'existant sans migration de données. Zéro downtime, implémentation en 14 jours garantis.</p>
+</div>
+</div>
+<div class="flex flex-col md:flex-row gap-4 md:items-start border-l-2 border-gray-100 hover:border-black transition-colors pl-6 py-2">
+<div class="w-full md:w-1/3">
+<p class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-1">Objection</p>
+<p class="text-sm font-serif italic font-medium">"Le ROI n'est pas immédiat."</p>
+</div>
+<div class="flex-1">
+<p class="text-xs font-bold uppercase tracking-widest text-black mb-1">Réfutation</p>
+<p class="text-sm text-gray-600 leading-relaxed">Les économies opérationnelles sur le premier trimestre couvrent l'intégralité du setup. ROI positif à M+4.</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<aside class="w-full md:w-[380px] shrink-0">
+<div class="sticky top-32">
+<div class="bg-black text-white p-8 md:p-10 space-y-8 shadow-2xl">
+<div class="space-y-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-white text-xl icon-thin">stars</span>
+<span class="text-[10px] uppercase tracking-[0.3em] font-medium text-gray-400">Recommandation</span>
+</div>
+<h2 class="text-3xl font-serif italic font-normal tracking-tight">Angle d'Or</h2>
+</div>
+<div class="space-y-6">
+<div class="space-y-3">
+<p class="text-[10px] uppercase tracking-widest text-gray-400 font-semibold">Le Pitch Principal</p>
+<p class="text-lg font-serif leading-relaxed italic">
+                                "Le passage d'un centre de coût à un centre de profit par la monétisation des flux logistiques."
+                            </p>
+</div>
+<div class="h-px bg-white/10 w-full"></div>
+<div class="space-y-4">
+<p class="text-[10px] uppercase tracking-widest text-gray-400 font-semibold">Points Clés de l'Angle</p>
+<ul class="space-y-3">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-white text-sm icon-thin mt-1">check_circle</span>
+<span class="text-sm font-light text-gray-300 italic leading-snug">Cibler le CFO sur la transformation des CAPEX en OPEX.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-white text-sm icon-thin mt-1">check_circle</span>
+<span class="text-sm font-light text-gray-300 italic leading-snug">Positionner Uprising comme l'unique hub interopérable.</span>
+</li>
+</ul>
+</div>
+</div>
+<button class="w-full bg-white text-black py-5 px-6 text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-gray-100 transition-all duration-300 flex items-center justify-center gap-3 group">
+<span>Générer le Script</span>
+<span class="material-symbols-outlined text-lg font-light group-hover:translate-x-1 transition-transform duration-300 icon-thin">auto_awesome</span>
+</button>
+</div>
+<div class="mt-8 border border-gray-100 p-6 space-y-4">
+<p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Indice de Confiance</p>
+<div class="flex items-end gap-3">
+<span class="text-4xl font-serif text-black">88<span class="text-lg">%</span></span>
+<div class="flex-1 bg-gray-100 h-1 mb-2">
+<div class="bg-black h-full w-[88%]"></div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<footer class="w-full border-t border-gray-100 py-12">
+<div class="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex items-center gap-4 grayscale opacity-40">
+<span class="material-symbols-outlined text-xl font-light icon-thin">hub</span>
+<span class="text-[10px] uppercase tracking-widest font-medium">Uprising Node © 2024</span>
+</div>
+<div class="flex gap-8">
+<a class="text-[9px] uppercase tracking-[0.2em] text-gray-400 hover:text-black transition-colors" href="#">Documentation</a>
+<a class="text-[9px] uppercase tracking-[0.2em] text-gray-400 hover:text-black transition-colors" href="#">Sécurité</a>
+<a class="text-[9px] uppercase tracking-[0.2em] text-gray-400 hover:text-black transition-colors" href="#">Support</a>
+</div>
+</div>
+</footer>
+
+</body></html>

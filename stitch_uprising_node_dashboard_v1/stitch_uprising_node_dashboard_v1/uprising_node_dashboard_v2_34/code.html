@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node Analyses et Performance</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent-gray": "#fafafa",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-feature-settings: "cv11", "ss01";
+        }
+        .chart-bar {
+            transition: height 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .chart-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawLine 2s ease-out forwards;
+        }
+        @keyframes drawLine {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
+<header class="w-full bg-white/95 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-100">
+<div class="px-6 md:px-12 py-6 flex items-center justify-between max-w-6xl mx-auto">
+<div class="flex items-center gap-4 text-black cursor-pointer group">
+<div class="text-black opacity-80 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-2xl font-light">hub</span>
+</div>
+<h2 class="text-base font-medium tracking-wide font-serif text-black italic group-hover:underline decoration-1 underline-offset-4 transition-all">Uprising Node</h2>
+</div>
+<div class="flex items-center gap-8">
+<nav class="hidden md:flex items-center gap-6 mr-4">
+<a class="text-[10px] uppercase tracking-widest text-gray-400 hover:text-black transition-colors" href="#">Tableau de bord</a>
+<a class="text-[10px] uppercase tracking-widest text-black font-medium border-b border-black pb-0.5" href="#">Analyses</a>
+<a class="text-[10px] uppercase tracking-widest text-gray-400 hover:text-black transition-colors" href="#">Partenaires</a>
+</nav>
+<div class="hidden md:flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-green-500/80 animate-pulse"></div>
+<span class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">En ligne</span>
+</div>
+<div class="flex items-center gap-4 pl-8 border-l border-gray-100">
+<div class="text-right hidden sm:block">
+<p class="text-[9px] font-semibold uppercase text-gray-400 tracking-widest mb-0.5">Analyste Senior</p>
+<p class="text-sm font-medium leading-none text-black font-serif">K. Miller</p>
+</div>
+<div class="bg-center bg-no-repeat bg-cover grayscale opacity-90 size-8 rounded-full border border-gray-100 ring-2 ring-white hover:ring-gray-100 transition-all cursor-pointer" data-alt="User profile avatar, abstract digital face" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMflAqpGYir9XOgJftZNEspNP4YhL4rOPhdqw0jK_aScxv1hEB3L_lzTmM9Yhh7p9Bx-zR8FPI8BGHUHUllrAJDb-KhtUBsqU-ow4gz1n2Xk6fA8mW9g47-WRYmuNS0QAW_9o-jagO5g5z8bKdLzEnz2LlxLpmlbixX3D_b0WsSTorkGrwc3J7RGALpmKOBVUrUK7iA48qG0b4tWxQnQOXK_S9JVfjK6tVa4xwe4PR4q82uVCiUq2Ob5fW4_0YZ9Smp0LT32pSxHGh");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-5xl mx-auto px-6 py-12 md:py-16 flex flex-col gap-16">
+<section class="flex flex-col md:flex-row justify-between items-end gap-8 pb-8 border-b border-gray-100">
+<div class="space-y-4">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center justify-center px-2 py-1 bg-gray-50 border border-gray-200 text-[9px] font-bold uppercase tracking-widest text-gray-500">T4 2023</span>
+<span class="text-[9px] font-medium uppercase tracking-widest text-gray-400">Dernière mise à jour : 14:02</span>
+</div>
+<h1 class="text-4xl md:text-5xl font-serif font-normal text-black tracking-tight leading-tight">
+                    Analyses &amp; Performance
+                </h1>
+<p class="text-gray-500 font-light text-sm max-w-md">
+                    Vue d'ensemble de la croissance des commissions et de la vélocité du pipeline pour le trimestre en cours.
+                </p>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-3 border border-gray-200 hover:border-black text-xs font-medium uppercase tracking-widest text-gray-600 hover:text-black transition-all duration-300 bg-white">
+                    Exporter PDF
+                </button>
+<button class="px-6 py-3 bg-black text-white border border-black hover:bg-gray-800 text-xs font-medium uppercase tracking-widest transition-all duration-300 shadow-sm">
+                    Rapport Complet
+                </button>
+</div>
+</section>
+<section class="grid grid-cols-1 md:grid-cols-3 gap-px bg-gray-100 border border-gray-100">
+<div class="bg-white p-8 group hover:bg-gray-50 transition-colors duration-300">
+<div class="flex justify-between items-start mb-6">
+<h3 class="text-[10px] font-bold uppercase tracking-widest text-gray-400">Total Commissions</h3>
+<span class="material-symbols-outlined text-gray-300 font-light group-hover:text-black transition-colors">account_balance_wallet</span>
+</div>
+<div class="flex items-baseline gap-2 mb-2">
+<span class="text-3xl font-serif text-black">48 250 $</span>
+<span class="text-xs font-medium text-green-600 bg-green-50 px-1.5 py-0.5 rounded">+12.5%</span>
+</div>
+<p class="text-[10px] text-gray-400 font-light">vs 42 800 $ (Période préc.)</p>
+</div>
+<div class="bg-white p-8 group hover:bg-gray-50 transition-colors duration-300">
+<div class="flex justify-between items-start mb-6">
+<h3 class="text-[10px] font-bold uppercase tracking-widest text-gray-400">Taux de Closing</h3>
+<span class="material-symbols-outlined text-gray-300 font-light group-hover:text-black transition-colors">handshake</span>
+</div>
+<div class="flex items-baseline gap-2 mb-2">
+<span class="text-3xl font-serif text-black">34.2 %</span>
+<span class="text-xs font-medium text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded">-1.4%</span>
+</div>
+<p class="text-[10px] text-gray-400 font-light">Moyenne secteur: 28%</p>
+</div>
+<div class="bg-white p-8 group hover:bg-gray-50 transition-colors duration-300">
+<div class="flex justify-between items-start mb-6">
+<h3 class="text-[10px] font-bold uppercase tracking-widest text-gray-400">Volume de Leads</h3>
+<span class="material-symbols-outlined text-gray-300 font-light group-hover:text-black transition-colors">group_add</span>
+</div>
+<div class="flex items-baseline gap-2 mb-2">
+<span class="text-3xl font-serif text-black">142</span>
+<span class="text-xs font-medium text-green-600 bg-green-50 px-1.5 py-0.5 rounded">+8.2%</span>
+</div>
+<p class="text-[10px] text-gray-400 font-light">Dont 24 Qualifiés (SQL)</p>
+</div>
+</section>
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+<div class="lg:col-span-2 flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h3 class="text-lg font-serif italic text-black">Croissance Mensuelle</h3>
+<div class="flex gap-4">
+<button class="text-[10px] font-bold uppercase tracking-widest text-black border-b border-black pb-0.5">30 Jours</button>
+<button class="text-[10px] font-bold uppercase tracking-widest text-gray-300 hover:text-gray-500 transition-colors pb-0.5">90 Jours</button>
+<button class="text-[10px] font-bold uppercase tracking-widest text-gray-300 hover:text-gray-500 transition-colors pb-0.5">12 Mois</button>
+</div>
+</div>
+<div class="w-full h-80 relative border border-gray-100 p-6 bg-white">
+<div class="absolute inset-x-6 inset-y-6 flex flex-col justify-between pointer-events-none">
+<div class="w-full h-px bg-gray-50 border-t border-dashed border-gray-100"></div>
+<div class="w-full h-px bg-gray-50 border-t border-dashed border-gray-100"></div>
+<div class="w-full h-px bg-gray-50 border-t border-dashed border-gray-100"></div>
+<div class="w-full h-px bg-gray-50 border-t border-dashed border-gray-100"></div>
+<div class="w-full h-px bg-gray-50 border-t border-gray-200"></div> 
+</div>
+<svg class="absolute inset-x-6 inset-y-6 w-[calc(100%-3rem)] h-[calc(100%-3rem)] overflow-visible" preserveAspectRatio="none">
+<defs>
+<linearGradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#000000" stop-opacity="0.05"></stop>
+<stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop>
+</linearGradient>
+</defs>
+<path d="M0,200 L50,180 L100,190 L150,140 L200,150 L250,100 L300,110 L350,80 L400,90 L450,40 L500,50 L550,20 L600,30 L650,10 L650,250 L0,250 Z" fill="url(#chartGradient)" style="vector-effect: non-scaling-stroke;"></path>
+<polyline class="chart-line" fill="none" points="0,200 50,180 100,190 150,140 200,150 250,100 300,110 350,80 400,90 450,40 500,50 550,20 600,30 650,10" stroke="black" stroke-width="1.5" vector-effect="non-scaling-stroke"></polyline>
+<circle cx="150" cy="140" fill="white" r="3" stroke="black" stroke-width="1.5"></circle>
+<circle cx="350" cy="80" fill="white" r="3" stroke="black" stroke-width="1.5"></circle>
+<circle cx="550" cy="20" fill="black" r="3"></circle>
+</svg>
+<div class="absolute bottom-1 left-6 right-6 flex justify-between text-[9px] font-mono text-gray-400">
+<span>01 NOV</span>
+<span>08 NOV</span>
+<span>15 NOV</span>
+<span>22 NOV</span>
+<span>29 NOV</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h3 class="text-lg font-serif italic text-black">Sources de Leads</h3>
+<span class="material-symbols-outlined text-gray-300 font-light text-sm">info</span>
+</div>
+<div class="flex-1 border border-gray-100 p-6 bg-white flex flex-col justify-end gap-4 h-80">
+<div class="space-y-1 group cursor-pointer">
+<div class="flex justify-between text-[10px] uppercase tracking-widest text-gray-500 mb-1">
+<span>Outbound</span>
+<span class="font-bold text-black">45%</span>
+</div>
+<div class="w-full h-1.5 bg-gray-100 rounded-sm overflow-hidden">
+<div class="h-full bg-black w-[45%] rounded-sm"></div>
+</div>
+</div>
+<div class="space-y-1 group cursor-pointer">
+<div class="flex justify-between text-[10px] uppercase tracking-widest text-gray-500 mb-1">
+<span>Inbound</span>
+<span class="font-bold text-black">28%</span>
+</div>
+<div class="w-full h-1.5 bg-gray-100 rounded-sm overflow-hidden">
+<div class="h-full bg-gray-400 w-[28%] rounded-sm"></div>
+</div>
+</div>
+<div class="space-y-1 group cursor-pointer">
+<div class="flex justify-between text-[10px] uppercase tracking-widest text-gray-500 mb-1">
+<span>Partenaires</span>
+<span class="font-bold text-black">18%</span>
+</div>
+<div class="w-full h-1.5 bg-gray-100 rounded-sm overflow-hidden">
+<div class="h-full bg-gray-300 w-[18%] rounded-sm"></div>
+</div>
+</div>
+<div class="space-y-1 group cursor-pointer">
+<div class="flex justify-between text-[10px] uppercase tracking-widest text-gray-500 mb-1">
+<span>Événements</span>
+<span class="font-bold text-black">9%</span>
+</div>
+<div class="w-full h-1.5 bg-gray-100 rounded-sm overflow-hidden">
+<div class="h-full bg-gray-200 w-[9%] rounded-sm"></div>
+</div>
+</div>
+<div class="mt-auto pt-6 border-t border-gray-50">
+<p class="text-[10px] text-gray-400 leading-relaxed font-light">
+                            L'acquisition Outbound reste le vecteur principal. Une augmentation de 5% du budget Partenaires est recommandée pour T1 2024.
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<section class="flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h3 class="text-xl font-serif font-normal text-black italic">Dernières Conversions</h3>
+<div class="flex gap-4">
+<button class="text-gray-400 hover:text-black transition-colors duration-300 text-[10px] uppercase tracking-widest font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">filter_list</span> Filtrer
+                    </button>
+</div>
+</div>
+<div class="w-full overflow-x-auto border border-gray-100">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-gray-100 bg-gray-50/50">
+<th class="py-4 px-6 text-[9px] font-bold uppercase text-gray-400 tracking-[0.15em] w-32">Date</th>
+<th class="py-4 px-6 text-[9px] font-bold uppercase text-gray-400 tracking-[0.15em]">Entité</th>
+<th class="py-4 px-6 text-[9px] font-bold uppercase text-gray-400 tracking-[0.15em]">Source</th>
+<th class="py-4 px-6 text-[9px] font-bold uppercase text-gray-400 tracking-[0.15em] text-right">Valeur</th>
+<th class="py-4 px-6 text-[9px] font-bold uppercase text-gray-400 tracking-[0.15em] text-right">Statut</th>
+</tr>
+</thead>
+<tbody class="bg-white">
+<tr class="border-b border-gray-50 hover:bg-gray-50 transition-colors cursor-pointer group">
+<td class="py-4 px-6 text-xs font-mono text-gray-500">22 NOV</td>
+<td class="py-4 px-6">
+<div class="font-medium text-black text-sm">Nexus Industries</div>
+</td>
+<td class="py-4 px-6 text-[10px] uppercase tracking-wider text-gray-500">Outbound</td>
+<td class="py-4 px-6 text-right font-medium text-black text-sm">12 500 $</td>
+<td class="py-4 px-6 text-right">
+<span class="inline-block w-2 h-2 rounded-full bg-green-500 mb-0.5 mr-2"></span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-black">Signé</span>
+</td>
+</tr>
+<tr class="border-b border-gray-50 hover:bg-gray-50 transition-colors cursor-pointer group">
+<td class="py-4 px-6 text-xs font-mono text-gray-500">20 NOV</td>
+<td class="py-4 px-6">
+<div class="font-medium text-black text-sm">Globex Corp</div>
+</td>
+<td class="py-4 px-6 text-[10px] uppercase tracking-wider text-gray-500">Partenaire</td>
+<td class="py-4 px-6 text-right font-medium text-black text-sm">8 200 $</td>
+<td class="py-4 px-6 text-right">
+<span class="inline-block w-2 h-2 rounded-full bg-gray-300 mb-0.5 mr-2"></span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-gray-400">En attente</span>
+</td>
+</tr>
+<tr class="border-b border-gray-50 hover:bg-gray-50 transition-colors cursor-pointer group">
+<td class="py-4 px-6 text-xs font-mono text-gray-500">18 NOV</td>
+<td class="py-4 px-6">
+<div class="font-medium text-black text-sm">Acme Solutions</div>
+</td>
+<td class="py-4 px-6 text-[10px] uppercase tracking-wider text-gray-500">Inbound</td>
+<td class="py-4 px-6 text-right font-medium text-black text-sm">24 000 $</td>
+<td class="py-4 px-6 text-right">
+<span class="inline-block w-2 h-2 rounded-full bg-green-500 mb-0.5 mr-2"></span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-black">Signé</span>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 transition-colors cursor-pointer group">
+<td class="py-4 px-6 text-xs font-mono text-gray-500">15 NOV</td>
+<td class="py-4 px-6">
+<div class="font-medium text-gray-400 text-sm">Umbrella Inc.</div>
+</td>
+<td class="py-4 px-6 text-[10px] uppercase tracking-wider text-gray-400">Événement</td>
+<td class="py-4 px-6 text-right font-medium text-gray-400 text-sm">5 500 $</td>
+<td class="py-4 px-6 text-right">
+<span class="inline-block w-2 h-2 rounded-full bg-red-400 mb-0.5 mr-2"></span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-gray-400">Perdu</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="flex justify-center mt-8">
+<button class="text-[10px] font-medium uppercase tracking-[0.2em] text-gray-400 hover:text-black transition-all flex flex-col items-center gap-2 group">
+<span class="group-hover:translate-y-0.5 transition-transform duration-300">Voir tout l'historique</span>
+<span class="material-symbols-outlined text-base font-light opacity-50">expand_more</span>
+</button>
+</div>
+</section>
+</main>
+<footer class="border-t border-gray-100 py-12 mt-12 bg-gray-50/30">
+<div class="max-w-5xl mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-2 opacity-50">
+<span class="material-symbols-outlined text-xl font-light">hub</span>
+<span class="text-xs font-serif italic">Uprising Node</span>
+</div>
+<p class="text-[10px] text-gray-400 uppercase tracking-widest">© 2023 Tous droits réservés</p>
+<div class="flex gap-6">
+<a class="text-[10px] text-gray-400 hover:text-black uppercase tracking-widest transition-colors" href="#">Support</a>
+<a class="text-[10px] text-gray-400 hover:text-black uppercase tracking-widest transition-colors" href="#">Juridique</a>
+</div>
+</div>
+</footer>
+
+</body></html>

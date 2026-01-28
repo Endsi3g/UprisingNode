@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node Tableau de Bord des Gains</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent-gray": "#fafafa",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-feature-settings: "cv11", "ss01";
+        }
+        .chart-line {
+            stroke-dasharray: 2000;
+            stroke-dashoffset: 0;
+            animation: dash 2s ease-out forwards;
+        }
+        @keyframes dash {
+            from { stroke-dashoffset: 2000; }
+            to { stroke-dashoffset: 0; }
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
+<header class="w-full bg-white/95 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-100">
+<div class="px-6 md:px-12 py-6 flex items-center justify-between max-w-6xl mx-auto">
+<div class="flex items-center gap-4 text-black">
+<div class="text-black opacity-80">
+<span class="material-symbols-outlined text-2xl font-light">hub</span>
+</div>
+<h2 class="text-base font-medium tracking-wide font-serif text-black italic">Uprising Node</h2>
+</div>
+<div class="flex items-center gap-8">
+<div class="hidden md:flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-green-500/80"></div>
+<span class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">En ligne</span>
+</div>
+<div class="flex items-center gap-4 pl-8 border-l border-gray-100">
+<div class="text-right hidden sm:block">
+<p class="text-[9px] font-semibold uppercase text-gray-400 tracking-widest mb-0.5">Partenaire</p>
+<p class="text-sm font-medium leading-none text-black font-serif">K. Miller</p>
+</div>
+<div class="bg-center bg-no-repeat bg-cover grayscale opacity-90 size-8 rounded-full border border-gray-100 ring-2 ring-white" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMflAqpGYir9XOgJftZNEspNP4YhL4rOPhdqw0jK_aScxv1hEB3L_lzTmM9Yhh7p9Bx-zR8FPI8BGHUHUllrAJDb-KhtUBsqU-ow4gz1n2Xk6fA8mW9g47-WRYmuNS0QAW_9o-jagO5g5z8bKdLzEnz2LlxLpmlbixX3D_b0WsSTorkGrwc3J7RGALpmKOBVUrUK7iA48qG0b4tWxQnQOXK_S9JVfjK6tVa4xwe4PR4q82uVCiUq2Ob5fW4_0YZ9Smp0LT32pSxHGh");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-5xl mx-auto px-6 py-12 md:py-20 flex flex-col gap-16">
+<section class="flex flex-col md:flex-row justify-between items-end gap-10 md:gap-4 border-b border-gray-100 pb-12">
+<div class="flex flex-col gap-8 w-full md:w-auto">
+<div>
+<p class="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400 mb-2">Gains Cumulés</p>
+<h1 class="text-5xl md:text-7xl font-serif text-black tracking-tight leading-none">
+                        482 950 <span class="text-3xl md:text-5xl align-top opacity-40 font-light">$</span>
+</h1>
+</div>
+<div class="flex gap-12 md:gap-16">
+<div>
+<p class="text-[9px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Paiements Reçus</p>
+<p class="text-xl md:text-2xl font-serif text-black">468 450 $</p>
+</div>
+<div>
+<p class="text-[9px] font-semibold uppercase tracking-widest text-gray-400 mb-1">En Attente</p>
+<p class="text-xl md:text-2xl font-serif text-gray-500 italic">14 500 $</p>
+</div>
+</div>
+</div>
+<div class="mb-2">
+<button class="group flex items-center gap-3 text-xs uppercase tracking-widest font-medium text-black hover:text-gray-600 transition-colors pb-1 border-b border-black hover:border-gray-400">
+<span>Télécharger le Relevé</span>
+<span class="material-symbols-outlined text-base font-light group-hover:translate-y-0.5 transition-transform duration-300">download</span>
+</button>
+</div>
+</section>
+<section class="w-full">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-sm font-serif italic text-black">Performance Financière (12 Mois)</h3>
+<div class="flex gap-4">
+<span class="text-[9px] uppercase tracking-widest text-gray-400 border border-gray-100 px-2 py-1">2023</span>
+</div>
+</div>
+<div class="w-full aspect-[21/9] md:aspect-[3/1] relative">
+<svg class="w-full h-full overflow-visible" viewBox="0 0 1000 300">
+<line stroke="#f3f4f6" stroke-width="1" x1="0" x2="1000" y1="299" y2="299"></line>
+<line stroke="#f3f4f6" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="1000" y1="225" y2="225"></line>
+<line stroke="#f3f4f6" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="1000" y1="150" y2="150"></line>
+<line stroke="#f3f4f6" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="1000" y1="75" y2="75"></line>
+<path class="chart-line" d="M0,280 C50,270 100,250 150,240 S250,260 300,200 S400,180 500,150 S600,160 700,100 S850,80 900,50 L1000,30" fill="none" stroke="black" stroke-width="1.5"></path>
+<path d="M0,280 C50,270 100,250 150,240 S250,260 300,200 S400,180 500,150 S600,160 700,100 S850,80 900,50 L1000,30 V300 H0 Z" fill="url(#gradient)" opacity="0.05"></path>
+<defs>
+<linearGradient id="gradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:black;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:white;stop-opacity:0"></stop>
+</linearGradient>
+</defs>
+<circle cx="1000" cy="30" fill="white" r="3" stroke="black" stroke-width="1.5"></circle>
+</svg>
+<div class="flex justify-between w-full mt-4 text-[9px] font-medium text-gray-400 uppercase tracking-widest">
+<span>Jan</span><span>Fév</span><span>Mar</span><span>Avr</span><span>Mai</span><span>Juin</span>
+<span>Juil</span><span>Août</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Déc</span>
+</div>
+</div>
+</section>
+<section class="flex flex-col gap-6 pt-8">
+<div class="flex items-baseline justify-between pb-4 border-b border-black">
+<h3 class="text-xl font-serif font-normal text-black italic">Journal des Revenus</h3>
+<span class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">Entrées récentes</span>
+</div>
+<div class="flex flex-col">
+<div class="grid grid-cols-12 gap-4 px-2 py-3 text-[9px] font-bold uppercase text-gray-300 tracking-[0.15em]">
+<div class="col-span-2">Date</div>
+<div class="col-span-6 md:col-span-7 pl-2">Transaction</div>
+<div class="col-span-4 md:col-span-3 text-right">Commission</div>
+</div>
+<div class="group relative bg-white border-b border-gray-50 hover:bg-gray-50/30 transition-colors duration-200">
+<div class="grid grid-cols-12 gap-4 px-2 py-5 items-center">
+<div class="col-span-2 text-[11px] font-mono text-gray-400 group-hover:text-black transition-colors">
+                            14 NOV
+                        </div>
+<div class="col-span-6 md:col-span-7 pl-2">
+<p class="font-medium text-black text-sm tracking-wide font-serif">Cyberdyne Systems</p>
+<p class="text-[10px] text-gray-400 font-light mt-0.5">Réf: #TX-9921-A</p>
+</div>
+<div class="col-span-4 md:col-span-3 text-right text-sm font-medium text-black">
+                            + 4 500,00 $
+                        </div>
+</div>
+</div>
+<div class="group relative bg-white border-b border-gray-50 hover:bg-gray-50/30 transition-colors duration-200">
+<div class="grid grid-cols-12 gap-4 px-2 py-5 items-center">
+<div class="col-span-2 text-[11px] font-mono text-gray-400 group-hover:text-black transition-colors">
+                            02 NOV
+                        </div>
+<div class="col-span-6 md:col-span-7 pl-2">
+<p class="font-medium text-black text-sm tracking-wide font-serif">Tyrell Corporation</p>
+<p class="text-[10px] text-gray-400 font-light mt-0.5">Réf: #TX-8842-B</p>
+</div>
+<div class="col-span-4 md:col-span-3 text-right text-sm font-medium text-black">
+                            + 12 000,00 $
+                        </div>
+</div>
+</div>
+<div class="group relative bg-white border-b border-gray-50 hover:bg-gray-50/30 transition-colors duration-200">
+<div class="grid grid-cols-12 gap-4 px-2 py-5 items-center">
+<div class="col-span-2 text-[11px] font-mono text-gray-400 group-hover:text-black transition-colors">
+                            28 OCT
+                        </div>
+<div class="col-span-6 md:col-span-7 pl-2">
+<p class="font-medium text-black text-sm tracking-wide font-serif">Massive Dynamic</p>
+<p class="text-[10px] text-gray-400 font-light mt-0.5">Réf: #TX-7731-C</p>
+</div>
+<div class="col-span-4 md:col-span-3 text-right text-sm font-medium text-black">
+                            + 8 500,00 $
+                        </div>
+</div>
+</div>
+<div class="group relative bg-white border-b border-gray-50 hover:bg-gray-50/30 transition-colors duration-200">
+<div class="grid grid-cols-12 gap-4 px-2 py-5 items-center">
+<div class="col-span-2 text-[11px] font-mono text-gray-400 group-hover:text-black transition-colors">
+                            15 OCT
+                        </div>
+<div class="col-span-6 md:col-span-7 pl-2">
+<p class="font-medium text-black text-sm tracking-wide font-serif">Soylent Corp</p>
+<p class="text-[10px] text-gray-400 font-light mt-0.5">Réf: #TX-6629-D</p>
+</div>
+<div class="col-span-4 md:col-span-3 text-right text-sm font-medium text-black">
+                            + 2 200,00 $
+                        </div>
+</div>
+</div>
+<div class="group relative bg-white border-b border-gray-50 hover:bg-gray-50/30 transition-colors duration-200">
+<div class="grid grid-cols-12 gap-4 px-2 py-5 items-center">
+<div class="col-span-2 text-[11px] font-mono text-gray-400 group-hover:text-black transition-colors">
+                            30 SEP
+                        </div>
+<div class="col-span-6 md:col-span-7 pl-2">
+<p class="font-medium text-gray-500 text-sm tracking-wide font-serif">InGen Technologies</p>
+<p class="text-[10px] text-gray-400 font-light mt-0.5">Réf: #TX-5510-E</p>
+</div>
+<div class="col-span-4 md:col-span-3 text-right text-sm font-medium text-gray-500">
+                            + 6 750,00 $
+                        </div>
+</div>
+</div>
+</div>
+<div class="flex justify-center mt-8 pb-8">
+<button class="text-[10px] font-medium uppercase tracking-[0.2em] text-gray-400 hover:text-black transition-all flex flex-col items-center gap-2 group">
+<span class="group-hover:translate-y-0.5 transition-transform duration-300">Voir tout l'historique</span>
+<span class="material-symbols-outlined text-base font-light opacity-50">expand_more</span>
+</button>
+</div>
+</section>
+</main>
+
+</body></html>

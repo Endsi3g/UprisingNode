@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node - Découverte</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent-gray": "#fafafa",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-feature-settings: "cv11", "ss01";
+        }
+        .fade-in-up {
+            animation: fade-in-up 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        @keyframes fade-in-up {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
+<header class="w-full bg-white/95 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-50">
+<div class="px-6 md:px-12 py-6 flex items-center justify-between max-w-7xl mx-auto">
+<div class="flex items-center gap-4 text-black">
+<div class="text-black opacity-80">
+<span class="material-symbols-outlined text-2xl font-light">hub</span>
+</div>
+<h2 class="text-base font-medium tracking-wide font-serif text-black italic">Uprising Node</h2>
+</div>
+<div class="flex items-center gap-8">
+<div class="hidden md:flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-emerald-500/80"></div>
+<span class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">Connecté</span>
+</div>
+<div class="flex items-center gap-4 pl-8 border-l border-gray-100">
+<div class="bg-center bg-no-repeat bg-cover grayscale opacity-90 size-8 rounded-full border border-gray-100 ring-2 ring-white" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMflAqpGYir9XOgJftZNEspNP4YhL4rOPhdqw0jK_aScxv1hEB3L_lzTmM9Yhh7p9Bx-zR8FPI8BGHUHUllrAJDb-KhtUBsqU-ow4gz1n2Xk6fA8mW9g47-WRYmuNS0QAW_9o-jagO5g5z8bKdLzEnz2LlxLpmlbixX3D_b0WsSTorkGrwc3J7RGALpmKOBVUrUK7iA48qG0b4tWxQnQOXK_S9JVfjK6tVa4xwe4PR4q82uVCiUq2Ob5fW4_0YZ9Smp0LT32pSxHGh");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-7xl mx-auto px-6 py-12 md:py-24 flex flex-col justify-between h-full">
+<div class="flex-1 flex flex-col justify-center max-w-5xl mx-auto w-full">
+<div class="text-center space-y-6 mb-20 md:mb-28 fade-in-up">
+<p class="text-gray-400 font-sans text-[10px] uppercase tracking-[0.3em] font-medium">
+                    Découverte
+                </p>
+<h1 class="text-4xl md:text-6xl lg:text-7xl font-serif font-normal text-black tracking-tight leading-tight">
+                    L'Architecture de<br/><span class="italic">Votre Succès</span>
+</h1>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 lg:gap-16 border-t border-gray-100 pt-16 md:pt-20">
+<div class="flex flex-col items-start space-y-6 group fade-in-up delay-100">
+<div class="text-black group-hover:scale-105 transition-transform duration-500 origin-left">
+<span class="material-symbols-outlined text-4xl md:text-5xl font-thin">psychology</span>
+</div>
+<div class="space-y-3">
+<h3 class="text-xl md:text-2xl font-serif text-black">Intelligence IA</h3>
+<p class="text-sm text-gray-500 font-light leading-relaxed max-w-xs">
+                            Nos algorithmes neuronaux analysent en temps réel les fluctuations pour optimiser chaque décision stratégique.
+                        </p>
+</div>
+</div>
+<div class="flex flex-col items-start space-y-6 group fade-in-up delay-200">
+<div class="text-black group-hover:scale-105 transition-transform duration-500 origin-left">
+<span class="material-symbols-outlined text-4xl md:text-5xl font-thin">all_inclusive</span>
+</div>
+<div class="space-y-3">
+<h3 class="text-xl md:text-2xl font-serif text-black">Pipeline Transparent</h3>
+<p class="text-sm text-gray-500 font-light leading-relaxed max-w-xs">
+                            Une visibilité cristalline sur l'ensemble de votre chaîne de valeur, éliminant toute zone d'ombre opérationnelle.
+                        </p>
+</div>
+</div>
+<div class="flex flex-col items-start space-y-6 group fade-in-up delay-300">
+<div class="text-black group-hover:scale-105 transition-transform duration-500 origin-left">
+<span class="material-symbols-outlined text-4xl md:text-5xl font-thin">trending_up</span>
+</div>
+<div class="space-y-3">
+<h3 class="text-xl md:text-2xl font-serif text-black">Gains Accélérés</h3>
+<p class="text-sm text-gray-500 font-light leading-relaxed max-w-xs">
+                            Un effet de levier technologique conçu pour multiplier exponentiellement votre potentiel de revenus passifs.
+                        </p>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full max-w-5xl mx-auto mt-20 md:mt-32 fade-in-up delay-300">
+<div class="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
+<div class="w-full md:max-w-md flex flex-col gap-3">
+<div class="h-[1px] w-full bg-gray-100 relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 bg-black w-2/3 transition-all duration-1000 ease-out"></div>
+</div>
+<div class="flex justify-between items-center text-[9px] uppercase tracking-widest text-gray-400 font-medium">
+<span>Étape 02</span>
+<span>03</span>
+</div>
+</div>
+<button class="group relative overflow-hidden bg-black text-white px-10 py-4 md:py-5 min-w-[200px] flex items-center justify-center gap-3 transition-all duration-300 hover:bg-gray-900 shadow-sm hover:shadow-lg">
+<span class="text-xs font-semibold uppercase tracking-[0.2em] relative z-10">Suivant</span>
+<span class="material-symbols-outlined text-base relative z-10 group-hover:translate-x-1 transition-transform duration-300">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+
+</body></html>

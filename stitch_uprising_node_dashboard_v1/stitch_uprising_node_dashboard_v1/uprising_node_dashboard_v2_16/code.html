@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node Ressources et Assets</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent-gray": "#fafafa",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-feature-settings: "cv11", "ss01";
+        }
+        .lindy-input:focus {
+            box-shadow: none;
+            outline: none;
+            border-bottom-color: #000;
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
+<header class="w-full bg-white/90 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-100">
+<div class="px-6 md:px-12 py-6 flex items-center justify-between max-w-6xl mx-auto">
+<div class="flex items-center gap-4 text-black">
+<div class="text-black opacity-80">
+<span class="material-symbols-outlined text-2xl font-light">hub</span>
+</div>
+<h2 class="text-base font-medium tracking-wide font-serif text-black italic">Uprising Node</h2>
+</div>
+<div class="flex items-center gap-8">
+<div class="hidden md:flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-green-500/80"></div>
+<span class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">En ligne</span>
+</div>
+<div class="flex items-center gap-4 pl-8 border-l border-gray-100">
+<div class="text-right hidden sm:block">
+<p class="text-[9px] font-semibold uppercase text-gray-400 tracking-widest mb-0.5">Opérateur</p>
+<p class="text-sm font-medium leading-none text-black font-serif">K. Miller</p>
+</div>
+<div class="bg-center bg-no-repeat bg-cover grayscale opacity-90 size-8 rounded-full border border-gray-100 ring-2 ring-white" data-alt="User profile avatar, abstract digital face" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMflAqpGYir9XOgJftZNEspNP4YhL4rOPhdqw0jK_aScxv1hEB3L_lzTmM9Yhh7p9Bx-zR8FPI8BGHUHUllrAJDb-KhtUBsqU-ow4gz1n2Xk6fA8mW9g47-WRYmuNS0QAW_9o-jagO5g5z8bKdLzEnz2LlxLpmlbixX3D_b0WsSTorkGrwc3J7RGALpmKOBVUrUK7iA48qG0b4tWxQnQOXK_S9JVfjK6tVa4xwe4PR4q82uVCiUq2Ob5fW4_0YZ9Smp0LT32pSxHGh");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-6xl mx-auto px-6 py-16 md:py-20 flex flex-col gap-20">
+<section class="flex flex-col gap-8 items-center w-full max-w-2xl mx-auto">
+<div class="text-center space-y-3">
+<h1 class="text-3xl md:text-5xl font-serif font-normal text-black tracking-tight">
+                    Ressources &amp; Assets
+                </h1>
+<p class="text-gray-400 font-sans text-[10px] uppercase tracking-[0.2em]">
+                    Bibliothèque Partenaire • Mis à jour il y a 2j
+                </p>
+</div>
+<div class="w-full relative mt-6 group">
+<div class="relative flex w-full items-end">
+<div class="absolute left-0 bottom-4 text-gray-300 group-hover:text-gray-600 transition-colors duration-300">
+<span class="material-symbols-outlined font-light text-xl">search</span>
+</div>
+<input autofocus="" class="lindy-input flex-1 bg-transparent border-b border-gray-200 hover:border-gray-300 focus:border-black text-black placeholder:text-gray-300 placeholder:font-light h-14 pl-10 pr-12 focus:ring-0 text-lg font-light transition-all duration-300" placeholder="Rechercher un script, une présentation, un logo..." type="text"/>
+<button class="absolute right-0 bottom-3 text-gray-300 hover:text-black transition-colors duration-300 text-[10px] uppercase tracking-widest font-medium">
+                        Rechercher
+                    </button>
+</div>
+</div>
+</section>
+<div class="flex flex-col gap-16 pb-20">
+<section class="w-full">
+<div class="flex items-center justify-between pb-4 border-b border-gray-100 mb-8">
+<h3 class="text-xl font-serif font-normal text-black italic">Scripts de Vente</h3>
+<button class="text-gray-300 hover:text-black transition-colors duration-300 text-[10px] uppercase tracking-widest font-medium">Tout voir</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="group bg-white border border-gray-100 p-6 hover:border-black transition-all duration-500 relative flex flex-col gap-6 h-full">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-3xl font-light text-gray-300 group-hover:text-black transition-colors duration-500">description</span>
+<span class="text-[9px] font-bold text-gray-300 uppercase tracking-widest border border-gray-100 px-2 py-1 rounded-sm">DOCX</span>
+</div>
+<div class="flex-1">
+<h4 class="font-serif text-lg text-black mb-2 group-hover:translate-x-1 transition-transform duration-300">Script Appel à Froid</h4>
+<p class="text-xs text-gray-500 font-light leading-relaxed">Framework complet pour la première prise de contact. Inclut le traitement des objections courantes.</p>
+</div>
+<div class="pt-4 border-t border-gray-50 flex items-center justify-between mt-auto">
+<span class="text-[10px] text-gray-400 font-mono">124 KB</span>
+<button class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-black hover:opacity-60 transition-opacity">
+<span>Télécharger</span>
+<span class="material-symbols-outlined text-sm">download</span>
+</button>
+</div>
+</div>
+<div class="group bg-white border border-gray-100 p-6 hover:border-black transition-all duration-500 relative flex flex-col gap-6 h-full">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-3xl font-light text-gray-300 group-hover:text-black transition-colors duration-500">mail</span>
+<span class="text-[9px] font-bold text-gray-300 uppercase tracking-widest border border-gray-100 px-2 py-1 rounded-sm">TXT</span>
+</div>
+<div class="flex-1">
+<h4 class="font-serif text-lg text-black mb-2 group-hover:translate-x-1 transition-transform duration-300">Séquence Email Drip</h4>
+<p class="text-xs text-gray-500 font-light leading-relaxed">Suite de 5 emails de relance automatisée pour réactiver les prospects dormants.</p>
+</div>
+<div class="pt-4 border-t border-gray-50 flex items-center justify-between mt-auto">
+<span class="text-[10px] text-gray-400 font-mono">18 KB</span>
+<button class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-black hover:opacity-60 transition-opacity">
+<span>Télécharger</span>
+<span class="material-symbols-outlined text-sm">download</span>
+</button>
+</div>
+</div>
+<div class="group bg-white border border-gray-100 p-6 hover:border-black transition-all duration-500 relative flex flex-col gap-6 h-full">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-3xl font-light text-gray-300 group-hover:text-black transition-colors duration-500">forum</span>
+<span class="text-[9px] font-bold text-gray-300 uppercase tracking-widest border border-gray-100 px-2 py-1 rounded-sm">PDF</span>
+</div>
+<div class="flex-1">
+<h4 class="font-serif text-lg text-black mb-2 group-hover:translate-x-1 transition-transform duration-300">Matrice de Négociation</h4>
+<p class="text-xs text-gray-500 font-light leading-relaxed">Guide stratégique pour les phases finales de closing. Tableaux comparatifs inclus.</p>
+</div>
+<div class="pt-4 border-t border-gray-50 flex items-center justify-between mt-auto">
+<span class="text-[10px] text-gray-400 font-mono">1.2 MB</span>
+<button class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-black hover:opacity-60 transition-opacity">
+<span>Télécharger</span>
+<span class="material-symbols-outlined text-sm">download</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<section class="w-full">
+<div class="flex items-center justify-between pb-4 border-b border-gray-100 mb-8">
+<h3 class="text-xl font-serif font-normal text-black italic">Présentations PDF</h3>
+<button class="text-gray-300 hover:text-black transition-colors duration-300 text-[10px] uppercase tracking-widest font-medium">Tout voir</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="group bg-white border border-gray-100 p-6 hover:border-black transition-all duration-500 relative flex flex-col gap-6 h-full">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-3xl font-light text-gray-300 group-hover:text-black transition-colors duration-500">co_present</span>
+<span class="text-[9px] font-bold text-gray-300 uppercase tracking-widest border border-gray-100 px-2 py-1 rounded-sm">PDF</span>
+</div>
+<div class="flex-1">
+<h4 class="font-serif text-lg text-black mb-2 group-hover:translate-x-1 transition-transform duration-300">Deck Principal 2024</h4>
+<p class="text-xs text-gray-500 font-light leading-relaxed">Présentation corporate standard. Mise à jour Q1 2024 avec nouvelles métriques.</p>
+</div>
+<div class="pt-4 border-t border-gray-50 flex items-center justify-between mt-auto">
+<span class="text-[10px] text-gray-400 font-mono">4.5 MB</span>
+<button class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-black hover:opacity-60 transition-opacity">
+<span>Télécharger</span>
+<span class="material-symbols-outlined text-sm">download</span>
+</button>
+</div>
+</div>
+<div class="group bg-white border border-gray-100 p-6 hover:border-black transition-all duration-500 relative flex flex-col gap-6 h-full">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-3xl font-light text-gray-300 group-hover:text-black transition-colors duration-500">pie_chart</span>
+<span class="text-[9px] font-bold text-gray-300 uppercase tracking-widest border border-gray-100 px-2 py-1 rounded-sm">PPTX</span>
+</div>
+<div class="flex-1">
+<h4 class="font-serif text-lg text-black mb-2 group-hover:translate-x-1 transition-transform duration-300">Focus Produit : Enterprise</h4>
+<p class="text-xs text-gray-500 font-light leading-relaxed">Deep dive technique sur la solution Enterprise. Pour CTO et décideurs techniques.</p>
+</div>
+<div class="pt-4 border-t border-gray-50 flex items-center justify-between mt-auto">
+<span class="text-[10px] text-gray-400 font-mono">12.8 MB</span>
+<button class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-black hover:opacity-60 transition-opacity">
+<span>Télécharger</span>
+<span class="material-symbols-outlined text-sm">download</span>
+</button>
+</div>
+</div>
+<div class="group bg-white border border-gray-100 p-6 hover:border-black transition-all duration-500 relative flex flex-col gap-6 h-full">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-3xl font-light text-gray-300 group-hover:text-black transition-colors duration-500">cases</span>
+<span class="text-[9px] font-bold text-gray-300 uppercase tracking-widest border border-gray-100 px-2 py-1 rounded-sm">PDF</span>
+</div>
+<div class="flex-1">
+<h4 class="font-serif text-lg text-black mb-2 group-hover:translate-x-1 transition-transform duration-300">Études de Cas Clients</h4>
+<p class="text-xs text-gray-500 font-light leading-relaxed">Recueil de 10 success stories clients anonymisées pour prospection.</p>
+</div>
+<div class="pt-4 border-t border-gray-50 flex items-center justify-between mt-auto">
+<span class="text-[10px] text-gray-400 font-mono">8.2 MB</span>
+<button class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-black hover:opacity-60 transition-opacity">
+<span>Télécharger</span>
+<span class="material-symbols-outlined text-sm">download</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<section class="w-full">
+<div class="flex items-center justify-between pb-4 border-b border-gray-100 mb-8">
+<h3 class="text-xl font-serif font-normal text-black italic">Éléments de Marque</h3>
+<button class="text-gray-300 hover:text-black transition-colors duration-300 text-[10px] uppercase tracking-widest font-medium">Tout voir</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="group bg-white border border-gray-100 p-6 hover:border-black transition-all duration-500 relative flex flex-col gap-6 h-full">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-3xl font-light text-gray-300 group-hover:text-black transition-colors duration-500">palette</span>
+<span class="text-[9px] font-bold text-gray-300 uppercase tracking-widest border border-gray-100 px-2 py-1 rounded-sm">ZIP</span>
+</div>
+<div class="flex-1">
+<h4 class="font-serif text-lg text-black mb-2 group-hover:translate-x-1 transition-transform duration-300">Pack Logos &amp; Icones</h4>
+<p class="text-xs text-gray-500 font-light leading-relaxed">Logotypes officiels (Noir, Blanc, Monochrome) et favicons. Formats SVG et PNG.</p>
+</div>
+<div class="pt-4 border-t border-gray-50 flex items-center justify-between mt-auto">
+<span class="text-[10px] text-gray-400 font-mono">24 MB</span>
+<button class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-black hover:opacity-60 transition-opacity">
+<span>Télécharger</span>
+<span class="material-symbols-outlined text-sm">download</span>
+</button>
+</div>
+</div>
+<div class="group bg-white border border-gray-100 p-6 hover:border-black transition-all duration-500 relative flex flex-col gap-6 h-full">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-3xl font-light text-gray-300 group-hover:text-black transition-colors duration-500">style</span>
+<span class="text-[9px] font-bold text-gray-300 uppercase tracking-widest border border-gray-100 px-2 py-1 rounded-sm">PDF</span>
+</div>
+<div class="flex-1">
+<h4 class="font-serif text-lg text-black mb-2 group-hover:translate-x-1 transition-transform duration-300">Guide de Style</h4>
+<p class="text-xs text-gray-500 font-light leading-relaxed">Brand book complet : typographie, palettes de couleurs et règles d'utilisation.</p>
+</div>
+<div class="pt-4 border-t border-gray-50 flex items-center justify-between mt-auto">
+<span class="text-[10px] text-gray-400 font-mono">15 MB</span>
+<button class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-black hover:opacity-60 transition-opacity">
+<span>Télécharger</span>
+<span class="material-symbols-outlined text-sm">download</span>
+</button>
+</div>
+</div>
+<div class="group bg-white border border-gray-100 p-6 hover:border-black transition-all duration-500 relative flex flex-col gap-6 h-full">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-3xl font-light text-gray-300 group-hover:text-black transition-colors duration-500">photo_library</span>
+<span class="text-[9px] font-bold text-gray-300 uppercase tracking-widest border border-gray-100 px-2 py-1 rounded-sm">LINK</span>
+</div>
+<div class="flex-1">
+<h4 class="font-serif text-lg text-black mb-2 group-hover:translate-x-1 transition-transform duration-300">Banque d'Images</h4>
+<p class="text-xs text-gray-500 font-light leading-relaxed">Accès au Drive partagé contenant les assets photographiques haute résolution.</p>
+</div>
+<div class="pt-4 border-t border-gray-50 flex items-center justify-between mt-auto">
+<span class="text-[10px] text-gray-400 font-mono">--</span>
+<button class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-black hover:opacity-60 transition-opacity">
+<span>Accéder</span>
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+
+</body></html>

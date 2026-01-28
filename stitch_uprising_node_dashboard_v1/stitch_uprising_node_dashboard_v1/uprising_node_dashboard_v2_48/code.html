@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node - Score de Précision IA</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent-gray": "#fafafa",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-feature-settings: "cv11", "ss01";
+        }
+        .gauge-ring {
+            stroke-dasharray: 283;
+            stroke-dashoffset: 28.3;transform: rotate(-90deg);
+            transform-origin: center;
+        }
+        .chart-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 0;
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
+<header class="w-full bg-white/90 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-100">
+<div class="px-6 md:px-12 py-6 flex items-center justify-between max-w-6xl mx-auto">
+<div class="flex items-center gap-4 text-black">
+<div class="text-black opacity-80">
+<span class="material-symbols-outlined text-2xl font-light">hub</span>
+</div>
+<h2 class="text-base font-medium tracking-wide font-serif text-black italic">Uprising Node</h2>
+</div>
+<div class="flex items-center gap-8">
+<nav class="hidden md:flex items-center gap-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400">
+<a class="hover:text-black transition-colors" href="#">Tableau de bord</a>
+<a class="text-black border-b border-black pb-1" href="#">Analytique IA</a>
+<a class="hover:text-black transition-colors" href="#">Portefeuille</a>
+</nav>
+<div class="flex items-center gap-4 pl-8 border-l border-gray-100">
+<div class="text-right hidden sm:block">
+<p class="text-[9px] font-semibold uppercase text-gray-400 tracking-widest mb-0.5">Opérateur</p>
+<p class="text-sm font-medium leading-none text-black font-serif">K. Miller</p>
+</div>
+<div class="bg-center bg-no-repeat bg-cover grayscale opacity-90 size-8 rounded-full border border-gray-100 ring-2 ring-white" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBTVZD3xTcqFh_UGMMh3FbWEoGXR_MyCBCUAV8zAP4llmULJKdRsykTBScpeEYVnrIscfe9yiHwVmcCacrM3OqWpCB6UPyDVlb7rWGeojLkWTmwO6_qh-CZjw1QfhmNDjk5sOI92w0o4E6g46pywpERTlON5a4LUbrZBTR3AvObisNpLceoeo0c9da7bVdaTIhe0UWP8t1HN8Zj9OuX4JvFH83WizFObQyh-sHw_OYnSYob3CWPUBwxaGKxiiHuSH8Anl9_Ukslz0Iq");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-4xl mx-auto px-6 py-12 md:py-16 flex flex-col gap-20">
+<section class="text-center space-y-12">
+<div class="space-y-4">
+<p class="text-gray-400 font-sans text-[10px] uppercase tracking-[0.3em]">Indicateur de Performance</p>
+<h1 class="text-3xl md:text-5xl font-serif font-normal text-black tracking-tight italic">Score de Précision IA</h1>
+</div>
+<div class="relative flex items-center justify-center">
+<svg class="w-64 h-64 md:w-80 md:h-80" viewBox="0 0 100 100">
+<circle class="text-gray-50 stroke-current" cx="50" cy="50" fill="transparent" r="45" stroke-width="0.5"></circle>
+<circle class="text-black stroke-current gauge-ring" cx="50" cy="50" fill="transparent" r="45" stroke-linecap="square" stroke-width="1.5"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-6xl md:text-8xl font-serif text-black leading-none">94<span class="text-2xl md:text-3xl font-light -top-4 relative">%</span></span>
+<p class="text-[10px] uppercase tracking-widest text-gray-400 mt-2">Précision Actuelle</p>
+</div>
+</div>
+<div class="max-w-md mx-auto">
+<p class="text-sm font-light leading-relaxed text-gray-500 italic">
+                Basé sur 1 240 itérations et le feedback direct des partenaires au cours des 30 derniers jours.
+            </p>
+</div>
+</section>
+<section class="space-y-10">
+<div class="flex justify-between items-end border-b border-gray-100 pb-4">
+<div>
+<h3 class="text-xs font-semibold uppercase tracking-widest text-black">Courbe d'Apprentissage</h3>
+<p class="text-[10px] text-gray-400 uppercase tracking-widest mt-1">Évolution Trimestrielle</p>
+</div>
+<div class="flex gap-4 text-[9px] uppercase tracking-widest text-gray-400">
+<span class="flex items-center gap-1.5"><span class="w-2 h-[1px] bg-black"></span> Précision</span>
+<span class="flex items-center gap-1.5"><span class="w-2 h-[1px] bg-gray-200"></span> Benchmark</span>
+</div>
+</div>
+<div class="w-full h-48 relative pt-8">
+<svg class="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 1000 100">
+<path class="chart-line" d="M0,80 Q100,75 200,60 T400,55 T600,30 T800,20 T1000,5" fill="none" stroke="#000000" stroke-width="1.5"></path>
+<path d="M0,90 L1000,90" fill="none" stroke="#f0f0f0" stroke-dasharray="4" stroke-width="1"></path>
+</svg>
+<div class="flex justify-between mt-6 text-[10px] font-mono text-gray-400 uppercase tracking-widest">
+<span>Jan</span>
+<span>Fév</span>
+<span>Mar</span>
+<span>Avr</span>
+<span>Mai</span>
+<span>Juin</span>
+</div>
+</div>
+</section>
+<section class="space-y-10">
+<div class="flex justify-between items-end border-b border-gray-100 pb-4">
+<h3 class="text-xs font-semibold uppercase tracking-widest text-black">Optimisations Récentes</h3>
+<span class="text-[10px] text-gray-400 uppercase tracking-widest">Dernière mise à jour: 12.05.2024</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-gray-100 border border-gray-100">
+<div class="bg-white p-8 space-y-4 hover:bg-gray-50 transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-[9px] font-mono text-gray-400 uppercase tracking-widest">Module 01</span>
+<span class="material-symbols-outlined text-sm font-light text-gray-300">north_east</span>
+</div>
+<h4 class="text-lg font-serif italic text-black">Traitement des objections sur le ROI</h4>
+<p class="text-xs text-gray-500 font-light leading-relaxed">
+                    Affinage des arguments financiers basés sur les données historiques du secteur tertiaire. Réduction des délais de réponse de 15%.
+                </p>
+</div>
+<div class="bg-white p-8 space-y-4 hover:bg-gray-50 transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-[9px] font-mono text-gray-400 uppercase tracking-widest">Module 02</span>
+<span class="material-symbols-outlined text-sm font-light text-gray-300">north_east</span>
+</div>
+<h4 class="text-lg font-serif italic text-black">Identification des points de douleur biotech</h4>
+<p class="text-xs text-gray-500 font-light leading-relaxed">
+                    Intégration de la taxonomie spécifique à la R&amp;D pharmaceutique pour une meilleure qualification des leads.
+                </p>
+</div>
+<div class="bg-white p-8 space-y-4 hover:bg-gray-50 transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-[9px] font-mono text-gray-400 uppercase tracking-widest">Module 03</span>
+<span class="material-symbols-outlined text-sm font-light text-gray-300">north_east</span>
+</div>
+<h4 class="text-lg font-serif italic text-black">Analyse du sentiment multilingue</h4>
+<p class="text-xs text-gray-500 font-light leading-relaxed">
+                    Amélioration de la détection des nuances subtiles dans les échanges de négociation en français et anglais.
+                </p>
+</div>
+<div class="bg-white p-8 space-y-4 hover:bg-gray-50 transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-[9px] font-mono text-gray-400 uppercase tracking-widest">Module 04</span>
+<span class="material-symbols-outlined text-sm font-light text-gray-300">north_east</span>
+</div>
+<h4 class="text-lg font-serif italic text-black">Adaptation contextuelle B2B</h4>
+<p class="text-xs text-gray-500 font-light leading-relaxed">
+                    Ajustement dynamique du ton de l'IA en fonction du niveau hiérarchique de l'interlocuteur détecté.
+                </p>
+</div>
+</div>
+</section>
+<footer class="border-t border-gray-100 pt-16 pb-20">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+<div class="space-y-2">
+<p class="text-[9px] uppercase tracking-widest text-gray-400">Feedback Partenaires</p>
+<p class="text-xl font-serif text-black italic">Excellent (4.9/5)</p>
+</div>
+<div class="space-y-2">
+<p class="text-[9px] uppercase tracking-widest text-gray-400">Erreurs Détectées</p>
+<p class="text-xl font-serif text-black italic">-12% ce mois</p>
+</div>
+<div class="space-y-2">
+<p class="text-[9px] uppercase tracking-widest text-gray-400">Capacité de Traitement</p>
+<p class="text-xl font-serif text-black italic">2.4M tokens/j</p>
+</div>
+</div>
+<div class="mt-20 flex flex-col md:flex-row justify-between items-center gap-6">
+<button class="px-8 py-4 border border-black text-[10px] uppercase tracking-widest font-semibold hover:bg-black hover:text-white transition-all duration-300">
+                Exporter le Rapport Technique
+            </button>
+<div class="flex items-center gap-2 text-gray-400">
+<span class="material-symbols-outlined text-sm font-light">verified_user</span>
+<p class="text-[9px] uppercase tracking-widest">Algorithme Certifié • Audit Q2 2024</p>
+</div>
+</div>
+</footer>
+</main>
+
+</body></html>

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "@/components/layout";
+import { usersService } from "@/services/api.service";
 
 interface Partner {
     id: number;
@@ -14,59 +15,6 @@ interface Partner {
     location: string;
 }
 
-const partners: Partner[] = [
-    {
-        id: 1,
-        name: "Alexandre Dubois",
-        expertise: "Enterprise Sales",
-        tier: "platinum",
-        dealsThisMonth: 8,
-        totalEarnings: 125000,
-        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuBk7aH8l2GEdWsZOaGYs8VOKkNghS5eLYrF5dJKdD0jVDg",
-        location: "Paris, FR",
-    },
-    {
-        id: 2,
-        name: "Marie Laurent",
-        expertise: "SaaS Outbound",
-        tier: "platinum",
-        dealsThisMonth: 6,
-        totalEarnings: 98000,
-        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuCc7N_Xn95NVFbJ_m6JHf9jS2sKqQ8rTvR5wL2mDz1hBN",
-        location: "Lyon, FR",
-    },
-    {
-        id: 3,
-        name: "Thomas Bernard",
-        expertise: "Mid-Market",
-        tier: "gold",
-        dealsThisMonth: 4,
-        totalEarnings: 67000,
-        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuDMflAqpGYir9XOgJftZNEspNP4YhL4rOPhdqw0",
-        location: "Bordeaux, FR",
-    },
-    {
-        id: 4,
-        name: "Sophie Martin",
-        expertise: "FinTech",
-        tier: "gold",
-        dealsThisMonth: 5,
-        totalEarnings: 54000,
-        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuB8jK2lMn3OpQ4rSt5uVw6xYz7Ab8Cd9Ef0Gh1",
-        location: "Marseille, FR",
-    },
-    {
-        id: 5,
-        name: "Lucas Petit",
-        expertise: "Healthcare",
-        tier: "silver",
-        dealsThisMonth: 2,
-        totalEarnings: 28000,
-        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuEi2Jk3Lm4No5Pq6Rs7Tu8Vw9Xy0Za1Bc2Cd",
-        location: "Toulouse, FR",
-    },
-];
-
 const tierColors = {
     platinum: "bg-gray-900 text-white",
     gold: "bg-amber-100 text-amber-700",
@@ -75,6 +23,24 @@ const tierColors = {
 
 export default function PartnersPage() {
     const [searchQuery, setSearchQuery] = useState("");
+    const [partners, setPartners] = useState<Partner[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchPartners = async () => {
+            try {
+                // @ts-ignore
+                const data = await usersService.getPartners();
+                setPartners(data);
+            } catch (error) {
+                console.error("Failed to fetch partners", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPartners();
+    }, []);
 
     const filteredPartners = partners.filter(
         (p) =>

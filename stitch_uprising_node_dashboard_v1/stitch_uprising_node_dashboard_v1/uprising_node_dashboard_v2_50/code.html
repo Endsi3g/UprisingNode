@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uprising Node - Dashboard</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent-gray": "#fafafa",
+                        "border-light": "#f0f0f0",
+                        "border-main": "#e5e5e5",
+                        "text-main": "#1a1a1a",
+                        "text-sub": "#666666"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "6px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+        }
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-feature-settings: "cv11", "ss01";
+        }
+        .sidebar-link.active {
+            @apply border-black text-black;
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex font-sans text-text-main antialiased selection:bg-gray-100 selection:text-black">
+<aside class="w-64 border-r border-gray-100 flex flex-col fixed h-full bg-white z-50">
+<div class="px-8 py-10 flex items-center gap-3">
+<span class="material-symbols-outlined text-2xl font-light">hub</span>
+<h2 class="text-base font-medium tracking-wide font-serif italic">Uprising Node</h2>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="sidebar-link active flex items-center gap-4 px-4 py-3 text-sm font-medium border-l-2 border-black transition-all" href="#">
+<span class="material-symbols-outlined font-light text-xl">dashboard</span>
+<span>Tableau de bord</span>
+</a>
+<a class="sidebar-link flex items-center gap-4 px-4 py-3 text-sm font-medium border-l-2 border-transparent text-gray-400 hover:text-black hover:border-gray-200 transition-all" href="#">
+<span class="material-symbols-outlined font-light text-xl">folder_open</span>
+<span>Ressources</span>
+</a>
+<a class="sidebar-link flex items-center gap-4 px-4 py-3 text-sm font-medium border-l-2 border-transparent text-gray-400 hover:text-black hover:border-gray-200 transition-all" href="#">
+<span class="material-symbols-outlined font-light text-xl">handshake</span>
+<span>Partenaires</span>
+</a>
+<a class="sidebar-link flex items-center gap-4 px-4 py-3 text-sm font-medium border-l-2 border-transparent text-gray-400 hover:text-black hover:border-gray-200 transition-all" href="#">
+<span class="material-symbols-outlined font-light text-xl">payments</span>
+<span>Commissions</span>
+</a>
+</nav>
+<div class="p-8 border-t border-gray-100">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover grayscale size-8 rounded-full border border-gray-100" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCWMHu3cdC7YzS7ePUZB3zUzeU2mFFCUmWXNdHiCHh_Z6PRJ_80Ytb-tIwWMtp1C0VI3aulxvMFbg3oT_ixe_a_vkrooCwvnu8hg19VvC-tqiA5i3AQ1UBsrBP0-N6QHtzDapkPN21UmDlFgq1SUK1ndRi7MH5K8mfdeCQhxO-EEqhtOqnNx5vfSZc_6w8HyrBDYJP79lSn2cecmXKNOObzVhkfDHquPYMiz7QzwkKzhGvvjAdH4JQ714k7fcOw2tnhUB9ewuanvfUa");'></div>
+<div class="overflow-hidden">
+<p class="text-[10px] font-semibold uppercase text-gray-400 tracking-widest leading-none mb-1">K. Miller</p>
+<p class="text-[9px] text-gray-400 truncate">kmiller@uprising.node</p>
+</div>
+</div>
+</div>
+</aside>
+<div class="flex-1 ml-64 flex flex-col min-h-screen">
+<div class="w-full bg-gray-50 border-b border-gray-100 py-3 px-12">
+<div class="max-w-6xl mx-auto flex items-center justify-center gap-3">
+<span class="animate-pulse w-1.5 h-1.5 rounded-full bg-black"></span>
+<p class="text-[11px] font-medium uppercase tracking-[0.2em] text-gray-500">
+                Premier lead en cours d'analyse stratégique
+            </p>
+</div>
+</div>
+<main class="flex-1 w-full max-w-6xl mx-auto px-12 py-16 space-y-20">
+<header class="flex justify-between items-end">
+<div class="space-y-4">
+<h1 class="text-4xl font-serif font-normal text-black tracking-tight">
+                    Dashboard
+                </h1>
+<p class="text-gray-400 font-sans text-[10px] uppercase tracking-[0.2em]">
+                    Bienvenue dans le réseau Uprising
+                </p>
+</div>
+<div class="flex items-center gap-12 border-l border-gray-100 pl-12">
+<div class="text-right">
+<p class="text-[9px] font-semibold uppercase text-gray-400 tracking-widest mb-1">Status du Compte</p>
+<p class="text-xs font-medium text-black uppercase tracking-wider">Actif / Vérifié</p>
+</div>
+</div>
+</header>
+<section class="space-y-6">
+<h3 class="text-xs font-semibold uppercase tracking-widest text-gray-400">Suivi des Commissions</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-y border-gray-100 py-8">
+<div class="space-y-1">
+<p class="text-[10px] text-gray-400 uppercase tracking-widest">Gains Accumulés</p>
+<p class="text-4xl font-serif text-gray-300">0.00 $</p>
+</div>
+<div class="space-y-1 border-l border-gray-100 pl-8">
+<p class="text-[10px] text-black uppercase tracking-widest font-semibold flex items-center gap-2">
+                        Gains Potentiels 
+                        <span class="material-symbols-outlined text-[14px] text-gray-300">info</span>
+</p>
+<p class="text-4xl font-serif text-black">1 450.00 $</p>
+<p class="text-[10px] text-gray-400 italic font-light">Basé sur les opportunités actives</p>
+</div>
+</div>
+</section>
+<section class="space-y-8">
+<div class="flex justify-between items-center border-b border-gray-100 pb-4">
+<h3 class="text-xs font-semibold uppercase tracking-widest text-gray-400">Pipeline Actif (1)</h3>
+<button class="text-[10px] uppercase tracking-widest text-black hover:opacity-60 transition-opacity border-b border-black/20 pb-0.5">Voir tout</button>
+</div>
+<div class="group relative bg-white border border-gray-100 hover:border-black transition-colors duration-500 overflow-hidden">
+<div class="flex items-center justify-between p-8">
+<div class="flex items-center gap-10">
+<div class="space-y-1">
+<p class="text-[9px] text-gray-400 uppercase tracking-widest">Entreprise</p>
+<h4 class="text-2xl font-serif text-black">Cyberdyne Systems</h4>
+</div>
+<div class="h-10 w-px bg-gray-100"></div>
+<div class="space-y-1">
+<p class="text-[9px] text-gray-400 uppercase tracking-widest text-center">État</p>
+<span class="inline-block px-3 py-1 bg-black text-white text-[9px] font-semibold tracking-widest uppercase">
+                                Analyse
+                            </span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="text-right">
+<p class="text-[9px] text-gray-400 uppercase tracking-widest mb-1">Salle de Guerre</p>
+<button class="flex items-center gap-2 text-gray-300 cursor-not-allowed group-hover:text-gray-400 transition-colors">
+<span class="material-symbols-outlined text-sm font-light">hourglass_empty</span>
+<span class="text-[10px] uppercase tracking-widest">Bientôt disponible</span>
+</button>
+</div>
+<button class="size-12 rounded-full border border-gray-100 flex items-center justify-center hover:bg-black hover:text-white transition-all duration-300">
+<span class="material-symbols-outlined font-light">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="bg-gray-50/50 px-8 py-3 flex items-center gap-8 border-t border-gray-50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-gray-400">schedule</span>
+<span class="text-[9px] text-gray-400 uppercase tracking-widest">Soumis il y a 2h</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-gray-400">shield</span>
+<span class="text-[9px] text-gray-400 uppercase tracking-widest">Score de risque : En attente</span>
+</div>
+</div>
+</div>
+</section>
+<section class="grid grid-cols-1 md:grid-cols-3 gap-12 pt-10">
+<div class="space-y-4 group cursor-pointer">
+<div class="h-12 w-12 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100 group-hover:bg-black group-hover:text-white transition-colors duration-500">
+<span class="material-symbols-outlined font-light">add</span>
+</div>
+<div class="space-y-1">
+<h5 class="text-sm font-serif font-medium">Nouveau Lead</h5>
+<p class="text-[10px] text-gray-400 font-light leading-relaxed">Soumettez une nouvelle opportunité stratégique à notre équipe.</p>
+</div>
+</div>
+<div class="space-y-4 group cursor-pointer">
+<div class="h-12 w-12 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100 group-hover:bg-black group-hover:text-white transition-colors duration-500">
+<span class="material-symbols-outlined font-light">auto_stories</span>
+</div>
+<div class="space-y-1">
+<h5 class="text-sm font-serif font-medium">Formation Lindy</h5>
+<p class="text-[10px] text-gray-400 font-light leading-relaxed">Consultez nos standards de qualité pour maximiser vos gains.</p>
+</div>
+</div>
+<div class="space-y-4 group cursor-pointer">
+<div class="h-12 w-12 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100 group-hover:bg-black group-hover:text-white transition-colors duration-500">
+<span class="material-symbols-outlined font-light">chat_bubble_outline</span>
+</div>
+<div class="space-y-1">
+<h5 class="text-sm font-serif font-medium">Assistance Directe</h5>
+<p class="text-[10px] text-gray-400 font-light leading-relaxed">Contactez votre chargé de compte dédié pour toute question.</p>
+</div>
+</div>
+</section>
+</main>
+</div>
+
+</body></html>

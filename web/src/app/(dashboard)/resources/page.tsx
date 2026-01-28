@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "@/components/layout";
+import { resourcesService } from "@/services/api.service";
 
 type ResourceCategory = "all" | "scripts" | "strategies" | "marketing" | "legal";
 
@@ -16,63 +17,6 @@ interface Resource {
     description: string;
 }
 
-const resources: Resource[] = [
-    {
-        id: 1,
-        title: "Script d'Ouverture Cold Call v3.1",
-        category: "scripts",
-        type: "PDF",
-        size: "245 KB",
-        updated: "Mise à jour il y a 2 jours",
-        description: "Script optimisé pour les premiers contacts téléphoniques",
-    },
-    {
-        id: 2,
-        title: "Traitement Objection Prix",
-        category: "scripts",
-        type: "PDF",
-        size: "182 KB",
-        updated: "Mise à jour il y a 1 semaine",
-        description: "Réponses structurées aux objections liées au budget",
-    },
-    {
-        id: 3,
-        title: "Deck Présentation Corporate",
-        category: "marketing",
-        type: "PPTX",
-        size: "4.2 MB",
-        updated: "Mise à jour il y a 3 jours",
-        description: "Présentation officielle Uprising Node pour prospects",
-    },
-    {
-        id: 4,
-        title: "One-Pager Services",
-        category: "marketing",
-        type: "PDF",
-        size: "520 KB",
-        updated: "Mise à jour il y a 5 jours",
-        description: "Résumé exécutif des services et tarification",
-    },
-    {
-        id: 5,
-        title: "Framework Closing Enterprise",
-        category: "strategies",
-        type: "PDF",
-        size: "890 KB",
-        updated: "Mise à jour il y a 10 jours",
-        description: "Méthodologie de closing pour comptes stratégiques",
-    },
-    {
-        id: 6,
-        title: "Contrat Partenariat Type",
-        category: "legal",
-        type: "DOCX",
-        size: "156 KB",
-        updated: "Mise à jour il y a 2 semaines",
-        description: "Template de contrat partenaire standard",
-    },
-];
-
 const categories = [
     { id: "all" as const, label: "Tous", icon: "apps" },
     { id: "scripts" as const, label: "Scripts", icon: "description" },
@@ -84,6 +28,35 @@ const categories = [
 export default function ResourcesPage() {
     const [activeCategory, setActiveCategory] = useState<ResourceCategory>("all");
     const [searchQuery, setSearchQuery] = useState("");
+    const [resources, setResources] = useState<Resource[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchResources = async () => {
+            try {
+                const data = await resourcesService.getAll();
+                // Map API data to UI structure if needed, or assume DTO matches
+                // For now assuming API returns compatible structure but mapping just in case
+                const mappedData = data.map((r: any) => ({
+                    id: r.id,
+                    title: r.title,
+                    category: r.category as ResourceCategory,
+                    type: r.type,
+                    size: r.size || 'Unknown',
+                    updated: new Date(r.updatedAt).toLocaleDateString('fr-FR', { relativeTimeFormat: 'auto' } as any), // Simple formatted date
+                    description: r.description
+                }));
+                setResources(mappedData);
+            } catch (error) {
+                console.error("Failed to load resources", error);
+                // toast.error("Erreur lors du chargement des ressources");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchResources();
+    }, []);
 
     const filteredResources = resources.filter((r) => {
         const matchesCategory = activeCategory === "all" || r.category === activeCategory;
@@ -131,8 +104,8 @@ export default function ResourcesPage() {
                                 key={cat.id}
                                 onClick={() => setActiveCategory(cat.id)}
                                 className={`px-4 py-2 text-[10px] font-medium uppercase tracking-widest whitespace-nowrap transition-all duration-200 flex items-center gap-2 ${activeCategory === cat.id
-                                        ? "bg-black text-white"
-                                        : "text-gray-400 hover:text-black hover:bg-gray-50"
+                                    ? "bg-black text-white"
+                                    : "text-gray-400 hover:text-black hover:bg-gray-50"
                                     }`}
                             >
                                 <span className="material-symbols-outlined text-sm">
