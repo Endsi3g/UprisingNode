@@ -18,6 +18,11 @@ export class LeadsController {
         return this.leadsService.findAll(req.user.userId);
     }
 
+    @Get('stats')
+    getStats(@Request() req) {
+        return this.leadsService.getStats(req.user.userId);
+    }
+
     @Get(':id')
     findOne(@Request() req, @Param('id') id: string) {
         return this.leadsService.findOne(req.user.userId, id);
