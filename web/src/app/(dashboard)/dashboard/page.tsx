@@ -18,6 +18,7 @@ interface DashboardStats {
 export default function DashboardPage() {
     const [leadUrl, setLeadUrl] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [stats, setStats] = useState<DashboardStats>({
         currentBalance: 0,
         targetBalance: 15000,
@@ -34,6 +35,8 @@ export default function DashboardPage() {
                 setStats(data);
             } catch (error) {
                 console.error("Failed to fetch stats", error);
+            } finally {
+                setIsLoading(false);
             }
         };
         fetchStats();
@@ -136,12 +139,21 @@ export default function DashboardPage() {
                                 Suivi des Commissions
                             </h3>
                             <div className="text-right flex items-baseline gap-2">
-                                <span className="text-2xl font-serif text-black font-normal">
-                                    {stats.currentBalance.toLocaleString("fr-FR")} $
-                                </span>
-                                <span className="text-xs font-light text-gray-400">
-                                    / {stats.targetBalance.toLocaleString("fr-FR")} $
-                                </span>
+                                {isLoading ? (
+                                    <div className="flex items-center gap-2">
+                                        <div className="h-8 w-24 bg-gray-100 animate-pulse rounded" />
+                                        <div className="h-4 w-16 bg-gray-100 animate-pulse rounded" />
+                                    </div>
+                                ) : (
+                                    <>
+                                        <span className="text-2xl font-serif text-black font-normal">
+                                            {stats.currentBalance.toLocaleString("fr-FR")} $
+                                        </span>
+                                        <span className="text-xs font-light text-gray-400">
+                                            / {stats.targetBalance.toLocaleString("fr-FR")} $
+                                        </span>
+                                    </>
+                                )}
                             </div>
                         </div>
 
@@ -165,25 +177,41 @@ export default function DashboardPage() {
                         <p className="text-[9px] font-semibold uppercase tracking-widest text-gray-400 mb-2">
                             Leads Actifs
                         </p>
-                        <p className="text-3xl font-serif text-black">{stats.activeLeads}</p>
+                        {isLoading ? (
+                            <div className="h-9 w-12 bg-gray-100 animate-pulse rounded" />
+                        ) : (
+                            <p className="text-3xl font-serif text-black">{stats.activeLeads}</p>
+                        )}
                     </div>
                     <div className="p-6 border border-gray-100 hover:border-black transition-colors cursor-pointer">
                         <p className="text-[9px] font-semibold uppercase tracking-widest text-gray-400 mb-2">
                             En Audit
                         </p>
-                        <p className="text-3xl font-serif text-black">{stats.inAudit}</p>
+                        {isLoading ? (
+                            <div className="h-9 w-12 bg-gray-100 animate-pulse rounded" />
+                        ) : (
+                            <p className="text-3xl font-serif text-black">{stats.inAudit}</p>
+                        )}
                     </div>
                     <div className="p-6 border border-gray-100 hover:border-black transition-colors cursor-pointer">
                         <p className="text-[9px] font-semibold uppercase tracking-widest text-gray-400 mb-2">
                             Deals Signés
                         </p>
-                        <p className="text-3xl font-serif text-black">{stats.signedDeals}</p>
+                        {isLoading ? (
+                            <div className="h-9 w-12 bg-gray-100 animate-pulse rounded" />
+                        ) : (
+                            <p className="text-3xl font-serif text-black">{stats.signedDeals}</p>
+                        )}
                     </div>
                     <div className="p-6 border border-gray-100 hover:border-black transition-colors cursor-pointer">
                         <p className="text-[9px] font-semibold uppercase tracking-widest text-gray-400 mb-2">
                             Ce Mois
                         </p>
-                        <p className="text-3xl font-serif text-black">+{stats.monthlyGrowth}%</p>
+                        {isLoading ? (
+                            <div className="h-9 w-20 bg-gray-100 animate-pulse rounded" />
+                        ) : (
+                            <p className="text-3xl font-serif text-black">+{stats.monthlyGrowth}%</p>
+                        )}
                     </div>
                 </section>
 
