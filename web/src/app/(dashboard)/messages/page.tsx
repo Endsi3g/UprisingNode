@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Header } from "@/components/layout";
 
 interface Message {
     id: number;
@@ -67,7 +66,6 @@ export default function MessagesPage() {
 
     return (
         <div className="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
-            <Header userName="K. Miller" userRole="Opérateur" />
 
             <main className="flex-1 w-full max-w-5xl mx-auto flex flex-col md:flex-row">
                 {/* Conversation List */}

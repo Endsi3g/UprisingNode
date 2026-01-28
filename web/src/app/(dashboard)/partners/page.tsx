@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Header } from "@/components/layout";
 
 interface Partner {
     id: number;
@@ -84,7 +83,6 @@ export default function PartnersPage() {
 
     return (
         <div className="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
-            <Header userName="K. Miller" userRole="Opérateur" />
 
             <main className="flex-1 w-full max-w-5xl mx-auto px-6 py-16 md:py-24 flex flex-col gap-12">
                 {/* Page Header */}

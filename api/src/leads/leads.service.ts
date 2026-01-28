@@ -48,4 +48,25 @@ export class LeadsService {
             where: { id },
         });
     }
+
+    async getStats(userId: string) {
+        const leads = await this.prisma.lead.findMany({
+            where: { ownerId: userId },
+        });
+
+        const transactions = await this.prisma.transaction.findMany({
+            where: { userId },
+        });
+
+        const currentBalance = transactions.reduce((sum, t) => sum + t.amount, 0);
+
+        return {
+            currentBalance,
+            targetBalance: 15000, // Hardcoded goal
+            activeLeads: leads.filter((l) => l.status !== 'SIGNED').length,
+            inAudit: leads.filter((l) => l.status === 'AUDIT').length,
+            signedDeals: leads.filter((l) => l.status === 'SIGNED').length,
+            monthlyGrowth: 12.5, // Mock calculation
+        };
+    }
 }

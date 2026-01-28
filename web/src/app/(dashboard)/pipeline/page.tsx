@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Header } from "@/components/layout";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 // Mock Data
@@ -68,7 +67,6 @@ export default function PipelinePage() {
 
     return (
         <div className="bg-white min-h-screen flex flex-col font-sans text-text-main">
-            <Header userName="K. Miller" userRole="Opérateur" />
 
             <main className="flex-1 p-6 overflow-x-auto">
                 <div className="min-w-[1000px] h-full">

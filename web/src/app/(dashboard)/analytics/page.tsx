@@ -1,12 +1,10 @@
 "use client";
 
-import { Header } from "@/components/layout";
 import { DataCard, Card } from "@/components/ui";
 
 export default function AnalyticsPage() {
     return (
         <div className="bg-white min-h-screen flex flex-col font-sans text-text-main">
-            <Header userName="K. Miller" userRole="Opérateur" />
 
             <main className="flex-1 max-w-7xl mx-auto w-full p-6 space-y-8">
                 <h1 className="text-3xl font-serif text-black">Performance & ROI</h1>

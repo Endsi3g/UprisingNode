@@ -65,20 +65,8 @@ export const leadsService = {
     },
 
     getStats: async () => {
-        // Mock response if backend endpoint isn't ready
-        // In a real scenario, this would be: const response = await api.get('/leads/stats'); return response.data;
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve({
-                    currentBalance: 12450,
-                    targetBalance: 15000,
-                    activeLeads: 7,
-                    inAudit: 3,
-                    signedDeals: 12,
-                    monthlyGrowth: 18
-                });
-            }, 500);
-        });
+        const response = await api.get('/leads/stats');
+        return response.data;
     },
 
     getAll: async () => {

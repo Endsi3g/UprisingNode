@@ -1,13 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { Header } from "@/components/layout";
 import { DataCard, Card, Button } from "@/components/ui";
 
 export default function DeveloperDashboardPage() {
     return (
         <div className="bg-white min-h-screen flex flex-col font-sans text-text-main">
-            <Header userName="K. Miller" userRole="Opérateur" />
 
             <main className="flex-1 max-w-7xl mx-auto w-full p-6 space-y-8">
                 <div className="flex justify-between items-center">
