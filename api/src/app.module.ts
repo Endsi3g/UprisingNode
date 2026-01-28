@@ -11,8 +11,15 @@ import { ScraperController } from './scraper/scraper.controller';
 import { EventsModule } from './events/events.module';
 
 @Module({
-  imports: [AuthModule, PrismaModule, LeadsModule, TransactionsModule, UsersModule, EventsModule],
+  imports: [
+    AuthModule,
+    PrismaModule,
+    LeadsModule,
+    TransactionsModule,
+    UsersModule,
+    EventsModule,
+  ],
   controllers: [AppController, ScraperController],
   providers: [AppService, ScraperService],
 })
-export class AppModule { }
+export class AppModule {}

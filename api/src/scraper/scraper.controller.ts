@@ -3,13 +3,13 @@ import { ScraperService } from './scraper.service';
 
 @Controller('scraper')
 export class ScraperController {
-    constructor(private readonly scraperService: ScraperService) { }
+  constructor(private readonly scraperService: ScraperService) {}
 
-    @Post('company')
-    async scrapeCompany(@Body('url') url: string) {
-        if (!url) {
-            throw new BadRequestException('URL is required');
-        }
-        return this.scraperService.scrapeCompany(url);
+  @Post('company')
+  async scrapeCompany(@Body('url') url: string) {
+    if (!url) {
+      throw new BadRequestException('URL is required');
     }
+    return this.scraperService.scrapeCompany(url);
+  }
 }
