@@ -6,10 +6,9 @@ import { PrismaModule } from './prisma/prisma.module';
 import { LeadsModule } from './leads/leads.module';
 import { TransactionsModule } from './transactions/transactions.module';
 import { UsersModule } from './users/users.module';
-import { ScraperService } from './scraper/scraper.service';
-import { ScraperController } from './scraper/scraper.controller';
 import { EventsModule } from './events/events.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { ScraperModule } from './scraper/scraper.module';
 import { ConfigModule } from '@nestjs/config';
 import { ResourcesModule } from './resources/resources.module';
 
@@ -24,6 +23,7 @@ import { ResourcesModule } from './resources/resources.module';
     EventsModule,
     DashboardModule,
     ResourcesModule,
+    ScraperModule,
   ],
   controllers: [AppController],
   providers: [AppService],
