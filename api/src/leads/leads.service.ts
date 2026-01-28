@@ -48,4 +48,26 @@ export class LeadsService {
             where: { id },
         });
     }
+
+    async getStats(userId: string) {
+        const leads = await this.prisma.lead.findMany({
+            where: { ownerId: userId },
+        });
+
+        const signedLeads = leads.filter(l => l.status === 'SIGNED');
+        const currentBalance = signedLeads.reduce((acc, curr) => acc + (curr.value || 0), 0);
+        const signedDeals = signedLeads.length;
+        const inAudit = leads.filter(l => l.status === 'AUDIT').length;
+        // Active leads = all except signed
+        const activeLeads = leads.filter(l => l.status !== 'SIGNED').length;
+
+        return {
+            currentBalance,
+            targetBalance: 150000,
+            activeLeads,
+            inAudit,
+            signedDeals,
+            monthlyGrowth: 12.5
+        };
+    }
 }

@@ -13,6 +13,11 @@ export class LeadsController {
         return this.leadsService.create(req.user.userId, createLeadDto);
     }
 
+    @Get('stats')
+    getStats(@Request() req) {
+        return this.leadsService.getStats(req.user.userId);
+    }
+
     @Get()
     findAll(@Request() req) {
         return this.leadsService.findAll(req.user.userId);

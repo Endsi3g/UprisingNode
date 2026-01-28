@@ -28,6 +28,7 @@ model Lead {
   companyName   String?
   status        String   @default("PROSPECT")
   score         Int?
+  value         Float?
   industry      String?
   analysis      String?    // Stored as JSON string
   ownerId       String
