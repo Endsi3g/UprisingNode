@@ -5,6 +5,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Header } from "@/components/layout";
 import { Button } from "@/components/ui";
+import { transactionsService } from "@/services/api.service";
+import { toast } from "sonner";
 
 export default function TransferPage() {
     const router = useRouter();
@@ -20,11 +22,19 @@ export default function TransferPage() {
 
         setIsSubmitting(true);
 
-        // TODO: Submit to API
-        setTimeout(() => {
-            setIsSubmitting(false);
+        try {
+            await transactionsService.create(
+                parseFloat(amount),
+                "WITHDRAWAL",
+                "Demande de retrait"
+            );
             setSubmitted(true);
-        }, 2000);
+        } catch (error) {
+            console.error("Transfer failed", error);
+            toast.error("Échec de la demande de virement. Veuillez réessayer.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     if (submitted) {
