@@ -4,48 +4,48 @@ import { CreateLeadDto, UpdateLeadDto } from './dto/lead.dto';
 
 @Injectable()
 export class LeadsService {
-    constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
-    async create(userId: string, dto: CreateLeadDto) {
-        return this.prisma.lead.create({
-            data: {
-                ...dto,
-                ownerId: userId,
-                status: 'PROSPECT',
-                score: Math.floor(Math.random() * 100), // Mock AI score
-            },
-        });
-    }
+  async create(userId: string, dto: CreateLeadDto) {
+    return this.prisma.lead.create({
+      data: {
+        ...dto,
+        ownerId: userId,
+        status: 'PROSPECT',
+        score: Math.floor(Math.random() * 100), // Mock AI score
+      },
+    });
+  }
 
-    async findAll(userId: string) {
-        return this.prisma.lead.findMany({
-            where: { ownerId: userId },
-            orderBy: { createdAt: 'desc' },
-        });
-    }
+  async findAll(userId: string) {
+    return this.prisma.lead.findMany({
+      where: { ownerId: userId },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
 
-    async findOne(userId: string, id: string) {
-        const lead = await this.prisma.lead.findFirst({
-            where: { id, ownerId: userId },
-        });
-        if (!lead) throw new NotFoundException('Lead not found');
-        return lead;
-    }
+  async findOne(userId: string, id: string) {
+    const lead = await this.prisma.lead.findFirst({
+      where: { id, ownerId: userId },
+    });
+    if (!lead) throw new NotFoundException('Lead not found');
+    return lead;
+  }
 
-    async update(userId: string, id: string, dto: UpdateLeadDto) {
-        // Verify ownership
-        await this.findOne(userId, id);
-        return this.prisma.lead.update({
-            where: { id },
-            data: dto,
-        });
-    }
+  async update(userId: string, id: string, dto: UpdateLeadDto) {
+    // Verify ownership
+    await this.findOne(userId, id);
+    return this.prisma.lead.update({
+      where: { id },
+      data: dto,
+    });
+  }
 
-    async remove(userId: string, id: string) {
-        // Verify ownership
-        await this.findOne(userId, id);
-        return this.prisma.lead.delete({
-            where: { id },
-        });
-    }
+  async remove(userId: string, id: string) {
+    // Verify ownership
+    await this.findOne(userId, id);
+    return this.prisma.lead.delete({
+      where: { id },
+    });
+  }
 }
