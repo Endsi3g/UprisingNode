@@ -2,120 +2,126 @@
 
 > **Infrastructure de Domination Commerciale & Partenariat Stratégique**
 
-Bienvenue sur le dépôt officiel du **Portail Partenaire Uprising Node**. Cette plateforme est la tour de contrôle centrale pour nos partenaires d'élite, conçue pour orchestrer, suivre et amplifier les opérations commerciales B2B à haute fréquence.
-
-![Uprising Node Dashboard](https://placehold.co/1200x600/000000/FFF?text=UPRISING+NODE+INTERFACE)
+Bienvenue sur le dépôt officiel du **Portail Partenaire Uprising Node**. Cette plateforme est la tour de contrôle centrale pour nos partenaires d'élite.
 
 ---
 
 ## ⚡ Architecture & Stack Technique
 
-Construit pour la performance, la sécurité et une expérience utilisateur sans friction (Zero-Friction UX).
+**Frontend (Web)**
+- **Framework** : Next.js 16 (App Router)
+- **Styling** : Tailwind CSS v4.0 + Shadcn/UI
+- **State** : React Hooks + Context
+- **Deployment** : Vercel / Netlify
 
-- **Frontend Core** : [Next.js 16](https://nextjs.org/) (App Router)
-- **Langage** : TypeScript (Strict Mode)
-- **Styling** : [Tailwind CSS v4.0](https://tailwindcss.com/)
-- **UI Library** : [Shadcn/UI](https://ui.shadcn.com/) + [Tremor](https://www.tremor.so/) + [Aceternity](https://ui.aceternity.com/)
-- **Motion** : Motion (fka Framer Motion)
-- **Backend** : NestJS (API REST) + PostgreSQL
-- **Fonts** : SF Pro Display (System) & Agmena Pro (Serif)
-
----
-
-## 🚀 Fonctionnalités Clés
-
-### 1. Tableau de Bord Unifié
-
-Une vue d'aigle sur vos performances. Métriques en temps réel, graphiques d'évolution et indicateurs clés de performance (KPIs) pour un pilotage précis.
-
-### 2. Navigation Hybride
-
-- **Sidebar Classique** : Pour une navigation structurelle et rapide.
-- **Floating Dock (Nouveau)** : Interface immersive style MacOS pour un accès fluide aux outils critiques (activable dans les paramètres).
-
-### 3. Simulation de Gains
-
-Calculez vos projections financières instantanément. Ajustez les variables (TJM, Jours vendus, Commission) et visualisez votre potentiel de revenus.
-
-### 4. Ressources Stratégiques (War Room)
-
-Accès direct aux actifs de vente :
-
-- **Dossier Stratégique (PDF interactif)** : Rapports d'audit et analyses de surface.
-- **Scripts de Vente** : Protocoles de closing et traitement des objections.
-- **Documentation** : Guides techniques et procédures opérationnelles.
-
-### 5. Collaboration d'Équipe
-
-Gérez votre escouade. Ajoutez des membres, définissez les rôles et configurez les notifications pour rester synchronisé sur chaque opportunité.
+**Backend (API)**
+- **Framework** : NestJS (API REST)
+- **Database** : SQLite (via Prisma ORM)
+- **Authentication** : JWT (Global Guard)
+- **Validation** : Class-Validator + Global Pipes
 
 ---
 
-## 🛠 Installation & Démarrage (Monorepo)
+## 🛠 Installation & Démarrage
 
-### Prérequis
+Ce projet est un Monorepo géré par `pnpm`.
 
-- **Node.js 20+** (Recommandé)
-- **pnpm** (Gestionnaire de paquets principal)
+### 1. Prérequis
 
-### 1. Installation
+- Node.js 20+
+- pnpm (`npm install -g pnpm`)
 
-Installez toutes les dépendances (API + Web) depuis la racine :
+### 2. Installation
+
+Installez les dépendances à la racine :
 
 ```bash
 pnpm install
 ```
 
-### 2. Démarrage Rapide (Tout-en-un)
+### 3. Configuration
 
-Lancez le Frontend (Next.js) et le Backend (NestJS) avec une seule commande :
+Le backend utilise SQLite par défaut (`api/prisma/dev.db`). Aucune configuration complexe n'est requise pour la base de données en développement.
+
+Pour la sécurité, vous pouvez créer un fichier `.env` dans `api/`:
+
+```env
+JWT_SECRET=votre_secret_tres_long
+PORT=3000
+```
+
+### 4. Démarrage (Dev)
+
+Lancez tout le projet (API + Web) en une commande :
 
 ```bash
-npm run dev
-# ou
 pnpm dev
 ```
 
-- **Web App** : `http://localhost:3000`
-- **API** : `http://localhost:3001`
+- **Web App** : `http://localhost:3001`
+- **API** : `http://localhost:3000`
+
+---
+
+## 📚 API Documentation
+
+### Authentification
+
+- `POST /auth/register` : Créer un compte.
+  - Body: `{ email, password, name }`
+- `POST /auth/login` : Se connecter.
+  - Body: `{ email, password }`
+  - Response: `{ access_token, user }`
+
+### Leads
+
+- `GET /leads` : Liste des leads de l'utilisateur.
+- `POST /leads` : Créer un nouveau lead.
+  - Body: `{ url }`
+- `GET /leads/stats` : Statistiques agrégées (Balance, Leads Actifs, Croissance).
 
 ---
 
 ## 🚀 Déploiement
 
-### Frontend (Netlify / Vercel)
+### Backend (Docker / VPS)
 
-Le dossier `web` est une application Next.js standard.
+Le backend est une application NestJS standard.
 
-- **Netlify** : Connectez votre repo GitHub, pointez sur le dossier `web`.
-- **Vercel** : Créez un nouveau projet, sélectionnez le dossier `web`.
+1. **Build** : `pnpm --filter api build`
+2. **Prisma** : `cd api && npx prisma migrate deploy`
+3. **Start** : `node dist/main`
 
-### Backend (Vercel / Cloud)
+**Docker** :
 
-L'API est configurée pour fonctionner en Serverless ou Standalone.
+```dockerfile
+FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+COPY api/package*.json ./api/
+RUN pnpm install --prod
+COPY api ./api
+RUN cd api && npx prisma generate && pnpm build
+CMD ["node", "api/dist/main"]
+```
 
-- **Vercel** : Le fichier `vercel.json` à la racine gère la redirection vers l'API.
-- **Docker** : Un `Dockerfile` est disponible pour un déploiement classique.
+### Frontend (Vercel)
+
+1. Connectez votre dépôt Git à Vercel.
+2. Configurez le **Root Directory** sur `web`.
+3. Ajoutez les variables d'environnement :
+   - `NEXT_PUBLIC_API_URL` : URL de votre backend déployé (ex: `https://api.example.com`).
 
 ---
 
-## 🎨 Design System
+## 🧪 Tests
 
-**Uprising Node** utilise une esthétique "Lindy" minimaliste et autoritaire.
+Le projet inclut des tests unitaires pour le backend.
 
-- **Typographie** :
-  - *Titres* : `SF Pro Display Bold` (Impact, Modernité)
-  - *Corps* : `SF Pro Display Regular` (Lisibilité, Neutralité)
-  - *Accents* : `Agmena Pro SemiBold` (Élégance, Autorité)
-- **Couleurs** : Strictement Monochrome (Noir, Blanc, Gris de sécurité).
-
----
-
-## 🔒 Sécurité
-
-- Authentification 2FA prête.
-- Logs d'activité détaillés.
-- Gestion des sessions sécurisée.
+```bash
+cd api
+pnpm test
+```
 
 ---
 

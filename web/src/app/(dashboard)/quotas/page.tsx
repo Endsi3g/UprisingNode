@@ -1,12 +1,10 @@
 "use client";
 
-import { Header } from "@/components/layout";
 import { Card, Button } from "@/components/ui";
 
 export default function QuotasPage() {
     return (
         <div className="bg-white min-h-screen flex flex-col font-sans text-text-main">
-            <Header userName="K. Miller" userRole="Opérateur" />
 
             <main className="flex-1 max-w-4xl mx-auto w-full p-6 space-y-8">
                 <h1 className="text-3xl font-serif text-black">Quotas & Limites</h1>

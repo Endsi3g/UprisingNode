@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Header } from "@/components/layout";
 import { Button } from "@/components/ui";
 
 export default function TransferPage() {
@@ -30,7 +29,6 @@ export default function TransferPage() {
     if (submitted) {
         return (
             <div className="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased">
-                <Header userName="K. Miller" userRole="Opérateur" />
                 <main className="flex-1 w-full max-w-md mx-auto px-6 py-24 flex flex-col items-center justify-center gap-8 text-center">
                     <div className="w-12 h-12 rounded-full border-2 border-black flex items-center justify-center">
                         <span className="material-symbols-outlined text-2xl">check</span>
@@ -67,7 +65,6 @@ export default function TransferPage() {
 
     return (
         <div className="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
-            <Header userName="K. Miller" userRole="Opérateur" />
 
             <main className="flex-1 w-full max-w-lg mx-auto px-6 py-16 md:py-24 flex flex-col gap-12">
                 {/* Back Link */}

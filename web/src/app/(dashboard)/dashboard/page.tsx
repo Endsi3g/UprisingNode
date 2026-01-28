@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Header } from "@/components/layout";
 import { Button } from "@/components/ui";
 import { leadsService } from "@/services/api.service";
 
@@ -59,9 +58,7 @@ export default function DashboardPage() {
     };
 
     return (
-        <div className="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
-            <Header userName="K. Miller" userRole="Opérateur" />
-
+        <div className="bg-white flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
             <main className="flex-1 w-full max-w-4xl mx-auto px-6 py-16 md:py-24 flex flex-col gap-20">
                 {/* Lead Drop Section */}
                 <section className="flex flex-col gap-8 items-center w-full max-w-2xl mx-auto">

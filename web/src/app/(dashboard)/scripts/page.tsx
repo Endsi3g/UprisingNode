@@ -1,6 +1,5 @@
 "use client";
 
-import { Header } from "@/components/layout";
 import { Button, Card } from "@/components/ui";
 
 const scripts = [
@@ -30,7 +29,6 @@ const scripts = [
 export default function ScriptsPage() {
     return (
         <div className="bg-white min-h-screen flex flex-col font-sans text-text-main">
-            <Header userName="K. Miller" userRole="Opérateur" />
 
             <main className="flex-1 max-w-5xl mx-auto w-full p-6 space-y-8">
                 <div className="flex justify-between items-center">
