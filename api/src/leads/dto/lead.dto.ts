@@ -11,6 +11,10 @@ export class CreateLeadDto {
     @IsString()
     @IsOptional()
     industry?: string;
+
+    @IsInt()
+    @IsOptional()
+    value?: number;
 }
 
 export class UpdateLeadDto {
@@ -21,6 +25,10 @@ export class UpdateLeadDto {
     @IsInt()
     @IsOptional()
     score?: number;
+
+    @IsInt()
+    @IsOptional()
+    value?: number;
 
     @IsString()
     @IsOptional()

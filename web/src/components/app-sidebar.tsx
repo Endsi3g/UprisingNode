@@ -63,6 +63,10 @@ const data = {
         {
           title: "Dépôt de Lead",
           url: "/dashboard",
+        },
+        {
+          title: "Pipeline",
+          url: "/pipeline",
         }
       ]
     },

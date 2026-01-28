@@ -1,46 +1,88 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "@/components/layout";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import { leadsService } from "@/services/api.service";
+import { toast } from "sonner";
 
-// Mock Data
+// Define Types
+interface Lead {
+    id: string;
+    companyName?: string;
+    url: string;
+    score?: number;
+    value?: number;
+    status: string;
+}
+
 const initialColumns = {
-    prospect: {
-        id: "prospect",
+    PROSPECT: {
+        id: "PROSPECT",
         title: "Prospect",
-        items: [
-            { id: "lead-1", content: "DataFlow Industries", score: 87, value: "15k" },
-            { id: "lead-2", content: "TechCorp SA", score: 45, value: "8k" },
-        ],
+        items: [] as Lead[],
     },
-    audit: {
-        id: "audit",
+    AUDIT: {
+        id: "AUDIT",
         title: "En Audit",
-        items: [
-            { id: "lead-3", content: "FinServe Global", score: 92, value: "45k" },
-        ],
+        items: [] as Lead[],
     },
-    pitch: {
-        id: "pitch",
+    PITCH: {
+        id: "PITCH",
         title: "Pitch",
-        items: [],
+        items: [] as Lead[],
     },
-    signed: {
-        id: "signed",
+    SIGNED: {
+        id: "SIGNED",
         title: "Signé",
-        items: [
-            { id: "lead-4", content: "BioMed Labs", score: 98, value: "120k" },
-        ],
+        items: [] as Lead[],
     },
 };
 
 export default function PipelinePage() {
     const [columns, setColumns] = useState(initialColumns);
+    const [totalPipeline, setTotalPipeline] = useState(0);
 
-    const onDragEnd = (result: any) => {
+    const fetchLeads = async () => {
+        try {
+            const leads = await leadsService.getAll() as Lead[];
+
+            // Organize leads into columns
+            const newColumns = {
+                PROSPECT: { ...initialColumns.PROSPECT, items: [] as Lead[] },
+                AUDIT: { ...initialColumns.AUDIT, items: [] as Lead[] },
+                PITCH: { ...initialColumns.PITCH, items: [] as Lead[] },
+                SIGNED: { ...initialColumns.SIGNED, items: [] as Lead[] },
+            };
+
+            let total = 0;
+
+            leads.forEach(lead => {
+                const status = lead.status as keyof typeof newColumns;
+                if (newColumns[status]) {
+                    newColumns[status].items.push(lead);
+                    total += lead.value || 0;
+                } else {
+                    // Fallback for unknown status
+                    newColumns.PROSPECT.items.push(lead);
+                }
+            });
+
+            setColumns(newColumns);
+            setTotalPipeline(total);
+        } catch (error) {
+            console.error("Failed to fetch leads", error);
+            toast.error("Impossible de charger le pipeline");
+        }
+    };
+
+    useEffect(() => {
+        fetchLeads();
+    }, []);
+
+    const onDragEnd = async (result: any) => {
         if (!result.destination) return;
-        const { source, destination } = result;
+        const { source, destination, draggableId } = result;
 
         if (source.droppableId !== destination.droppableId) {
             const sourceColumn = columns[source.droppableId as keyof typeof columns];
@@ -48,12 +90,24 @@ export default function PipelinePage() {
             const sourceItems = [...sourceColumn.items];
             const destItems = [...destColumn.items];
             const [removed] = sourceItems.splice(source.index, 1);
+
+            // Optimistic Update
             destItems.splice(destination.index, 0, removed);
             setColumns({
                 ...columns,
                 [source.droppableId]: { ...sourceColumn, items: sourceItems },
                 [destination.droppableId]: { ...destColumn, items: destItems },
             });
+
+            // API Call
+            try {
+                await leadsService.update(draggableId, { status: destination.droppableId });
+            } catch (error) {
+                console.error("Failed to update status", error);
+                toast.error("Erreur lors de la mise à jour");
+                // Revert changes could be done here
+                fetchLeads();
+            }
         } else {
             const column = columns[source.droppableId as keyof typeof columns];
             const copiedItems = [...column.items];
@@ -75,7 +129,7 @@ export default function PipelinePage() {
                     <div className="flex justify-between items-center mb-8">
                         <h1 className="text-3xl font-serif text-black">Pipeline Node</h1>
                         <div className="flex gap-4">
-                            <span className="text-xs uppercase tracking-widest text-gray-400">Total Pipeline: 188k €</span>
+                            <span className="text-xs uppercase tracking-widest text-gray-400">Total Pipeline: {totalPipeline.toLocaleString()} €</span>
                         </div>
                     </div>
 
@@ -104,14 +158,16 @@ export default function PipelinePage() {
                                                                 className="bg-white p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing"
                                                             >
                                                                 <div className="flex justify-between items-start mb-2">
-                                                                    <span className="text-sm font-medium">{item.content}</span>
-                                                                    <span className={`text-[10px] px-1.5 py-0.5 rounded ${item.score > 90 ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'
-                                                                        }`}>
-                                                                        {item.score}
-                                                                    </span>
+                                                                    <span className="text-sm font-medium truncate max-w-[150px]">{item.companyName || item.url}</span>
+                                                                    {item.score !== undefined && (
+                                                                        <span className={`text-[10px] px-1.5 py-0.5 rounded ${item.score > 90 ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'
+                                                                            }`}>
+                                                                            {item.score}
+                                                                        </span>
+                                                                    )}
                                                                 </div>
                                                                 <div className="text-xs text-gray-400 font-serif">
-                                                                    Est. {item.value} €
+                                                                    Est. {item.value || 0} €
                                                                 </div>
                                                             </div>
                                                         )}
