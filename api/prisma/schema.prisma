@@ -54,6 +54,7 @@ model Message {
   sender    String   // "me" or "operator" or userId
   attachment String?
   read      Boolean  @default(false)
+  conversationId String
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
