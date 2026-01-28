@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { toast } from 'sonner';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 export const api = axios.create({
     baseURL: API_URL,
@@ -83,6 +83,13 @@ export const leadsService = {
 
     getAll: async () => {
         const response = await api.get('/leads');
+        return response.data;
+    }
+};
+
+export const transactionsService = {
+    getAll: async () => {
+        const response = await api.get('/transactions');
         return response.data;
     }
 };

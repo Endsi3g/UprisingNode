@@ -42,6 +42,10 @@ const data = {
           url: "/dashboard",
         },
         {
+          title: "Gains & Paiements",
+          url: "/earnings",
+        },
+        {
           title: "Simulateur Gains",
           url: "/earnings/simulate",
         },
