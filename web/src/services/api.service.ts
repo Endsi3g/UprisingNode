@@ -86,3 +86,10 @@ export const leadsService = {
         return response.data;
     }
 };
+
+export const transactionsService = {
+    create: async (amount: number, type: string, description?: string) => {
+        const response = await api.post('/transactions', { amount, type, description });
+        return response.data;
+    }
+};
