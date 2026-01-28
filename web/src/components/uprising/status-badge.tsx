@@ -12,7 +12,8 @@ type StatusVariant =
     | "default";
 
 interface StatusBadgeProps {
-    text: string;
+    text?: string;
+    status?: string;
     variant?: StatusVariant;
     showDot?: boolean;
     className?: string;
@@ -26,6 +27,7 @@ interface StatusBadgeProps {
  */
 export function StatusBadge({
     text,
+    status,
     variant = "default",
     showDot = false,
     className,
@@ -75,7 +77,7 @@ export function StatusBadge({
                 <div className={cn("w-1.5 h-1.5 rounded-full", styles.dot)} />
             )}
             <span className="text-[10px] font-medium uppercase tracking-widest">
-                {text}
+                {text || status}
             </span>
         </div>
     );

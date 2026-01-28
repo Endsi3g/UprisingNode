@@ -1,68 +1,147 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Header } from "@/components/layout";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import { leadsService } from "@/services/api.service";
+import { useSocket } from "@/providers/socket-provider";
+import { toast } from "sonner";
 
-// Mock Data
+interface Lead {
+    id: string;
+    companyName: string | null;
+    url: string;
+    status: string;
+    score: number | null;
+    // value field is missing in DB, assuming calculated or placeholder
+}
+
+// Map DB status to Column ID
+const statusToColumn: Record<string, string> = {
+    "PROSPECT": "prospect",
+    "AUDIT": "audit",
+    "PITCH": "pitch",
+    "SIGNED": "signed"
+};
+
+// Map Column ID to DB status
+const columnToStatus: Record<string, string> = {
+    "prospect": "PROSPECT",
+    "audit": "AUDIT",
+    "pitch": "PITCH",
+    "signed": "SIGNED"
+};
+
 const initialColumns = {
-    prospect: {
-        id: "prospect",
-        title: "Prospect",
-        items: [
-            { id: "lead-1", content: "DataFlow Industries", score: 87, value: "15k" },
-            { id: "lead-2", content: "TechCorp SA", score: 45, value: "8k" },
-        ],
-    },
-    audit: {
-        id: "audit",
-        title: "En Audit",
-        items: [
-            { id: "lead-3", content: "FinServe Global", score: 92, value: "45k" },
-        ],
-    },
-    pitch: {
-        id: "pitch",
-        title: "Pitch",
-        items: [],
-    },
-    signed: {
-        id: "signed",
-        title: "Signé",
-        items: [
-            { id: "lead-4", content: "BioMed Labs", score: 98, value: "120k" },
-        ],
-    },
+    prospect: { id: "prospect", title: "Prospect", items: [] as Lead[] },
+    audit: { id: "audit", title: "En Audit", items: [] as Lead[] },
+    pitch: { id: "pitch", title: "Pitch", items: [] as Lead[] },
+    signed: { id: "signed", title: "Signé", items: [] as Lead[] },
 };
 
 export default function PipelinePage() {
     const [columns, setColumns] = useState(initialColumns);
+    const { socket } = useSocket();
 
-    const onDragEnd = (result: any) => {
+    const fetchLeads = useCallback(async () => {
+        try {
+            const leads = await leadsService.getAll();
+            const newColumns = {
+                prospect: { ...initialColumns.prospect, items: [] as Lead[] },
+                audit: { ...initialColumns.audit, items: [] as Lead[] },
+                pitch: { ...initialColumns.pitch, items: [] as Lead[] },
+                signed: { ...initialColumns.signed, items: [] as Lead[] },
+            };
+
+            leads.forEach((lead: Lead) => {
+                const colId = statusToColumn[lead.status] || "prospect";
+                if (newColumns[colId as keyof typeof newColumns]) {
+                    newColumns[colId as keyof typeof newColumns].items.push(lead);
+                }
+            });
+
+            setColumns(newColumns);
+        } catch (error) {
+            console.error("Failed to fetch leads", error);
+            toast.error("Erreur lors du chargement des leads");
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchLeads();
+    }, [fetchLeads]);
+
+    useEffect(() => {
+        if (!socket) return;
+
+        const handleLeadUpdate = (updatedLead: Lead) => {
+            setColumns((prev) => {
+                const newColumns = { ...prev };
+                let leadFound = false;
+
+                // Remove from old column
+                Object.keys(newColumns).forEach((key) => {
+                    const colKey = key as keyof typeof newColumns;
+                    const filtered = newColumns[colKey].items.filter(l => l.id !== updatedLead.id);
+                    if (filtered.length !== newColumns[colKey].items.length) {
+                        newColumns[colKey] = { ...newColumns[colKey], items: filtered };
+                        leadFound = true;
+                    }
+                });
+
+                // Add to new column
+                const targetCol = statusToColumn[updatedLead.status];
+                if (targetCol && newColumns[targetCol as keyof typeof newColumns]) {
+                     // Check if already exists to avoid dupes (if multiple events fire)
+                     const exists = newColumns[targetCol as keyof typeof newColumns].items.find(l => l.id === updatedLead.id);
+                     if (!exists) {
+                         newColumns[targetCol as keyof typeof newColumns].items.push(updatedLead);
+                     }
+                }
+
+                return { ...newColumns };
+            });
+        };
+
+        socket.on("lead-updated", handleLeadUpdate);
+
+        return () => {
+            socket.off("lead-updated", handleLeadUpdate);
+        };
+    }, [socket]);
+
+    const onDragEnd = async (result: any) => {
         if (!result.destination) return;
-        const { source, destination } = result;
+        const { source, destination, draggableId } = result;
 
-        if (source.droppableId !== destination.droppableId) {
-            const sourceColumn = columns[source.droppableId as keyof typeof columns];
-            const destColumn = columns[destination.droppableId as keyof typeof columns];
-            const sourceItems = [...sourceColumn.items];
-            const destItems = [...destColumn.items];
-            const [removed] = sourceItems.splice(source.index, 1);
-            destItems.splice(destination.index, 0, removed);
-            setColumns({
-                ...columns,
-                [source.droppableId]: { ...sourceColumn, items: sourceItems },
-                [destination.droppableId]: { ...destColumn, items: destItems },
-            });
-        } else {
-            const column = columns[source.droppableId as keyof typeof columns];
-            const copiedItems = [...column.items];
-            const [removed] = copiedItems.splice(source.index, 1);
-            copiedItems.splice(destination.index, 0, removed);
-            setColumns({
-                ...columns,
-                [source.droppableId]: { ...column, items: copiedItems },
-            });
+        if (source.droppableId === destination.droppableId) return;
+
+        // Optimistic Update
+        const sourceColumn = columns[source.droppableId as keyof typeof columns];
+        const destColumn = columns[destination.droppableId as keyof typeof columns];
+        const sourceItems = [...sourceColumn.items];
+        const destItems = [...destColumn.items];
+        const [movedLead] = sourceItems.splice(source.index, 1);
+
+        // Update status locally
+        const newStatus = columnToStatus[destination.droppableId];
+        const updatedLead = { ...movedLead, status: newStatus };
+
+        destItems.splice(destination.index, 0, updatedLead);
+
+        setColumns({
+            ...columns,
+            [source.droppableId]: { ...sourceColumn, items: sourceItems },
+            [destination.droppableId]: { ...destColumn, items: destItems },
+        });
+
+        // API Call
+        try {
+            await leadsService.update(draggableId, { status: newStatus });
+        } catch (error) {
+            console.error("Failed to update lead status", error);
+            toast.error("Erreur lors de la mise à jour");
+            fetchLeads(); // Revert on error
         }
     };
 
@@ -75,7 +154,7 @@ export default function PipelinePage() {
                     <div className="flex justify-between items-center mb-8">
                         <h1 className="text-3xl font-serif text-black">Pipeline Node</h1>
                         <div className="flex gap-4">
-                            <span className="text-xs uppercase tracking-widest text-gray-400">Total Pipeline: 188k €</span>
+                            <span className="text-xs uppercase tracking-widest text-gray-400">Total Leads: {Object.values(columns).reduce((acc, col) => acc + col.items.length, 0)}</span>
                         </div>
                     </div>
 
@@ -104,14 +183,15 @@ export default function PipelinePage() {
                                                                 className="bg-white p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing"
                                                             >
                                                                 <div className="flex justify-between items-start mb-2">
-                                                                    <span className="text-sm font-medium">{item.content}</span>
-                                                                    <span className={`text-[10px] px-1.5 py-0.5 rounded ${item.score > 90 ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'
+                                                                    <span className="text-sm font-medium">{item.companyName || item.url}</span>
+                                                                    <span className={`text-[10px] px-1.5 py-0.5 rounded ${item.score && item.score > 90 ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'
                                                                         }`}>
-                                                                        {item.score}
+                                                                        {item.score || 0}
                                                                     </span>
                                                                 </div>
                                                                 <div className="text-xs text-gray-400 font-serif">
-                                                                    Est. {item.value} €
+                                                                    {/* Est. Value placeholder */}
+                                                                    Status: {item.status}
                                                                 </div>
                                                             </div>
                                                         )}

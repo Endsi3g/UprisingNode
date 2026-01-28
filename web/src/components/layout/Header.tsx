@@ -4,12 +4,16 @@ interface HeaderProps {
     showStatus?: boolean;
     userName?: string;
     userRole?: string;
+    title?: string;
+    subtitle?: string;
 }
 
 export function Header({
     showStatus = true,
     userName = "K. Miller",
     userRole = "Opérateur",
+    title,
+    subtitle,
 }: HeaderProps) {
     return (
         <header className="w-full bg-white/90 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-100">

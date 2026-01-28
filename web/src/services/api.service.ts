@@ -84,6 +84,11 @@ export const leadsService = {
     getAll: async () => {
         const response = await api.get('/leads');
         return response.data;
+    },
+
+    update: async (id: string, data: any) => {
+        const response = await api.patch(`/leads/${id}`, data);
+        return response.data;
     }
 };
 
@@ -121,6 +126,17 @@ export const resourcesService = {
     },
     getOne: async (id: string) => {
         const response = await api.get(`/resources/${id}`);
+        return response.data;
+    },
+
+    upload: async (file: File) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        const response = await api.post('/resources/upload', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
         return response.data;
     }
 };

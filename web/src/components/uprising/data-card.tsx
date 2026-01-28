@@ -3,14 +3,16 @@
 import { cn } from "@/lib/utils";
 
 interface DataCardProps {
-    label: string;
+    label?: string;
+    title?: string;
     value: string;
     sublabel?: string;
     icon?: React.ReactNode;
-    trend?: {
+    trend?: string | {
         value: string;
         direction: "up" | "down" | "neutral";
     };
+    trendDirection?: "up" | "down" | "neutral";
     className?: string;
     variant?: "default" | "highlight";
 }
@@ -23,10 +25,12 @@ interface DataCardProps {
  */
 export function DataCard({
     label,
+    title,
     value,
     sublabel,
     icon,
     trend,
+    trendDirection,
     className,
     variant = "default",
 }: DataCardProps) {
@@ -42,6 +46,17 @@ export function DataCard({
         neutral: "→",
     };
 
+    let displayTrendValue: string | undefined;
+    let displayTrendDir: "up" | "down" | "neutral" = "neutral";
+
+    if (typeof trend === 'string') {
+        displayTrendValue = trend;
+        displayTrendDir = trendDirection || "neutral";
+    } else if (trend) {
+        displayTrendValue = trend.value;
+        displayTrendDir = trend.direction;
+    }
+
     return (
         <div
             className={cn(
@@ -53,7 +68,7 @@ export function DataCard({
             {/* Label */}
             <div className="flex items-center gap-2">
                 <span className="text-[10px] font-semibold uppercase tracking-widest text-gray-400">
-                    {label}
+                    {label || title}
                 </span>
                 {icon && (
                     <span className="text-gray-300">{icon}</span>
@@ -65,14 +80,14 @@ export function DataCard({
                 <span className="text-3xl md:text-4xl font-serif text-black">
                     {value}
                 </span>
-                {trend && (
+                {displayTrendValue && (
                     <span
                         className={cn(
                             "text-xs font-medium",
-                            trendColors[trend.direction]
+                            trendColors[displayTrendDir]
                         )}
                     >
-                        {trendIcons[trend.direction]} {trend.value}
+                        {trendIcons[displayTrendDir]} {displayTrendValue}
                     </span>
                 )}
             </div>

@@ -9,6 +9,8 @@ interface MetricDisplayProps {
     size?: "default" | "large" | "hero";
     className?: string;
     align?: "left" | "center" | "right";
+    trend?: string;
+    trendDirection?: string;
 }
 
 /**
@@ -24,6 +26,8 @@ export function MetricDisplay({
     size = "default",
     className,
     align = "left",
+    trend,
+    trendDirection,
 }: MetricDisplayProps) {
     const sizes = {
         default: {
@@ -68,6 +72,16 @@ export function MetricDisplay({
                     {value}
                 </span>
             </div>
+            {trend && (
+                <span className={cn(
+                    "text-xs font-medium",
+                    trendDirection === "up" && "text-green-600",
+                    trendDirection === "down" && "text-red-600",
+                    (!trendDirection || trendDirection === "neutral") && "text-gray-500"
+                )}>
+                    {trend}
+                </span>
+            )}
         </div>
     );
 }
