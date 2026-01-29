@@ -1,0 +1,42 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: uprising_node
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+  api:
+    build: ./api
+    ports:
+      - "3000:3000"
+    environment:
+      # By default, use the .env file (configured for Supabase)
+      # To use local postgres, verify the URL matches the service above:
+      # DATABASE_URL=postgresql://postgres:password@postgres:5432/uprising_node?schema=public
+      PORT: 3000
+      CORS_ORIGIN: http://localhost:3001
+    env_file:
+      - ./api/.env
+    depends_on:
+      - postgres
+    restart: always
+
+  web:
+    build: ./web
+    ports:
+      - "3001:3001"
+    environment:
+      # Browser access to API
+      NEXT_PUBLIC_API_URL: http://localhost:3000
+    depends_on:
+      - api
+    restart: always
+
+volumes:
+  postgres_data:
