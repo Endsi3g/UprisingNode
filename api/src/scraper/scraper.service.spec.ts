@@ -54,6 +54,7 @@ describe('ScraperService', () => {
   it('should launch browser on module init', async () => {
     await service.onModuleInit();
     expect(puppeteer.launch).toHaveBeenCalledTimes(1);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(mockBrowser.on).toHaveBeenCalledWith(
       'disconnected',
       expect.any(Function),
@@ -62,14 +63,19 @@ describe('ScraperService', () => {
 
   it('should scrape using a new context', async () => {
     await service.onModuleInit();
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const result = await service.scrapeCompany('http://test.com');
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(mockBrowser.createBrowserContext).toHaveBeenCalledTimes(1);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(mockContext.newPage).toHaveBeenCalledTimes(1);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(mockPage.goto).toHaveBeenCalledWith(
       'http://test.com',
       expect.objectContaining({ waitUntil: 'networkidle2' }),
     );
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(mockContext.close).toHaveBeenCalledTimes(1);
     expect(result).toEqual({
       title: 'Test',
@@ -81,6 +87,7 @@ describe('ScraperService', () => {
   it('should close browser on module destroy', async () => {
     await service.onModuleInit();
     await service.onModuleDestroy();
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(mockBrowser.close).toHaveBeenCalledTimes(1);
   });
 });
