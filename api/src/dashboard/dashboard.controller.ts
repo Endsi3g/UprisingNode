@@ -1,5 +1,6 @@
-import { Controller, Get, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, UseGuards, Request, UseInterceptors } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { HttpCacheInterceptor } from '../common/interceptors/http-cache.interceptor';
 
 import { TransactionsService } from '../transactions/transactions.service';
 import { LeadsService } from '../leads/leads.service';
@@ -40,6 +41,7 @@ export class DashboardController {
 
   @Get('stats')
   @UseGuards(JwtAuthGuard)
+  @UseInterceptors(HttpCacheInterceptor)
   async getStats(@Request() req: AuthenticatedRequest): Promise<DashboardStats> {
     const userId = req.user.userId;
     const accumulatedGains =
