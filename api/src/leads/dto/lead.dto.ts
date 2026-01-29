@@ -1,4 +1,4 @@
-import { IsString, IsUrl, IsOptional, IsInt } from 'class-validator';
+import { IsString, IsUrl, IsOptional, IsInt, IsNumber } from 'class-validator';
 
 export class CreateLeadDto {
     @IsUrl()
@@ -11,6 +11,10 @@ export class CreateLeadDto {
     @IsString()
     @IsOptional()
     industry?: string;
+
+    @IsNumber()
+    @IsOptional()
+    value?: number;
 }
 
 export class UpdateLeadDto {
@@ -21,6 +25,10 @@ export class UpdateLeadDto {
     @IsInt()
     @IsOptional()
     score?: number;
+
+    @IsNumber()
+    @IsOptional()
+    value?: number;
 
     @IsString()
     @IsOptional()

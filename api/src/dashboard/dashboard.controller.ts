@@ -32,10 +32,14 @@ export class DashboardController {
     async getStats(@Request() req): Promise<DashboardStats> {
         const userId = req.user.userId;
         const accumulatedGains = await this.transactionsService.getTotalEarnings(userId);
-        const potentialGains = 1450; // TODO: Calculate from leads in 'analysis' or 'negotiation'
 
         // Get active pipeline
         const leads = await this.leadsService.findAll(userId);
+
+        const potentialGains = leads
+            .filter(l => l.status !== 'CLOSED' && l.status !== 'LOST')
+            .reduce((sum, l) => sum + (l.value || 0), 0);
+
         const activePipeline = leads
             .filter(l => l.status !== 'CLOSED' && l.status !== 'LOST')
             .map(l => ({
