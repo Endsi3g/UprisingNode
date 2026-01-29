@@ -23,7 +23,8 @@ export default function SignupPage() {
 
     try {
       await authService.register(email, password, name);
-      router.push("/dashboard");
+      localStorage.setItem("auth_email", email);
+      router.push("/otp"); // Redirect to OTP on signup
     } catch (error) {
       console.error(error);
       alert("Échec de l'inscription. Veuillez réessayer.");

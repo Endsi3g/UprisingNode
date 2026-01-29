@@ -41,12 +41,20 @@ export const authService = {
     return api.post("/auth/register", { email, password, name });
   },
 
+  verifyOtp: async (email: string, code: string) => {
+    const response = await api.post("/auth/verify-otp", { email, code });
+    if (response.data.access_token) {
+      localStorage.setItem("token", response.data.access_token);
+    }
+    return response.data;
+  },
+
   getProfile: async () => {
     const response = await api.get("/users/profile");
     return response.data;
   },
 
-  updateProfile: async (data: any) => {
+  updateProfile: async (data: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
     const response = await api.patch("/users/profile", data);
     return response.data;
   },
@@ -70,6 +78,16 @@ export const leadsService = {
 
   getAll: async () => {
     const response = await api.get("/leads");
+    return response.data;
+  },
+
+  update: async (id: string, data: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+    const response = await api.patch(`/leads/${id}`, data);
+    return response.data;
+  },
+
+  getOne: async (id: string) => {
+    const response = await api.get(`/leads/${id}`);
     return response.data;
   },
 };
@@ -131,15 +149,15 @@ export const usersService = {
     const response = await api.get(`/users/${id}/details`);
     return response.data;
   },
-  updateProfile: async (data: any) => {
+  updateProfile: async (data: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
     const response = await api.patch("/users/profile", data);
     return response.data;
   },
-  changePassword: async (data: any) => {
+  changePassword: async (data: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
     const response = await api.put("/users/password", data);
     return response.data;
   },
-  updatePreferences: async (data: any) => {
+  updatePreferences: async (data: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
     const response = await api.patch("/users/preferences", data);
     return response.data;
   },

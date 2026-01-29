@@ -1,60 +1,96 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "@/components/layout";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import { leadsService } from "@/services/api.service";
+import { toast } from "sonner";
 
-// Mock Data
-const initialColumns = {
-  prospect: {
-    id: "prospect",
-    title: "Prospect",
-    items: [
-      { id: "lead-1", content: "DataFlow Industries", score: 87, value: "15k" },
-      { id: "lead-2", content: "TechCorp SA", score: 45, value: "8k" },
-    ],
-  },
-  audit: {
-    id: "audit",
-    title: "En Audit",
-    items: [
-      { id: "lead-3", content: "FinServe Global", score: 92, value: "45k" },
-    ],
-  },
-  pitch: {
-    id: "pitch",
-    title: "Pitch",
-    items: [],
-  },
-  signed: {
-    id: "signed",
-    title: "Signé",
-    items: [{ id: "lead-4", content: "BioMed Labs", score: 98, value: "120k" }],
-  },
+// Helper type for our local column structure
+type ColumnType = {
+  id: string;
+  title: string;
+  items: any[];
+};
+
+const initialColumns: Record<string, ColumnType> = {
+  PROSPECT: { id: "PROSPECT", title: "Prospect", items: [] },
+  AUDIT: { id: "AUDIT", title: "En Audit", items: [] },
+  PITCH: { id: "PITCH", title: "Pitch", items: [] },
+  SIGNED: { id: "SIGNED", title: "Signé", items: [] },
 };
 
 export default function PipelinePage() {
   const [columns, setColumns] = useState(initialColumns);
+  const [totalValue, setTotalValue] = useState(0);
 
-  const onDragEnd = (result: any) => {
+  useEffect(() => {
+    loadLeads();
+  }, []);
+
+  const loadLeads = async () => {
+    try {
+      const leads = await leadsService.getAll();
+      const newColumns = {
+        PROSPECT: { ...initialColumns.PROSPECT, items: [] },
+        AUDIT: { ...initialColumns.AUDIT, items: [] },
+        PITCH: { ...initialColumns.PITCH, items: [] },
+        SIGNED: { ...initialColumns.SIGNED, items: [] },
+      };
+
+      let total = 0;
+      leads.forEach((lead: any) => {
+        const status = lead.status || "PROSPECT";
+        if (newColumns[status]) {
+          newColumns[status].items.push({
+            id: lead.id,
+            content: lead.companyName || lead.url,
+            score: lead.score || 0,
+            value: (lead.score || 0) * 10, // Approximation
+            status: lead.status,
+          });
+          total += (lead.score || 0) * 10;
+        }
+      });
+
+      setColumns(newColumns);
+      setTotalValue(total);
+    } catch (error) {
+      console.error("Failed to load leads", error);
+      toast.error("Erreur lors du chargement des leads");
+    }
+  };
+
+  const onDragEnd = async (result: any) => {
     if (!result.destination) return;
     const { source, destination } = result;
 
     if (source.droppableId !== destination.droppableId) {
-      const sourceColumn = columns[source.droppableId as keyof typeof columns];
-      const destColumn =
-        columns[destination.droppableId as keyof typeof columns];
+      const sourceColumn = columns[source.droppableId];
+      const destColumn = columns[destination.droppableId];
       const sourceItems = [...sourceColumn.items];
       const destItems = [...destColumn.items];
       const [removed] = sourceItems.splice(source.index, 1);
-      destItems.splice(destination.index, 0, removed);
+
+      // Optimistic update
+      destItems.splice(destination.index, 0, { ...removed, status: destination.droppableId });
       setColumns({
         ...columns,
         [source.droppableId]: { ...sourceColumn, items: sourceItems },
         [destination.droppableId]: { ...destColumn, items: destItems },
       });
+
+      // API Call
+      try {
+        await leadsService.update(removed.id, { status: destination.droppableId });
+      } catch (error) {
+        console.error("Failed to update status", error);
+        toast.error("Erreur lors de la mise à jour du statut");
+        // Revert (could be implemented if strictly needed, but simple reload works for now)
+        loadLeads();
+      }
     } else {
-      const column = columns[source.droppableId as keyof typeof columns];
+      const column = columns[source.droppableId];
       const copiedItems = [...column.items];
       const [removed] = copiedItems.splice(source.index, 1);
       copiedItems.splice(destination.index, 0, removed);
@@ -75,7 +111,7 @@ export default function PipelinePage() {
             <h1 className="text-3xl font-serif text-black">Pipeline Node</h1>
             <div className="flex gap-4">
               <span className="text-xs uppercase tracking-widest text-gray-400">
-                Total Pipeline: 188k €
+                Total Pipeline: {totalValue.toLocaleString('fr-FR')} €
               </span>
             </div>
           </div>

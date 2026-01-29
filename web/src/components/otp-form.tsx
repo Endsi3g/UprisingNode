@@ -4,6 +4,8 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { authService } from "@/services/api.service";
+import { toast } from "sonner";
 import {
   Field,
   FieldDescription,
@@ -19,10 +21,31 @@ import {
 
 export function OTPForm({ className, ...props }: React.ComponentProps<"div">) {
   const router = useRouter();
-  const handleSubmit = (e: React.FormEvent) => {
+  const [value, setValue] = React.useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Verify logic here
-    router.push("/dashboard");
+    try {
+      // Assuming email is passed via context, query param or local storage.
+      // For this specific flow, we might need to know WHO we are verifying.
+      // However, usually OTP follows login/signup.
+      // If this is email verification, we might have a token or just user email.
+      // For now, let's assume we need to prompt or we rely on session if partially logged in.
+      // But usually OTP is pre-auth.
+      // Let's assume we stored email in localStorage during signup/login step 1.
+      const email = localStorage.getItem("auth_email");
+      if (!email) {
+         toast.error("Session expiré", { description: "Veuillez vous reconnecter." });
+         router.push("/login");
+         return;
+      }
+
+      await authService.verifyOtp(email, value);
+      router.push("/dashboard");
+    } catch (error) {
+      console.error(error);
+      toast.error("Code invalide", { description: "Veuillez réessayer." });
+    }
   };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -38,7 +61,7 @@ export function OTPForm({ className, ...props }: React.ComponentProps<"div">) {
             <FieldLabel htmlFor="otp" className="sr-only">
               Verification code
             </FieldLabel>
-            <InputOTP maxLength={6} id="otp" required>
+            <InputOTP maxLength={6} id="otp" value={value} onChange={setValue} required>
               <InputOTPGroup className="gap-2 *:data-[slot=input-otp-slot]:rounded-md *:data-[slot=input-otp-slot]:border">
                 <InputOTPSlot index={0} />
                 <InputOTPSlot index={1} />

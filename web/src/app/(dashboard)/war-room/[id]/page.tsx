@@ -1,12 +1,48 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { Header } from "@/components/layout";
 import { Button, Card, DataCard } from "@/components/ui";
+import { leadsService } from "@/services/api.service";
+import { toast } from "sonner";
 
 export default function WarRoomPage() {
   const params = useParams();
   const leadId = params.id as string;
+  const [lead, setLead] = useState<any>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchLead = async () => {
+      try {
+        const found = await leadsService.getOne(leadId);
+        if (found) {
+          setLead(found);
+        } else {
+          // Mock fallback if not found in dev
+          if (process.env.NODE_ENV === "development") {
+            setLead({
+              id: leadId,
+              companyName: "DataFlow Industries (Mock)",
+              status: "AUDIT",
+              score: 92,
+              url: "https://example.com",
+            });
+          }
+        }
+      } catch (e) {
+        console.error(e);
+        toast.error("Erreur chargement lead");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchLead();
+  }, [leadId]);
+
+  if (loading) return <div className="p-10">Chargement...</div>;
+  if (!lead) return <div className="p-10">Lead non trouvé</div>;
 
   return (
     <div className="bg-white min-h-screen flex flex-col font-sans text-text-main">
@@ -18,14 +54,14 @@ export default function WarRoomPage() {
           <div>
             <div className="flex items-center gap-3 mb-2">
               <span className="bg-black text-white text-[10px] px-2 py-0.5 uppercase tracking-widest">
-                En Audit
+                {lead.status}
               </span>
               <span className="text-gray-400 text-sm font-mono">
                 #{leadId.slice(0, 8)}
               </span>
             </div>
             <h1 className="text-4xl font-serif text-black">
-              DataFlow Industries
+              {lead.companyName || lead.url}
             </h1>
             <p className="text-gray-500 mt-2 font-light max-w-2xl">
               Leader européen de la gestion de données B2B. Cible haute valeur
@@ -58,14 +94,14 @@ export default function WarRoomPage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <DataCard
             title="Score IA"
-            value="92/100"
+            value={`${lead.score || 0}/100`}
             trend="+14% cette semaine"
             trendUp={true}
           />
           <DataCard
             title="Valeur Est."
-            value="45 000 €"
-            trend="Commission: 4.5k"
+            value={`${((lead.score || 0) * 1000).toLocaleString()} €`}
+            trend="Commission: 10%"
             trendUp={true}
           />
           <DataCard
