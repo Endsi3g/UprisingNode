@@ -1,0 +1,122 @@
+
+> api@0.0.1 lint /app/api
+> eslint "{src,apps,libs,test}/**/*.ts" --fix
+
+
+/app/api/src/app.controller.spec.ts
+   5:1   error  Unsafe call of a type that could not be resolved              @typescript-eslint/no-unsafe-call
+   8:3   error  Unsafe call of a type that could not be resolved              @typescript-eslint/no-unsafe-call
+  17:3   error  Unsafe call of a type that could not be resolved              @typescript-eslint/no-unsafe-call
+  18:5   error  Unsafe call of a type that could not be resolved              @typescript-eslint/no-unsafe-call
+  19:7   error  Unsafe call of a type that could not be resolved              @typescript-eslint/no-unsafe-call
+  19:7   error  Unsafe call of a type that could not be resolved              @typescript-eslint/no-unsafe-call
+  19:40  error  Unsafe member access .toBe on a type that cannot be resolved  @typescript-eslint/no-unsafe-member-access
+
+/app/api/src/auth/auth.controller.ts
+  57:5   error  Unsafe return of a value of type `any`        @typescript-eslint/no-unsafe-return
+  57:16  error  Unsafe member access .user on an `any` value  @typescript-eslint/no-unsafe-member-access
+
+/app/api/src/auth/jwt.strategy.ts
+  15:3   error  Async method 'validate' has no 'await' expression  @typescript-eslint/require-await
+  16:14  error  Unsafe assignment of an `any` value                @typescript-eslint/no-unsafe-assignment
+  16:30  error  Unsafe member access .sub on an `any` value        @typescript-eslint/no-unsafe-member-access
+  16:35  error  Unsafe assignment of an `any` value                @typescript-eslint/no-unsafe-assignment
+  16:50  error  Unsafe member access .email on an `any` value      @typescript-eslint/no-unsafe-member-access
+  16:57  error  Unsafe assignment of an `any` value                @typescript-eslint/no-unsafe-assignment
+  16:71  error  Unsafe member access .role on an `any` value       @typescript-eslint/no-unsafe-member-access
+
+/app/api/src/events/events.gateway.spec.ts
+   5:1   error  Unsafe call of a type that could not be resolved                     @typescript-eslint/no-unsafe-call
+   8:3   error  Unsafe call of a type that could not be resolved                     @typescript-eslint/no-unsafe-call
+  16:3   error  Unsafe call of a type that could not be resolved                     @typescript-eslint/no-unsafe-call
+  17:5   error  Unsafe call of a type that could not be resolved                     @typescript-eslint/no-unsafe-call
+  17:5   error  Unsafe call of a type that could not be resolved                     @typescript-eslint/no-unsafe-call
+  17:21  error  Unsafe member access .toBeDefined on a type that cannot be resolved  @typescript-eslint/no-unsafe-member-access
+  20:3   error  Unsafe call of a type that could not be resolved                     @typescript-eslint/no-unsafe-call
+  22:5   error  Unsafe call of a type that could not be resolved                     @typescript-eslint/no-unsafe-call
+  22:5   error  Unsafe call of a type that could not be resolved                     @typescript-eslint/no-unsafe-call
+  22:48  error  Unsafe member access .toBe on a type that cannot be resolved         @typescript-eslint/no-unsafe-member-access
+
+/app/api/src/events/events.gateway.ts
+  28:14  error  'client' is defined but never used  @typescript-eslint/no-unused-vars
+  28:30  error  'data' is defined but never used    @typescript-eslint/no-unused-vars
+
+/app/api/src/index.ts
+  12:9   error  Unsafe assignment of an `any` value     @typescript-eslint/no-unsafe-assignment
+  13:3   error  Unsafe return of a value of type `any`  @typescript-eslint/no-unsafe-return
+  13:10  error  Unsafe call of an `any` typed value     @typescript-eslint/no-unsafe-call
+
+/app/api/src/leads/leads.controller.ts
+  23:37  warning  Unsafe argument of type `any` assigned to a parameter of type `string`  @typescript-eslint/no-unsafe-argument
+  23:41  error    Unsafe member access .user on an `any` value                            @typescript-eslint/no-unsafe-member-access
+  28:38  warning  Unsafe argument of type `any` assigned to a parameter of type `string`  @typescript-eslint/no-unsafe-argument
+  28:42  error    Unsafe member access .user on an `any` value                            @typescript-eslint/no-unsafe-member-access
+  33:51  warning  Unsafe argument of type `any` assigned to a parameter of type `string`  @typescript-eslint/no-unsafe-argument
+  33:55  error    Unsafe member access .user on an `any` value                            @typescript-eslint/no-unsafe-member-access
+  58:38  warning  Unsafe argument of type `any` assigned to a parameter of type `string`  @typescript-eslint/no-unsafe-argument
+  58:42  error    Unsafe member access .user on an `any` value                            @typescript-eslint/no-unsafe-member-access
+  67:37  warning  Unsafe argument of type `any` assigned to a parameter of type `string`  @typescript-eslint/no-unsafe-argument
+  67:41  error    Unsafe member access .user on an `any` value                            @typescript-eslint/no-unsafe-member-access
+  72:37  warning  Unsafe argument of type `any` assigned to a parameter of type `string`  @typescript-eslint/no-unsafe-argument
+  72:41  error    Unsafe member access .user on an `any` value                            @typescript-eslint/no-unsafe-member-access
+
+/app/api/src/main.ts
+  24:1  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+/app/api/src/scraper/scraper.controller.ts
+  13:5  error  Unsafe return of a value of type `Promise<any>`  @typescript-eslint/no-unsafe-return
+
+/app/api/src/scraper/scraper.service.spec.ts
+   4:1   error  Unsafe call of a type that could not be resolved                     @typescript-eslint/no-unsafe-call
+   7:3   error  Unsafe call of a type that could not be resolved                     @typescript-eslint/no-unsafe-call
+  15:3   error  Unsafe call of a type that could not be resolved                     @typescript-eslint/no-unsafe-call
+  16:5   error  Unsafe call of a type that could not be resolved                     @typescript-eslint/no-unsafe-call
+  16:5   error  Unsafe call of a type that could not be resolved                     @typescript-eslint/no-unsafe-call
+  16:21  error  Unsafe member access .toBeDefined on a type that cannot be resolved  @typescript-eslint/no-unsafe-member-access
+
+/app/api/src/scraper/scraper.service.ts
+  18:13  error  Unsafe assignment of an `any` value               @typescript-eslint/no-unsafe-assignment
+  18:26  error  Unsafe call of an `any` typed value               @typescript-eslint/no-unsafe-call
+  18:34  error  Unsafe member access .newPage on an `any` value   @typescript-eslint/no-unsafe-member-access
+  21:13  error  Unsafe call of an `any` typed value               @typescript-eslint/no-unsafe-call
+  21:18  error  Unsafe member access .goto on an `any` value      @typescript-eslint/no-unsafe-member-access
+  24:13  error  Unsafe assignment of an `any` value               @typescript-eslint/no-unsafe-assignment
+  24:26  error  Unsafe call of an `any` typed value               @typescript-eslint/no-unsafe-call
+  24:31  error  Unsafe member access .evaluate on an `any` value  @typescript-eslint/no-unsafe-member-access
+  44:58  error  Unsafe member access .stack on an `any` value     @typescript-eslint/no-unsafe-member-access
+  45:49  error  Unsafe member access .message on an `any` value   @typescript-eslint/no-unsafe-member-access
+  48:15  error  Unsafe call of an `any` typed value               @typescript-eslint/no-unsafe-call
+  48:23  error  Unsafe member access .close on an `any` value     @typescript-eslint/no-unsafe-member-access
+
+/app/api/src/transactions/dto/transaction.dto.ts
+  1:42  error  'IsEnum' is defined but never used  @typescript-eslint/no-unused-vars
+
+/app/api/src/transactions/transactions.controller.ts
+  26:7   warning  Unsafe argument of type `any` assigned to a parameter of type `string`  @typescript-eslint/no-unsafe-argument
+  26:11  error    Unsafe member access .user on an `any` value                            @typescript-eslint/no-unsafe-member-access
+  33:45  warning  Unsafe argument of type `any` assigned to a parameter of type `string`  @typescript-eslint/no-unsafe-argument
+  33:49  error    Unsafe member access .user on an `any` value                            @typescript-eslint/no-unsafe-member-access
+  38:45  warning  Unsafe argument of type `any` assigned to a parameter of type `string`  @typescript-eslint/no-unsafe-argument
+  38:49  error    Unsafe member access .user on an `any` value                            @typescript-eslint/no-unsafe-member-access
+  49:7   warning  Unsafe argument of type `any` assigned to a parameter of type `string`  @typescript-eslint/no-unsafe-argument
+  49:11  error    Unsafe member access .user on an `any` value                            @typescript-eslint/no-unsafe-member-access
+
+/app/api/src/users/users.controller.ts
+   6:3   error    'Put' is defined but never used                                         @typescript-eslint/no-unused-vars
+  13:10  error    'ChangePasswordDto' is defined but never used                           @typescript-eslint/no-unused-vars
+  14:10  error    'UpdatePreferencesDto' is defined but never used                        @typescript-eslint/no-unused-vars
+  34:38  warning  Unsafe argument of type `any` assigned to a parameter of type `string`  @typescript-eslint/no-unsafe-argument
+  34:42  error    Unsafe member access .user on an `any` value                            @typescript-eslint/no-unsafe-member-access
+  39:37  warning  Unsafe argument of type `any` assigned to a parameter of type `string`  @typescript-eslint/no-unsafe-argument
+  39:41  error    Unsafe member access .user on an `any` value                            @typescript-eslint/no-unsafe-member-access
+
+/app/api/test/app.e2e-spec.ts
+   7:1  error  Unsafe call of a type that could not be resolved  @typescript-eslint/no-unsafe-call
+  10:3  error  Unsafe call of a type that could not be resolved  @typescript-eslint/no-unsafe-call
+  19:3  error  Unsafe call of a type that could not be resolved  @typescript-eslint/no-unsafe-call
+
+✖ 82 problems (69 errors, 13 warnings)
+
+/app/api:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  api@0.0.1 lint: `eslint "{src,apps,libs,test}/**/*.ts" --fix`
+Exit status 1
