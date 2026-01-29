@@ -26,7 +26,7 @@ export class AuthService {
     private prisma: PrismaService,
     private jwtService: JwtService,
     private passwordService: PasswordService,
-  ) { }
+  ) {}
 
   async register(dto: RegisterDto) {
     // Check if user exists
