@@ -6,6 +6,12 @@ import {
 } from '@nestjs/common';
 import puppeteer, { Browser, Page, BrowserContext } from 'puppeteer';
 
+export interface ScrapedData {
+  title: string;
+  description: string;
+  headings: string[];
+}
+
 @Injectable()
 export class ScraperService implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(ScraperService.name);
@@ -81,7 +87,7 @@ export class ScraperService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
-  async scrapeCompany(url: string): Promise<any> {
+  async scrapeCompany(url: string): Promise<ScrapedData> {
     this.logger.log(`Scraping URL: ${url}`);
 
     let context: BrowserContext | undefined;
@@ -110,7 +116,7 @@ export class ScraperService implements OnModuleInit, OnModuleDestroy {
           title,
           description,
           headings,
-        };
+        } as ScrapedData;
       });
 
       this.logger.log(`Successfully scraped data for ${url}`);
