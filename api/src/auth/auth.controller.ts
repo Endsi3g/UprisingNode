@@ -17,10 +17,11 @@ import {
 } from './dto/auth.dto';
 
 import { Public } from './public.decorator';
+import { RequestWithUser } from './request-with-user.interface';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   @Public()
   @Post('register')
@@ -53,7 +54,7 @@ export class AuthController {
   }
 
   @Get('me')
-  getProfile(@Request() req) {
+  getProfile(@Request() req: RequestWithUser) {
     return req.user;
   }
 }

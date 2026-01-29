@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Header } from "@/components/layout";
 import { resourcesService } from "@/services/api.service";
+import { useDebounce } from "@/hooks/use-debounce";
 
 type ResourceCategory =
   | "all"
@@ -13,13 +14,24 @@ type ResourceCategory =
   | "legal";
 
 interface Resource {
-  id: number;
+  id: string;
   title: string;
   category: ResourceCategory;
   type: string;
   size: string;
   updated: string;
   description: string;
+}
+
+interface ApiResource {
+  id: string;
+  title: string;
+  category: string;
+  type: string;
+  url: string;
+  size: string | null;
+  description: string | null;
+  updatedAt: string;
 }
 
 const categories = [
@@ -36,22 +48,40 @@ export default function ResourcesPage() {
   const [resources, setResources] = useState<Resource[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const debouncedSearch = useDebounce(searchQuery, 400);
+
+  // Reset page when filters change
+  useEffect(() => {
+    setPage(1);
+  }, [activeCategory, debouncedSearch]);
+
   useEffect(() => {
     const fetchResources = async () => {
+      setLoading(true);
       try {
-        const data = await resourcesService.getAll();
-        // Map API data to UI structure if needed, or assume DTO matches
-        // For now assuming API returns compatible structure but mapping just in case
-        const mappedData = data.map((r: any) => ({
+        const result = await resourcesService.getAll({
+          page,
+          limit: 10,
+          category: activeCategory,
+          search: debouncedSearch,
+        });
+
+        // Handle new response structure { data: [], meta: {} }
+        const resourcesData = result.data || [];
+        const meta = result.meta || { lastPage: 1 };
+
+        setTotalPages(meta.lastPage);
+
+        const mappedData = resourcesData.map((r: ApiResource) => ({
           id: r.id,
           title: r.title,
-          category: r.category as ResourceCategory,
+          category: (r.category as ResourceCategory) || "all",
           type: r.type,
           size: r.size || "Unknown",
-          updated: new Date(r.updatedAt).toLocaleDateString("fr-FR", {
-            relativeTimeFormat: "auto",
-          } as any), // Simple formatted date
-          description: r.description,
+          updated: new Date(r.updatedAt).toLocaleDateString("fr-FR"),
+          description: r.description || "",
         }));
         setResources(mappedData);
       } catch (error) {
@@ -63,16 +93,7 @@ export default function ResourcesPage() {
     };
 
     fetchResources();
-  }, []);
-
-  const filteredResources = resources.filter((r) => {
-    const matchesCategory =
-      activeCategory === "all" || r.category === activeCategory;
-    const matchesSearch =
-      r.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      r.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  }, [page, activeCategory, debouncedSearch]);
 
   return (
     <div className="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
@@ -128,60 +149,86 @@ export default function ResourcesPage() {
 
         {/* Resources Grid */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {filteredResources.map((resource) => (
-            <div
-              key={resource.id}
-              className="p-6 border border-gray-100 hover:border-black transition-all duration-300 cursor-pointer group"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1 min-w-0 space-y-3">
-                  {/* Type Badge */}
-                  <div className="flex items-center gap-2">
-                    <span className="inline-flex items-center px-2 py-0.5 text-[9px] uppercase tracking-widest font-semibold bg-gray-100 text-gray-600">
-                      {resource.type}
-                    </span>
-                    <span className="text-[9px] text-gray-400">
-                      {resource.size}
-                    </span>
+          {loading ? (
+            <div className="col-span-full py-16 text-center text-gray-400">
+              Chargement...
+            </div>
+          ) : resources.length > 0 ? (
+            resources.map((resource) => (
+              <div
+                key={resource.id}
+                className="p-6 border border-gray-100 hover:border-black transition-all duration-300 cursor-pointer group"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1 min-w-0 space-y-3">
+                    {/* Type Badge */}
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex items-center px-2 py-0.5 text-[9px] uppercase tracking-widest font-semibold bg-gray-100 text-gray-600">
+                        {resource.type}
+                      </span>
+                      <span className="text-[9px] text-gray-400">
+                        {resource.size}
+                      </span>
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-base font-serif text-black group-hover:underline underline-offset-4 truncate">
+                      {resource.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-sm text-gray-400 font-light line-clamp-2">
+                      {resource.description}
+                    </p>
+
+                    {/* Updated */}
+                    <p className="text-[10px] text-gray-300 uppercase tracking-wider">
+                      {resource.updated}
+                    </p>
                   </div>
 
-                  {/* Title */}
-                  <h3 className="text-base font-serif text-black group-hover:underline underline-offset-4 truncate">
-                    {resource.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-sm text-gray-400 font-light line-clamp-2">
-                    {resource.description}
-                  </p>
-
-                  {/* Updated */}
-                  <p className="text-[10px] text-gray-300 uppercase tracking-wider">
-                    {resource.updated}
-                  </p>
+                  {/* Download Icon */}
+                  <button className="p-2 text-gray-300 hover:text-black transition-colors">
+                    <span className="material-symbols-outlined text-lg">
+                      download
+                    </span>
+                  </button>
                 </div>
-
-                {/* Download Icon */}
-                <button className="p-2 text-gray-300 hover:text-black transition-colors">
-                  <span className="material-symbols-outlined text-lg">
-                    download
-                  </span>
-                </button>
               </div>
+            ))
+          ) : (
+            <div className="col-span-full text-center py-16">
+              <span className="material-symbols-outlined text-4xl text-gray-200 mb-4">
+                folder_off
+              </span>
+              <p className="text-sm text-gray-400">
+                Aucun document trouvé pour cette recherche.
+              </p>
             </div>
-          ))}
+          )}
         </section>
 
-        {/* Empty State */}
-        {filteredResources.length === 0 && (
-          <div className="text-center py-16">
-            <span className="material-symbols-outlined text-4xl text-gray-200 mb-4">
-              folder_off
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <section className="flex justify-center gap-4 items-center pt-8">
+            <button
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page === 1}
+              className="p-2 disabled:opacity-30 hover:bg-gray-50 rounded"
+            >
+              <span className="material-symbols-outlined">chevron_left</span>
+            </button>
+            <span className="text-xs uppercase tracking-widest text-gray-500">
+              Page {page} / {totalPages}
             </span>
-            <p className="text-sm text-gray-400">
-              Aucun document trouvé pour cette recherche.
-            </p>
-          </div>
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={page === totalPages}
+              className="p-2 disabled:opacity-30 hover:bg-gray-50 rounded"
+            >
+              <span className="material-symbols-outlined">chevron_right</span>
+            </button>
+          </section>
         )}
 
         {/* Upload Button */}
