@@ -2,7 +2,7 @@
 TITLE Uprising Node DB Setup
 
 echo ===================================================
-echo   UPRISING NODE - DATABASE RESET & INIT
+echo   UPRISING NODE - DATABASE RESET AND INIT
 echo ===================================================
 echo.
 echo [CRITICAL] Please close all other terminal windows (start_local.bat)
