@@ -18,6 +18,7 @@ export default function LoginPage() {
 
     try {
       await authService.login(email, password);
+      localStorage.setItem("auth_email", email);
       router.push("/dashboard");
     } catch (error) {
       console.error(error);

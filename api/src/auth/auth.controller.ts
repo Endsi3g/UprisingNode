@@ -17,15 +17,22 @@ import {
 } from './dto/auth.dto';
 
 import { Public } from './public.decorator';
+import { RequestWithUser } from './interfaces/request-with-user.interface';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   @Public()
   @Post('register')
   async register(@Body() dto: RegisterDto) {
     return this.authService.register(dto);
+  }
+
+  @Public()
+  @Post('verify-otp')
+  async verifyOtp(@Body() body: { email: string; code: string }) {
+    return this.authService.verifyOtp(body.email, body.code);
   }
 
   @Public()
@@ -53,7 +60,7 @@ export class AuthController {
   }
 
   @Get('me')
-  getProfile(@Request() req) {
+  getProfile(@Request() req: RequestWithUser) {
     return req.user;
   }
 }

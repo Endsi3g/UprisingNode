@@ -26,7 +26,7 @@ export class AuthService {
     private prisma: PrismaService,
     private jwtService: JwtService,
     private passwordService: PasswordService,
-  ) { }
+  ) {}
 
   async register(dto: RegisterDto) {
     // Check if user exists
@@ -51,6 +51,30 @@ export class AuthService {
         name: dto.name,
         role: 'PARTNER',
       },
+    });
+
+    // TODO: Send OTP email here
+
+    return this.generateToken(user.id, user.email, user.role);
+  }
+
+  async verifyOtp(email: string, code: string) {
+    const user: User | null = await this.prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    // Mock OTP check - in production use a real OTP store (Redis/DB)
+    if (code !== '123456') {
+      throw new UnauthorizedException('Invalid OTP code');
+    }
+
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: { emailVerified: true },
     });
 
     return this.generateToken(user.id, user.email, user.role);
