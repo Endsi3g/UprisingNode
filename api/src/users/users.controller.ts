@@ -7,11 +7,13 @@ import {
   UseGuards,
   Request,
   Param,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateProfileDto } from './dto/user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { UpdatePreferencesDto } from './dto/update-preferences.dto';
+import { GetPartnersDto } from './dto/get-partners.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @UseGuards(JwtAuthGuard)
@@ -20,8 +22,8 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get('partners')
-  findAllPartners() {
-    return this.usersService.findAllPartners();
+  findAllPartners(@Query() query: GetPartnersDto) {
+    return this.usersService.findAllPartners(query);
   }
 
   @Get(':id/details')

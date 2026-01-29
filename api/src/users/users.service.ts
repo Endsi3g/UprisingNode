@@ -8,6 +8,8 @@ import { PasswordService } from '../auth/password.service';
 import { UpdateProfileDto } from './dto/user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { UpdatePreferencesDto } from './dto/update-preferences.dto';
+import { GetPartnersDto } from './dto/get-partners.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
@@ -33,37 +35,74 @@ export class UsersService {
     });
   }
 
-  async findAllPartners() {
-    const partners = await this.prisma.user.findMany({
-      where: {
-        role: { in: ['PARTNER', 'ADMIN'] },
-      },
-      select: {
-        id: true,
-        name: true,
-        role: true,
-        avatar: true,
-        createdAt: true,
-        transactions: {
-          where: { type: 'COMMISSION', status: 'PAID' },
-          select: { amount: true },
-        },
-        _count: {
-          select: { leads: true }, // rough proxy for deal count or use transactions
-        },
-      },
-    });
+  async findAllPartners(query: GetPartnersDto) {
+    const { page = 1, limit = 10, search } = query;
+    const skip = (page - 1) * limit;
 
-    // Calculate aggregates manually since Prisma doesn't support easy complex aggregates on relation in findMany
-    return partners.map((p) => {
-      const totalEarnings = p.transactions.reduce(
-        (sum, t) => sum + t.amount,
-        0,
-      );
+    const where: Prisma.UserWhereInput = {
+      role: { in: ['PARTNER', 'ADMIN'] },
+    };
+
+    if (search) {
+      where.AND = [
+        {
+          OR: [
+            { name: { contains: search } },
+            { expertise: { contains: search } },
+          ],
+        },
+      ];
+    }
+
+    const [partners, total] = await Promise.all([
+      this.prisma.user.findMany({
+        where,
+        skip,
+        take: Number(limit),
+        select: {
+          id: true,
+          name: true,
+          role: true,
+          avatar: true,
+          expertise: true,
+          location: true,
+          createdAt: true,
+          _count: {
+            select: { leads: true },
+          },
+        },
+      }),
+      this.prisma.user.count({ where }),
+    ]);
+
+    // Aggregate earnings efficiently
+    const partnerIds = partners.map((p) => p.id);
+    const earningsMap = new Map<string, number>();
+
+    if (partnerIds.length > 0) {
+      const earnings = await this.prisma.transaction.groupBy({
+        by: ['userId'],
+        where: {
+          userId: { in: partnerIds },
+          type: 'COMMISSION',
+          status: 'PAID',
+        },
+        _sum: {
+          amount: true,
+        },
+      });
+
+      earnings.forEach((e) => {
+        earningsMap.set(e.userId, e._sum.amount || 0);
+      });
+    }
+
+    const data = partners.map((p) => {
+      const totalEarnings = earningsMap.get(p.id) || 0;
       return {
         id: p.id,
         name: p.name,
-        expertise: 'Généraliste', // Placeholder
+        expertise: p.expertise || 'Généraliste',
         tier:
           totalEarnings > 100000
             ? 'platinum'
@@ -73,9 +112,19 @@ export class UsersService {
         dealsThisMonth: Math.floor(Math.random() * 10), // Mock for now
         totalEarnings,
         avatar: p.avatar,
-        location: 'France', // Placeholder
+        location: p.location || 'France',
       };
     });
+
+    return {
+      data,
+      meta: {
+        total,
+        page: Number(page),
+        limit: Number(limit),
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   }
 
   async findOnePublic(id: string) {
