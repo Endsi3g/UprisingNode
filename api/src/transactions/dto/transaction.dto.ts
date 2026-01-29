@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { IsString, IsNumber, IsOptional, IsEnum } from 'class-validator';
 
 export class CreateTransactionDto {
