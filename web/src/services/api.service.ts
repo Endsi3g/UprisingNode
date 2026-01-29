@@ -113,8 +113,8 @@ export const resourcesService = {
 };
 
 export const usersService = {
-  getPartners: async () => {
-    const response = await api.get("/users/partners");
+  getPartners: async (params?: { page?: number; limit?: number; search?: string }) => {
+    const response = await api.get("/users/partners", { params });
     return response.data;
   },
   getPartnerDetails: async (id: string) => {
