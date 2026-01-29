@@ -4,8 +4,7 @@ import path from "path";
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
-  experimental: {
-  }
+  experimental: {},
 };
 
 export default nextConfig;

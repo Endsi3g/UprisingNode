@@ -197,8 +197,8 @@ export default function ProfilePage() {
               <div className="w-4 h-px bg-black/10"></div>
             </div>
             <p className="text-xs text-gray-500 font-serif leading-relaxed italic">
-              Besoin d&apos;aide pour modifier vos informations d&apos;entreprise ?
-              Contactez votre gestionnaire de compte dédié.
+              Besoin d&apos;aide pour modifier vos informations
+              d&apos;entreprise ? Contactez votre gestionnaire de compte dédié.
             </p>
             <a
               className="inline-block text-[10px] uppercase tracking-widest font-semibold border-b border-gray-200 hover:border-black transition-colors pb-1"
