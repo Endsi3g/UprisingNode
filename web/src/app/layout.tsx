@@ -47,9 +47,7 @@ export default function RootLayout({
       <body
         className={`${agmena.variable} ${sfPro.variable} bg-white min-h-screen font-sans text-text-main overflow-x-hidden antialiased`}
       >
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

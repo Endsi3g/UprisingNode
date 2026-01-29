@@ -1,0 +1,376 @@
+ÔÜá Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of C:\Nodev3\UprisingNode\pnpm-lock.yaml as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * C:\Nodev3\UprisingNode\web\package-lock.json
+
+Ôû▓ Next.js 16.1.4 (Turbopack)
+
+  Creating an optimized production build ...
+Error: Can't resolve 'tw-animate-css' in 'C:\Nodev3\UprisingNode\web\src\app'
+    [at finishWithoutResolve (C:\Nodev3\UprisingNode\web\node_modules\enhanced-resolve\lib\Resolver.js:565:18)]
+    [at C:\Nodev3\UprisingNode\web\node_modules\enhanced-resolve\lib\Resolver.js:657:14]
+    [at C:\Nodev3\UprisingNode\web\node_modules\enhanced-resolve\lib\Resolver.js:718:5]
+    [at eval (eval at create (C:\Nodev3\UprisingNode\web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)]
+    [at C:\Nodev3\UprisingNode\web\node_modules\enhanced-resolve\lib\Resolver.js:718:5]
+    [at eval (eval at create (C:\Nodev3\UprisingNode\web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:27:1)]
+    [at C:\Nodev3\UprisingNode\web\node_modules\enhanced-resolve\lib\DescriptionFilePlugin.js:89:43]
+    [at C:\Nodev3\UprisingNode\web\node_modules\enhanced-resolve\lib\Resolver.js:718:5]
+    [at eval (eval at create (C:\Nodev3\UprisingNode\web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)]
+    [at C:\Nodev3\UprisingNode\web\node_modules\enhanced-resolve\lib\Resolver.js:718:5] {
+  details: "resolve 'tw-animate-css' in 'C:\\Nodev3\\UprisingNode\\web\\src\\app'\n" +
+    '  Parsed request is a module\n' +
+    '  using description file: C:\\Nodev3\\UprisingNode\\web\\package.json (relative path: ./src/app)\n' +
+    '    resolve as module\n' +
+    "      C:\\Nodev3\\UprisingNode\\web\\src\\app\\node_modules doesn't exist or is not a directory\n" +
+    "      C:\\Nodev3\\UprisingNode\\web\\src\\node_modules doesn't exist or is not a directory\n" +
+    '      looking for modules in C:\\Nodev3\\UprisingNode\\web\\node_modules\n' +
+    '        single file module\n' +
+    '          using description file: C:\\Nodev3\\UprisingNode\\web\\package.json (relative path: ./node_modules/tw-animate-css)\n' +
+    '            no extension\n' +
+    "              C:\\Nodev3\\UprisingNode\\web\\node_modules\\tw-animate-css doesn't exist\n" +
+    '            .css\n' +
+    "              C:\\Nodev3\\UprisingNode\\web\\node_modules\\tw-animate-css.css doesn't exist\n" +
+    "        C:\\Nodev3\\UprisingNode\\web\\node_modules\\tw-animate-css doesn't exist\n" +
+    "      C:\\Nodev3\\UprisingNode\\node_modules doesn't exist or is not a directory\n" +
+    "      C:\\Nodev3\\node_modules doesn't exist or is not a directory\n" +
+    "      C:\\node_modules doesn't exist or is not a directory"
+}
+
+> Build error occurred
+Error: Turbopack build failed with 12 errors:
+./web/src/app/globals.css
+Error evaluating Node.js code
+CssSyntaxError: tailwindcss: C:\Nodev3\UprisingNode\web\src\app\globals.css:1:1: Can't resolve 'tw-animate-css' in 'C:\Nodev3\UprisingNode\web\src\app'
+    at Input.error (web/node_modules/postcss/lib/input.js:135:16) [C:\Nodev3\UprisingNode\web\.next\build\chunks\2374f_5c7d8cd5._.js:4651:22]
+    at Root.error (web/node_modules/postcss/lib/node.js:146:32) [C:\Nodev3\UprisingNode\web\.next\build\chunks\2374f_5c7d8cd5._.js:928:38]
+    [at Object.Once (C:\Nodev3\UprisingNode\web\node_modules\@tailwindcss\postcss\dist\index.js:10:6911)]
+    [at process.processTicksAndRejections (node:internal/process/task_queues:103:5)]
+    at async LazyResult.runAsync (web/node_modules/postcss/lib/lazy-result.js:293:11) [C:\Nodev3\UprisingNode\web\.next\build\chunks\2374f_5c7d8cd5._.js:6206:21]
+    at async transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:34) [C:\Nodev3\UprisingNode\web\.next\build\chunks\[root-of-the-server]__a1c54c3d._.js:146:36]
+    at async run (turbopack:///[turbopack-node]/ipc/evaluate.ts:92:23) [C:\Nodev3\UprisingNode\web\.next\build\chunks\[root-of-the-server]__0be3f5a8._.js:443:31]
+
+Import trace:
+  Client Component Browser:
+    ./web/src/app/globals.css [Client Component Browser]
+    ./web/src/app/layout.tsx [Server Component]
+
+
+./web/src/app/(dashboard)/messages/page.tsx:10:1
+Module not found: Can't resolve '@/components/ui/avatar'
+   8 | import { Input } from "@/components/ui/input";
+   9 | import { Button } from "@/components/ui/button";
+> 10 | import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  11 | const MOCK_CONVERSATIONS = [{
+  12 |   id: 1,
+  13 |   name: "Support Technique",
+
+Import map: aliased to relative './src/components/ui/avatar' inside of [project]/web
+
+
+Import traces:
+  Client Component Browser:
+    ./web/src/app/(dashboard)/messages/page.tsx [Client Component Browser]
+    ./web/src/app/(dashboard)/messages/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./web/src/app/(dashboard)/messages/page.tsx [Client Component SSR]
+    ./web/src/app/(dashboard)/messages/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./web/src/app/(dashboard)/messages/page.tsx:9:1
+Module not found: Can't resolve '@/components/ui/avatar'
+   7 | import { Input } from "@/components/ui/input";
+   8 | import { Button } from "@/components/ui/button";
+>  9 | import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  10 |
+  11 | const MOCK_CONVERSATIONS = [
+  12 |     { id: 1, name: "Support Technique", lastMessage: "Votre ticket #1234 a ├®t├® r├®solu", time: "10:30", unread: 2 },
+
+Import map: aliased to relative './src/components/ui/avatar' inside of [project]/web
+
+
+Import traces:
+  Client Component Browser:
+    ./web/src/app/(dashboard)/messages/page.tsx [Client Component Browser]
+    ./web/src/app/(dashboard)/messages/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./web/src/app/(dashboard)/messages/page.tsx [Client Component SSR]
+    ./web/src/app/(dashboard)/messages/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./web/src/components/chat/chat-components.tsx:6:1
+Module not found: Can't resolve '@/components/ui/avatar'
+  4 | import React from "react";
+  5 | import { cn } from "@/lib/utils";
+> 6 | import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | interface ChatBubbleProps {
+  8 |   message: string;
+  9 |   isMe: boolean;
+
+Import map: aliased to relative './src/components/ui/avatar' inside of [project]/web
+
+
+Import traces:
+  Client Component Browser:
+    ./web/src/components/chat/chat-components.tsx [Client Component Browser]
+    ./web/src/app/(dashboard)/messages/page.tsx [Client Component Browser]
+    ./web/src/app/(dashboard)/messages/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./web/src/components/chat/chat-components.tsx [Client Component SSR]
+    ./web/src/app/(dashboard)/messages/page.tsx [Client Component SSR]
+    ./web/src/app/(dashboard)/messages/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./web/src/components/chat/chat-components.tsx:5:1
+Module not found: Can't resolve '@/components/ui/avatar'
+  3 | import React from "react";
+  4 | import { cn } from "@/lib/utils";
+> 5 | import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 |
+  7 | interface ChatBubbleProps {
+  8 |     message: string;
+
+Import map: aliased to relative './src/components/ui/avatar' inside of [project]/web
+
+
+Import traces:
+  Client Component Browser:
+    ./web/src/components/chat/chat-components.tsx [Client Component Browser]
+    ./web/src/app/(dashboard)/messages/page.tsx [Client Component Browser]
+    ./web/src/app/(dashboard)/messages/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./web/src/components/chat/chat-components.tsx [Client Component SSR]
+    ./web/src/app/(dashboard)/messages/page.tsx [Client Component SSR]
+    ./web/src/app/(dashboard)/messages/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./web/src/app/(dashboard)/email-templates/page.tsx:8:1
+Module not found: Can't resolve '@/components/ui/tabs'
+   6 | import { toast } from "sonner";
+   7 | import { Copy, Mail, ArrowRight, Star } from "lucide-react";
+>  8 | import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 | import { cn } from "@/lib/utils";
+  10 | const TEMPLATES = [{
+  11 |   id: "cold-1",
+
+Import map: aliased to relative './src/components/ui/tabs' inside of [project]/web
+
+
+Import traces:
+  Client Component Browser:
+    ./web/src/app/(dashboard)/email-templates/page.tsx [Client Component Browser]
+    ./web/src/app/(dashboard)/email-templates/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./web/src/app/(dashboard)/email-templates/page.tsx [Client Component SSR]
+    ./web/src/app/(dashboard)/email-templates/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./web/src/app/(dashboard)/email-templates/page.tsx:7:1
+Module not found: Can't resolve '@/components/ui/tabs'
+   5 | import { toast } from "sonner";
+   6 | import { Copy, Mail, ArrowRight, Star } from "lucide-react";
+>  7 | import {
+     | ^^^^^^^^
+>  8 |     Tabs,
+     | ^^^^^^^^^
+>  9 |     TabsContent,
+     | ^^^^^^^^^
+> 10 |     TabsList,
+     | ^^^^^^^^^
+> 11 |     TabsTrigger,
+     | ^^^^^^^^^
+> 12 | } from "@/components/ui/tabs";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  13 | import { cn } from "@/lib/utils";
+  14 |
+  15 | const TEMPLATES = [
+
+Import map: aliased to relative './src/components/ui/tabs' inside of [project]/web
+
+
+Import traces:
+  Client Component Browser:
+    ./web/src/app/(dashboard)/email-templates/page.tsx [Client Component Browser]
+    ./web/src/app/(dashboard)/email-templates/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./web/src/app/(dashboard)/email-templates/page.tsx [Client Component SSR]
+    ./web/src/app/(dashboard)/email-templates/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./web/src/app/(dashboard)/partners/[id]/page.tsx:9:1
+Module not found: Can't resolve 'date-fns'
+   7 | import { MetricDisplay, StatusBadge } from "@/components/uprising";
+   8 | import { toast } from "sonner";
+>  9 | import { format } from "date-fns";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  10 | import { fr } from "date-fns/locale";
+  11 | interface PartnerDetails {
+  12 |   id: string;
+
+
+
+Import traces:
+  Client Component Browser:
+    ./web/src/app/(dashboard)/partners/[id]/page.tsx [Client Component Browser]
+    ./web/src/app/(dashboard)/partners/[id]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./web/src/app/(dashboard)/partners/[id]/page.tsx [Client Component SSR]
+    ./web/src/app/(dashboard)/partners/[id]/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./web/src/app/(dashboard)/partners/[id]/page.tsx:9:1
+Module not found: Can't resolve 'date-fns'
+   7 | import { MetricDisplay, StatusBadge } from "@/components/uprising";
+   8 | import { toast } from "sonner";
+>  9 | import { format } from "date-fns";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  10 | import { fr } from "date-fns/locale";
+  11 |
+  12 | interface PartnerDetails {
+
+
+
+Import traces:
+  Client Component Browser:
+    ./web/src/app/(dashboard)/partners/[id]/page.tsx [Client Component Browser]
+    ./web/src/app/(dashboard)/partners/[id]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./web/src/app/(dashboard)/partners/[id]/page.tsx [Client Component SSR]
+    ./web/src/app/(dashboard)/partners/[id]/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./web/src/app/(dashboard)/partners/[id]/page.tsx:10:1
+Module not found: Can't resolve 'date-fns/locale'
+   8 | import { toast } from "sonner";
+   9 | import { format } from "date-fns";
+> 10 | import { fr } from "date-fns/locale";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  11 | interface PartnerDetails {
+  12 |   id: string;
+  13 |   name: string;
+
+
+
+Import traces:
+  Client Component Browser:
+    ./web/src/app/(dashboard)/partners/[id]/page.tsx [Client Component Browser]
+    ./web/src/app/(dashboard)/partners/[id]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./web/src/app/(dashboard)/partners/[id]/page.tsx [Client Component SSR]
+    ./web/src/app/(dashboard)/partners/[id]/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./web/src/app/(dashboard)/partners/[id]/page.tsx:10:1
+Module not found: Can't resolve 'date-fns/locale'
+   8 | import { toast } from "sonner";
+   9 | import { format } from "date-fns";
+> 10 | import { fr } from "date-fns/locale";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  11 |
+  12 | interface PartnerDetails {
+  13 |     id: string;
+
+
+
+Import traces:
+  Client Component Browser:
+    ./web/src/app/(dashboard)/partners/[id]/page.tsx [Client Component Browser]
+    ./web/src/app/(dashboard)/partners/[id]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./web/src/app/(dashboard)/partners/[id]/page.tsx [Client Component SSR]
+    ./web/src/app/(dashboard)/partners/[id]/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./web/src/lib/utils.ts:2:1
+Module not found: Can't resolve 'tailwind-merge'
+  1 | import { clsx, type ClassValue } from "clsx"
+> 2 | import { twMerge } from "tailwind-merge"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 |
+  4 | export function cn(...inputs: ClassValue[]) {
+  5 |     return twMerge(clsx(inputs))
+
+
+
+Import traces:
+  Server Component:
+    ./web/src/lib/utils.ts
+    ./web/src/components/ui/button.tsx
+    ./web/src/app/page.tsx
+
+  Client Component SSR:
+    ./web/src/lib/utils.ts [Client Component SSR]
+    ./web/src/components/ui/label.tsx [Client Component SSR]
+    ./web/src/app/(dashboard)/settings/team/page.tsx [Client Component SSR]
+    ./web/src/app/(dashboard)/settings/team/page.tsx [Server Component]
+
+  Client Component Browser:
+    ./web/src/lib/utils.ts [Client Component Browser]
+    ./web/src/components/ui/label.tsx [Client Component Browser]
+    ./web/src/components/ui/index.ts [Client Component Browser]
+    ./web/src/app/(dashboard)/developer/alerts/page.tsx [Client Component Browser]
+    ./web/src/app/(dashboard)/developer/alerts/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at async transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:34) [C:\Nodev3\UprisingNode\web\.next\build\chunks\[root-of-the-server]__a1c54c3d._.js:146:36])
+    at async run (turbopack:///[turbopack-node]/ipc/evaluate.ts:92:23) [C:\Nodev3\UprisingNode\web\.next\build\chunks\[root-of-the-server]__0be3f5a8._.js:443:31])
+    at <unknown> (./web/src/app/(dashboard)/messages/page.tsx:10:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./web/src/app/(dashboard)/messages/page.tsx:9:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./web/src/components/chat/chat-components.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./web/src/components/chat/chat-components.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./web/src/app/(dashboard)/email-templates/page.tsx:8:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./web/src/app/(dashboard)/email-templates/page.tsx:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./web/src/app/(dashboard)/partners/[id]/page.tsx:9:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./web/src/app/(dashboard)/partners/[id]/page.tsx:9:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./web/src/app/(dashboard)/partners/[id]/page.tsx:10:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./web/src/app/(dashboard)/partners/[id]/page.tsx:10:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./web/src/lib/utils.ts:2:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)

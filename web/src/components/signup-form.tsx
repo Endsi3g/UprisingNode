@@ -1,45 +1,45 @@
 "use client";
 
-import * as React from "react"
-import { useRouter } from "next/navigation"
-import { authService } from "@/services/api.service"
-import { GalleryVerticalEnd } from "lucide-react"
+import * as React from "react";
+import { useRouter } from "next/navigation";
+import { authService } from "@/services/api.service";
+import { GalleryVerticalEnd } from "lucide-react";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldDescription,
   FieldGroup,
   FieldLabel,
   FieldSeparator,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const [isLoading, setIsLoading] = React.useState(false)
-  const [name, setName] = React.useState("")
-  const [email, setEmail] = React.useState("")
-  const [password, setPassword] = React.useState("")
-  const router = useRouter()
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
+    setIsLoading(true);
 
     try {
-      await authService.register(email, password, name)
-      router.push("/dashboard")
+      await authService.register(email, password, name);
+      router.push("/dashboard");
     } catch (error) {
-      console.error(error)
-      alert("Registration failed")
+      console.error(error);
+      alert("Registration failed");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -126,5 +126,5 @@ export function SignupForm({
         and <a href="#">Privacy Policy</a>.
       </FieldDescription>
     </div>
-  )
+  );
 }

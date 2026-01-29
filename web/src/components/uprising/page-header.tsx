@@ -15,7 +15,7 @@ interface PageHeaderProps {
 
 /**
  * PageHeader - Uprising Node style page header
- * 
+ *
  * Features the elegant serif title with uppercase tracking subtitle
  * and optional status badge, matching the source design aesthetic.
  */
@@ -33,13 +33,7 @@ export function PageHeader({
   };
 
   return (
-    <div
-      className={cn(
-        "space-y-4",
-        centered && "text-center",
-        className
-      )}
-    >
+    <div className={cn("space-y-4", centered && "text-center", className)}>
       {/* Title */}
       <h1 className="text-3xl md:text-5xl font-serif font-normal text-black tracking-tight">
         {title}
@@ -64,7 +58,7 @@ export function PageHeader({
           <span
             className={cn(
               "text-[10px] font-medium uppercase tracking-widest",
-              badgeColors[badge.variant || "default"]
+              badgeColors[badge.variant || "default"],
             )}
           >
             {badge.text}

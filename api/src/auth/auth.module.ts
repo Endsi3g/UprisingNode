@@ -8,23 +8,23 @@ import { JwtAuthGuard } from './jwt-auth.guard';
 import { JwtStrategy } from './jwt.strategy';
 
 @Module({
-    imports: [
-        JwtModule.register({
-            global: true,
-            secret: process.env.JWT_SECRET || 'secret',
-            signOptions: { expiresIn: '7d' },
-        }),
-    ],
-    controllers: [AuthController],
-    providers: [
-        AuthService,
-        JwtStrategy,
-        PasswordService,
-        {
-            provide: APP_GUARD,
-            useClass: JwtAuthGuard,
-        },
-    ],
-    exports: [AuthService, PasswordService],
+  imports: [
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET || 'secret',
+      signOptions: { expiresIn: '7d' },
+    }),
+  ],
+  controllers: [AuthController],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    PasswordService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
+  exports: [AuthService, PasswordService],
 })
-export class AuthModule { }
+export class AuthModule {}

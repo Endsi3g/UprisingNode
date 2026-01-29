@@ -1,6 +1,8 @@
 # UPRISING NODE
 
 > **Infrastructure de Domination Commerciale & Partenariat Stratégique**
+>
+> ![Status](https://img.shields.io/badge/Status-Production%20Ready-green) ![Build](https://img.shields.io/badge/Build-Passing-success) ![Version](https://img.shields.io/badge/Version-2.4.0-black)
 
 Bienvenue sur le dépôt officiel du **Portail Partenaire Uprising Node**. Cette plateforme est la tour de contrôle centrale pour nos partenaires d'élite, conçue pour orchestrer, suivre et amplifier les opérations commerciales B2B à haute fréquence.
 
@@ -12,13 +14,14 @@ Bienvenue sur le dépôt officiel du **Portail Partenaire Uprising Node**. Cette
 
 Construit pour la performance, la sécurité et une expérience utilisateur sans friction (Zero-Friction UX).
 
-- **Frontend Core** : [Next.js 16](https://nextjs.org/) (App Router)
-- **Langage** : TypeScript (Strict Mode)
+- **Frontend Core** : [Next.js 16](https://nextjs.org/) (App Router, Server Components)
+- **Langage** : TypeScript 5.9 (Strict Mode enabled)
 - **Styling** : [Tailwind CSS v4.0](https://tailwindcss.com/)
-- **UI Library** : [Shadcn/UI](https://ui.shadcn.com/) + [Tremor](https://www.tremor.so/) + [Aceternity](https://ui.aceternity.com/)
-- **Motion** : Motion (fka Framer Motion)
-- **Backend** : NestJS (API REST) + PostgreSQL
-- **Fonts** : SF Pro Display (System) & Agmena Pro (Serif)
+- **UI Architecture** : [Shadcn/UI](https://ui.shadcn.com/) + [Tremor](https://www.tremor.so/)
+- **Motion** : Motion (ex-Framer Motion)
+- **Backend** : NestJS (Modular Monolith)
+- **Base de Données** : Prisma ORM + PostgreSQL (via Supabase ou Docker)
+- **Sécurité** : Rate Limiting, JWT Auth, Validation Pipes, CORS strict
 
 ---
 
@@ -28,26 +31,24 @@ Construit pour la performance, la sécurité et une expérience utilisateur sans
 
 Une vue d'aigle sur vos performances. Métriques en temps réel, graphiques d'évolution et indicateurs clés de performance (KPIs) pour un pilotage précis.
 
-### 2. Navigation Hybride
+### 2. Gestion Avancée des Leads (Scraper)
+
+**Nouveau** : Module de scraping intégré pour l'enrichissement automatique des leads et la détection d'opportunités.
+
+### 3. Navigation Hybride
 
 - **Sidebar Classique** : Pour une navigation structurelle et rapide.
-- **Floating Dock (Nouveau)** : Interface immersive style MacOS pour un accès fluide aux outils critiques (activable dans les paramètres).
+- **Floating Dock** : Interface immersive style MacOS pour un accès fluide aux outils critiques.
 
-### 3. Simulation de Gains
+### 4. Sécurité & Authentification
 
-Calculez vos projections financières instantanément. Ajustez les variables (TJM, Jours vendus, Commission) et visualisez votre potentiel de revenus.
+- **Flux Complet** : Login, Inscription, Mot de passe oublié, Reset de mot de passe.
+- **Protection** : Rate limiting sur les endpoints sensibles (Login: 5 req/min).
+- **Validation** : Vérification stricte des entrées (DTOs).
 
-### 4. Ressources Stratégiques (War Room)
+### 5. Simulation de Gains
 
-Accès direct aux actifs de vente :
-
-- **Dossier Stratégique (PDF interactif)** : Rapports d'audit et analyses de surface.
-- **Scripts de Vente** : Protocoles de closing et traitement des objections.
-- **Documentation** : Guides techniques et procédures opérationnelles.
-
-### 5. Collaboration d'Équipe
-
-Gérez votre escouade. Ajoutez des membres, définissez les rôles et configurez les notifications pour rester synchronisé sur chaque opportunité.
+Calculez vos projections financières instantanément. Données basées sur les leads réels et le statut du compte.
 
 ---
 
@@ -55,29 +56,40 @@ Gérez votre escouade. Ajoutez des membres, définissez les rôles et configurez
 
 ### Prérequis
 
-- **Node.js 20+** (Recommandé)
-- **pnpm** (Gestionnaire de paquets principal)
+- **Node.js 20+**
+- **npm** ou **pnpm**
 
 ### 1. Installation
 
 Installez toutes les dépendances (API + Web) depuis la racine :
 
 ```bash
-pnpm install
+npm install
 ```
 
-### 2. Démarrage Rapide (Tout-en-un)
+### 2. Configuration Environnement
 
-Lancez le Frontend (Next.js) et le Backend (NestJS) avec une seule commande :
+Copiez les fichiers d'exemple :
 
 ```bash
-npm run dev
-# ou
-pnpm dev
+cp api/.env.example api/.env
+cp web/.env.example web/.env.local
+```
+
+### 3. Démarrage Rapide
+
+Lancez le Frontend (Next.js) et le Backend (NestJS) en parallèle :
+
+```bash
+# Terminal 1
+cd api && npm run start:dev
+
+# Terminal 2
+cd web && npm run dev
 ```
 
 - **Web App** : `http://localhost:3000`
-- **API** : `http://localhost:3001`
+- **API** : `http://localhost:3001` (Swagger: `/api`)
 
 ---
 
@@ -85,17 +97,13 @@ pnpm dev
 
 ### Frontend (Netlify / Vercel)
 
-Le dossier `web` est une application Next.js standard.
+Le dossier `web` est une application Next.js standard prête à être déployée.
+Build command: `npm run build`
 
-- **Netlify** : Connectez votre repo GitHub, pointez sur le dossier `web`.
-- **Vercel** : Créez un nouveau projet, sélectionnez le dossier `web`.
+### Backend (Cloud Run / Vercel / VPS)
 
-### Backend (Vercel / Cloud)
-
-L'API est configurée pour fonctionner en Serverless ou Standalone.
-
-- **Vercel** : Le fichier `vercel.json` à la racine gère la redirection vers l'API.
-- **Docker** : Un `Dockerfile` est disponible pour un déploiement classique.
+L'API est conteneurisable via le `Dockerfile` inclus.
+Ports exposés : `3001`
 
 ---
 
@@ -103,20 +111,9 @@ L'API est configurée pour fonctionner en Serverless ou Standalone.
 
 **Uprising Node** utilise une esthétique "Lindy" minimaliste et autoritaire.
 
-- **Typographie** :
-  - *Titres* : `SF Pro Display Bold` (Impact, Modernité)
-  - *Corps* : `SF Pro Display Regular` (Lisibilité, Neutralité)
-  - *Accents* : `Agmena Pro SemiBold` (Élégance, Autorité)
-- **Couleurs** : Strictement Monochrome (Noir, Blanc, Gris de sécurité).
+- **Typographie** : `SF Pro Display` (System) & `Agmena Pro` (Serif)
+- **Couleurs** : Strictement Monochrome.
 
 ---
 
-## 🔒 Sécurité
-
-- Authentification 2FA prête.
-- Logs d'activité détaillés.
-- Gestion des sessions sécurisée.
-
----
-
-© 2024 Uprising Node. *Confidentiel & Propriétaire.*
+© 2026 Uprising Node. *Confidentiel & Propriétaire.*

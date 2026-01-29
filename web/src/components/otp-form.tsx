@@ -1,29 +1,29 @@
 "use client";
 
-import * as React from "react"
-import { useRouter } from "next/navigation"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldDescription,
   FieldGroup,
   FieldLabel,
-} from "@/components/ui/field"
+} from "@/components/ui/field";
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSeparator,
   InputOTPSlot,
-} from "@/components/ui/input-otp"
+} from "@/components/ui/input-otp";
 
 export function OTPForm({ className, ...props }: React.ComponentProps<"div">) {
-  const router = useRouter()
+  const router = useRouter();
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // Verify logic here
-    router.push("/dashboard")
-  }
+    router.push("/dashboard");
+  };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <form onSubmit={handleSubmit}>
@@ -65,5 +65,5 @@ export function OTPForm({ className, ...props }: React.ComponentProps<"div">) {
         </FieldGroup>
       </form>
     </div>
-  )
+  );
 }

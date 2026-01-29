@@ -35,7 +35,9 @@ export function AppSidebar() {
     <aside className="w-64 border-r border-gray-100 flex flex-col fixed h-full bg-white z-50">
       {/* Logo */}
       <div className="px-8 py-10 flex items-center gap-3">
-        <span className="material-symbols-outlined text-2xl font-light">hub</span>
+        <span className="material-symbols-outlined text-2xl font-light">
+          hub
+        </span>
         <h2 className="text-base font-medium tracking-wide font-serif italic">
           Uprising Node
         </h2>
@@ -44,7 +46,8 @@ export function AppSidebar() {
       {/* Navigation */}
       <nav className="flex-1 px-4 space-y-1">
         {navItems.map((item) => {
-          const isActive = pathname === item.href || pathname?.startsWith(item.href + "/");
+          const isActive =
+            pathname === item.href || pathname?.startsWith(item.href + "/");
           return (
             <Link
               key={item.href}
@@ -53,7 +56,7 @@ export function AppSidebar() {
                 "sidebar-link flex items-center gap-4 px-4 py-3 text-sm font-medium border-l-2 transition-all",
                 isActive
                   ? "border-black text-black"
-                  : "border-transparent text-gray-400 hover:text-black hover:border-gray-200"
+                  : "border-transparent text-gray-400 hover:text-black hover:border-gray-200",
               )}
             >
               <span className="material-symbols-outlined font-light text-xl">
@@ -87,4 +90,3 @@ export function AppSidebar() {
     </aside>
   );
 }
-

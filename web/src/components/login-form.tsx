@@ -1,41 +1,41 @@
-import * as React from "react"
-import { useRouter } from "next/navigation"
-import { authService } from "@/services/api.service"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import * as React from "react";
+import { useRouter } from "next/navigation";
+import { authService } from "@/services/api.service";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Field,
   FieldDescription,
   FieldGroup,
   FieldLabel,
   FieldSeparator,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const [isLoading, setIsLoading] = React.useState(false)
-  const [email, setEmail] = React.useState("")
-  const [password, setPassword] = React.useState("")
-  const router = useRouter()
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
+    setIsLoading(true);
 
     try {
-      await authService.login(email, password)
-      router.push("/dashboard")
+      await authService.login(email, password);
+      router.push("/dashboard");
     } catch (error) {
-      console.error(error)
-      alert("Login failed")
+      console.error(error);
+      alert("Login failed");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -135,5 +135,5 @@ export function LoginForm({
         and <a href="#">Privacy Policy</a>.
       </FieldDescription>
     </div>
-  )
+  );
 }
