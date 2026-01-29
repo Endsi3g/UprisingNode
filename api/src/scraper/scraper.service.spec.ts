@@ -53,12 +53,13 @@ describe('ScraperService', () => {
 
   it('should launch browser on module init', async () => {
     await service.onModuleInit();
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(puppeteer.launch).toHaveBeenCalledTimes(1);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(mockBrowser.on).toHaveBeenCalledWith(
-      'disconnected',
-      expect.any(Function),
-    );
+
+    // Assign to variable to avoid unbound-method lint error
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
+    const onSpy = mockBrowser.on;
+    expect(onSpy).toHaveBeenCalledWith('disconnected', expect.any(Function));
   });
 
   it('should scrape using a new context', async () => {
