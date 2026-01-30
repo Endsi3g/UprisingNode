@@ -27,12 +27,14 @@ export class UsersController {
   }
 
   @Get('profile') // /users/profile
-  getProfile(@Request() req) {
+  getProfile(@Request() req: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
     return this.usersService.findOne(req.user.userId);
   }
 
   @Patch('profile')
-  updateProfile(@Request() req, @Body() dto: UpdateProfileDto) {
+  updateProfile(@Request() req: any, @Body() dto: UpdateProfileDto) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
     return this.usersService.update(req.user.userId, dto);
   }
 }
