@@ -5,7 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Get,
-  Request,
+  Req,
 } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 import { AuthService } from './auth.service';
@@ -15,12 +15,13 @@ import {
   ForgotPasswordDto,
   ResetPasswordDto,
 } from './dto/auth.dto';
+import type { RequestWithUser } from '../common/interfaces/request-with-user.interface';
 
 import { Public } from './public.decorator';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   @Public()
   @Post('register')
@@ -53,7 +54,7 @@ export class AuthController {
   }
 
   @Get('me')
-  getProfile(@Request() req) {
+  getProfile(@Req() req: RequestWithUser) {
     return req.user;
   }
 }

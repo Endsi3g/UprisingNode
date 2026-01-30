@@ -1,10 +1,12 @@
 import {
+  SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
-  SubscribeMessage,
+  OnGatewayInit,
   OnGatewayConnection,
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
+import { Logger } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway({
@@ -12,25 +14,26 @@ import { Server, Socket } from 'socket.io';
     origin: '*',
   },
 })
-export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
-  @WebSocketServer()
-  server: Server;
+export class EventsGateway
+  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
+{
+  @WebSocketServer() server: Server;
+  private logger: Logger = new Logger('EventsGateway');
 
-  handleConnection(client: Socket) {
-    console.log(`Client connected: ${client.id}`);
+  afterInit() {
+    this.logger.log('Init');
   }
 
   handleDisconnect(client: Socket) {
-    console.log(`Client disconnected: ${client.id}`);
+    this.logger.log(`Client disconnected: ${client.id}`);
+  }
+
+  handleConnection(client: Socket) {
+    this.logger.log(`Client connected: ${client.id}`);
   }
 
   @SubscribeMessage('ping')
-  handlePing(client: Socket, data: unknown): string {
+  handlePing(): string {
     return 'pong';
-  }
-
-  // Helper method to broadcast events (can be injected into services)
-  broadcast(event: string, data: any) {
-    this.server.emit(event, data);
   }
 }

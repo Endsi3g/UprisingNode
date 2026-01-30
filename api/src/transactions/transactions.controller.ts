@@ -6,7 +6,7 @@ import {
   Patch,
   Param,
   UseGuards,
-  Request,
+  Req,
 } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
 import {
@@ -14,6 +14,7 @@ import {
   UpdateTransactionDto,
 } from './dto/transaction.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import type { RequestWithUser } from '../common/interfaces/request-with-user.interface';
 
 @UseGuards(JwtAuthGuard)
 @Controller('transactions')
@@ -21,7 +22,10 @@ export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
 
   @Post()
-  create(@Request() req, @Body() createTransactionDto: CreateTransactionDto) {
+  create(
+    @Req() req: RequestWithUser,
+    @Body() createTransactionDto: CreateTransactionDto,
+  ) {
     return this.transactionsService.create(
       req.user.userId,
       createTransactionDto,
@@ -29,19 +33,19 @@ export class TransactionsController {
   }
 
   @Get()
-  findAll(@Request() req) {
+  findAll(@Req() req: RequestWithUser) {
     return this.transactionsService.findAll(req.user.userId);
   }
 
   @Get(':id')
-  findOne(@Request() req, @Param('id') id: string) {
+  findOne(@Req() req: RequestWithUser, @Param('id') id: string) {
     return this.transactionsService.findOne(req.user.userId, id);
   }
 
   // Only for simulation/dev purposes in this MVP
   @Patch(':id')
   update(
-    @Request() req,
+    @Req() req: RequestWithUser,
     @Param('id') id: string,
     @Body() updateTransactionDto: UpdateTransactionDto,
   ) {
