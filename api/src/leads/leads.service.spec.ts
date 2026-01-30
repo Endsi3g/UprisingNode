@@ -2,9 +2,21 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { LeadsService } from './leads.service';
 import { PrismaService } from '../prisma/prisma.service';
 
+// Define a type for the mock that matches the structure we need
+type MockPrismaService = {
+  lead: {
+    create: jest.Mock;
+    findMany: jest.Mock;
+    findFirst: jest.Mock;
+    update: jest.Mock;
+    delete: jest.Mock;
+    aggregate: jest.Mock;
+  };
+};
+
 describe('LeadsService', () => {
   let service: LeadsService;
-  let prisma: PrismaService;
+  let prisma: MockPrismaService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -27,7 +39,10 @@ describe('LeadsService', () => {
     }).compile();
 
     service = module.get<LeadsService>(LeadsService);
-    prisma = module.get<PrismaService>(PrismaService);
+    // Cast the injected PrismaService to our mock type
+    prisma = module.get<PrismaService>(
+      PrismaService,
+    ) as unknown as MockPrismaService;
   });
 
   it('should be defined', () => {
@@ -37,7 +52,7 @@ describe('LeadsService', () => {
   describe('getPotentialGains', () => {
     it('should return calculated gains', async () => {
       const mockAggregate = { _sum: { score: 100 } };
-      (prisma.lead.aggregate as jest.Mock).mockResolvedValue(mockAggregate);
+      prisma.lead.aggregate.mockResolvedValue(mockAggregate);
 
       const result = await service.getPotentialGains('user-1');
       expect(result).toBe(1000); // 100 * 10
@@ -52,7 +67,7 @@ describe('LeadsService', () => {
 
     it('should return 0 if score sum is null', async () => {
       const mockAggregate = { _sum: { score: null } };
-      (prisma.lead.aggregate as jest.Mock).mockResolvedValue(mockAggregate);
+      prisma.lead.aggregate.mockResolvedValue(mockAggregate);
 
       const result = await service.getPotentialGains('user-1');
       expect(result).toBe(0);
@@ -62,7 +77,7 @@ describe('LeadsService', () => {
   describe('getActivePipeline', () => {
     it('should return active leads', async () => {
       const mockLeads = [{ id: '1' }, { id: '2' }];
-      (prisma.lead.findMany as jest.Mock).mockResolvedValue(mockLeads);
+      prisma.lead.findMany.mockResolvedValue(mockLeads);
 
       const result = await service.getActivePipeline('user-1');
       expect(result).toEqual(mockLeads);
