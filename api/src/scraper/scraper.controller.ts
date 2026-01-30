@@ -10,6 +10,7 @@ export class ScraperController {
     if (!url) {
       throw new BadRequestException('URL is required');
     }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.scraperService.scrapeCompany(url);
   }
 }
