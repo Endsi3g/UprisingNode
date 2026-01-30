@@ -1,19 +1,33 @@
-import { IsString, IsNumber, IsOptional, IsEnum } from 'class-validator';
+import {
+  IsString,
+  IsNumber,
+  IsOptional,
+  Min,
+  IsUUID,
+  // IsEnum, // Removed unused import
+} from 'class-validator';
 
 export class CreateTransactionDto {
   @IsNumber()
+  @Min(0)
   amount: number;
 
   @IsString()
-  type: string; // COMMISSION | WITHDRAWAL
+  type: string; // 'COMMISSION' | 'WITHDRAWAL' | 'ADJUSTMENT'
 
   @IsString()
+  status: string; // 'PENDING' | 'PAID' | 'CANCELLED'
+
+  @IsString()
+  description: string;
+
   @IsOptional()
-  description?: string;
+  @IsUUID()
+  leadId?: string;
 }
 
 export class UpdateTransactionDto {
-  @IsString()
   @IsOptional()
-  status?: string; // PENDING | VALIDATED | PAID | CANCELLED
+  @IsString()
+  status?: string;
 }

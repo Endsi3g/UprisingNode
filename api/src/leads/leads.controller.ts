@@ -7,11 +7,12 @@ import {
   Param,
   Delete,
   UseGuards,
-  Request,
+  Req,
 } from '@nestjs/common';
 import { LeadsService } from './leads.service';
 import { CreateLeadDto, UpdateLeadDto } from './dto/lead.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import type { RequestWithUser } from '../common/interfaces/request-with-user.interface';
 
 @UseGuards(JwtAuthGuard)
 @Controller('leads')
@@ -19,17 +20,17 @@ export class LeadsController {
   constructor(private readonly leadsService: LeadsService) {}
 
   @Post()
-  create(@Request() req, @Body() createLeadDto: CreateLeadDto) {
+  create(@Req() req: RequestWithUser, @Body() createLeadDto: CreateLeadDto) {
     return this.leadsService.create(req.user.userId, createLeadDto);
   }
 
   @Get()
-  findAll(@Request() req) {
+  findAll(@Req() req: RequestWithUser) {
     return this.leadsService.findAll(req.user.userId);
   }
 
   @Get('stats')
-  async getStats(@Request() req) {
+  async getStats(@Req() req: RequestWithUser) {
     const leads = await this.leadsService.findAll(req.user.userId);
 
     const activeLeads = leads.filter(
@@ -54,13 +55,13 @@ export class LeadsController {
   }
 
   @Get(':id')
-  findOne(@Request() req, @Param('id') id: string) {
+  findOne(@Req() req: RequestWithUser, @Param('id') id: string) {
     return this.leadsService.findOne(req.user.userId, id);
   }
 
   @Patch(':id')
   update(
-    @Request() req,
+    @Req() req: RequestWithUser,
     @Param('id') id: string,
     @Body() updateLeadDto: UpdateLeadDto,
   ) {
@@ -68,7 +69,7 @@ export class LeadsController {
   }
 
   @Delete(':id')
-  remove(@Request() req, @Param('id') id: string) {
+  remove(@Req() req: RequestWithUser, @Param('id') id: string) {
     return this.leadsService.remove(req.user.userId, id);
   }
 }
