@@ -48,4 +48,28 @@ export class LeadsService {
       where: { id },
     });
   }
+
+  async getPotentialGains(userId: string) {
+    const aggregate = await this.prisma.lead.aggregate({
+      where: {
+        ownerId: userId,
+        status: { in: ['ANALYSIS', 'NEGOTIATION', 'PROSPECT'] },
+      },
+      _sum: {
+        score: true,
+      },
+    });
+    return (aggregate._sum.score || 0) * 10;
+  }
+
+  async getActivePipeline(userId: string) {
+    return this.prisma.lead.findMany({
+      where: {
+        ownerId: userId,
+        status: { notIn: ['CLOSED', 'LOST'] },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 5,
+    });
+  }
 }
