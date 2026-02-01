@@ -72,6 +72,7 @@ describe('DashboardController', () => {
       mockPrismaService.user.findUnique.mockResolvedValue(mockUser);
       mockLeadsService.findAll.mockResolvedValue(mockLeads);
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       const result = await controller.getStats({ user: { userId } } as any);
 
       expect(result).toEqual({
@@ -125,6 +126,7 @@ describe('DashboardController', () => {
       mockTransactionsService.getMonthlyEarnings.mockResolvedValue(100);
       mockTransactionsService.findAll.mockResolvedValue(mockTransactions);
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       const result = await controller.getCommissions({
         user: { userId },
       } as any);
