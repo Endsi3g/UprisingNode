@@ -9,7 +9,7 @@ on:
 jobs:
   # Backend Tests
   api-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v4
@@ -42,7 +42,7 @@ jobs:
 
   # Backend Build
   api-build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: api-test
 
     steps:
@@ -72,7 +72,7 @@ jobs:
 
   # Frontend Build
   web-build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v4
@@ -97,7 +97,7 @@ jobs:
 
   # Docker Build (only on main branch)
   docker-build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [api-build, web-build]
     if: github.ref == 'refs/heads/main'
     
