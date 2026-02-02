@@ -15,4 +15,13 @@ describe('ScraperService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  it('should reject non-http/https URLs', async () => {
+    await expect(service.scrapeCompany('file:///etc/passwd')).rejects.toThrow(
+      'Invalid URL protocol',
+    );
+    await expect(service.scrapeCompany('ftp://example.com')).rejects.toThrow(
+      'Invalid URL protocol',
+    );
+  });
 });

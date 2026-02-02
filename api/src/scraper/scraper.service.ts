@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, BadRequestException } from '@nestjs/common';
 import puppeteer from 'puppeteer';
 
 @Injectable()
@@ -6,6 +6,12 @@ export class ScraperService {
   private readonly logger = new Logger(ScraperService.name);
 
   async scrapeCompany(url: string): Promise<any> {
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      throw new BadRequestException(
+        'Invalid URL protocol. Only http and https are allowed.',
+      );
+    }
+
     this.logger.log(`Scraping URL: ${url}`);
 
     let browser;
