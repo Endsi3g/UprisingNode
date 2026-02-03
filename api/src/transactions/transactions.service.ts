@@ -27,18 +27,24 @@ export class TransactionsService {
   }
 
   async getBalance(userId: string): Promise<number> {
-    const transactions = await this.prisma.transaction.findMany({
+    const groups = await this.prisma.transaction.groupBy({
+      by: ['type', 'status'],
       where: {
         userId,
         status: { not: 'CANCELLED' },
       },
+      _sum: {
+        amount: true,
+      },
     });
 
-    return transactions.reduce((acc, tx) => {
-      if (tx.type === 'COMMISSION' && tx.status === 'PAID') {
-        return acc + tx.amount;
-      } else if (tx.type === 'WITHDRAWAL') {
-        return acc - tx.amount;
+    return groups.reduce((acc, group) => {
+      const amount = group._sum.amount || 0;
+
+      if (group.type === 'COMMISSION' && group.status === 'PAID') {
+        return acc + amount;
+      } else if (group.type === 'WITHDRAWAL') {
+        return acc - amount;
       }
       return acc;
     }, 0);
