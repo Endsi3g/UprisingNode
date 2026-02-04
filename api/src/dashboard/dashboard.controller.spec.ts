@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/unbound-method */
 import { Test, TestingModule } from '@nestjs/testing';
 import { DashboardController } from './dashboard.controller';
 import { TransactionsService } from '../transactions/transactions.service';
@@ -38,7 +43,7 @@ describe('DashboardController', () => {
     })
       .overrideGuard(JwtAuthGuard)
       .useValue({
-        canActivate: (context: ExecutionContext) => true,
+        canActivate: (_context: ExecutionContext) => true,
       })
       .compile();
 
@@ -83,25 +88,28 @@ describe('DashboardController', () => {
           description: 'Withdrawal',
         },
         {
-            id: '4',
-            type: 'COMMISSION',
-            status: 'PAID',
-            amount: 500,
-            createdAt: new Date(startOfMonth.getTime() - 86400000), // Last month (approx)
-            description: 'Old Deal',
-        }
+          id: '4',
+          type: 'COMMISSION',
+          status: 'PAID',
+          amount: 500,
+          createdAt: new Date(startOfMonth.getTime() - 86400000), // Last month (approx)
+          description: 'Old Deal',
+        },
       ]);
 
-      const req = { user: { userId: 'user-1' } };
+      const req = {
+        user: { userId: 'user-1', email: 'test@example.com', role: 'USER' },
+      };
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       const result = await controller.getCommissions(req as any);
 
       expect(result).toBeDefined();
 
       // Verify DB calls
-      expect(mockTransactionsService.findAll).toHaveBeenCalledWith('user-1');
-      expect(mockTransactionsService.getTotalEarnings).not.toHaveBeenCalled();
-      expect(mockTransactionsService.getPendingEarnings).not.toHaveBeenCalled();
-      expect(mockTransactionsService.getMonthlyEarnings).not.toHaveBeenCalled();
+      expect(transactionsService.findAll).toHaveBeenCalledWith('user-1');
+      expect(transactionsService.getTotalEarnings).not.toHaveBeenCalled();
+      expect(transactionsService.getPendingEarnings).not.toHaveBeenCalled();
+      expect(transactionsService.getMonthlyEarnings).not.toHaveBeenCalled();
 
       // Verify calculations
       // Total Paid Commissions: 1000 + 500 = 1500
