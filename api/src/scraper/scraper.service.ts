@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, BadRequestException } from '@nestjs/common';
 import puppeteer from 'puppeteer';
 
 @Injectable()
@@ -6,6 +6,8 @@ export class ScraperService {
   private readonly logger = new Logger(ScraperService.name);
 
   async scrapeCompany(url: string): Promise<any> {
+    this.validateUrl(url);
+
     this.logger.log(`Scraping URL: ${url}`);
 
     let browser;
@@ -42,11 +44,50 @@ export class ScraperService {
       return data;
     } catch (error) {
       this.logger.error(`Failed to scrape ${url}`, error.stack);
+      // Re-throw BadRequestException so it's not wrapped in a generic Error
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
       throw new Error(`Scraping failed: ${error.message}`);
     } finally {
       if (browser) {
         await browser.close();
       }
+    }
+  }
+
+  private validateUrl(url: string): void {
+    try {
+      const parsedUrl = new URL(url);
+
+      // 1. Check Protocol
+      if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
+        throw new BadRequestException(
+          'Invalid protocol. Only HTTP and HTTPS are allowed.',
+        );
+      }
+
+      // 2. Check Hostname for Loopback/Local
+      // Note: This is a basic check. For full SSRF protection in high-risk environments,
+      // you should resolve the DNS and check the IP address against private ranges.
+      const hostname = parsedUrl.hostname.toLowerCase();
+      if (
+        hostname === 'localhost' ||
+        hostname === '127.0.0.1' ||
+        hostname === '::1' ||
+        hostname.startsWith('192.168.') ||
+        hostname.startsWith('10.') ||
+        hostname.endsWith('.local')
+      ) {
+        throw new BadRequestException(
+          'Access to local network resources is restricted.',
+        );
+      }
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+      throw new BadRequestException('Invalid URL format');
     }
   }
 }
