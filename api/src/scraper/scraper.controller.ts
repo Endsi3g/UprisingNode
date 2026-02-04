@@ -1,15 +1,12 @@
-import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { ScraperService } from './scraper.service';
 
 @Controller('scraper')
 export class ScraperController {
   constructor(private readonly scraperService: ScraperService) {}
 
-  @Post('company')
-  async scrapeCompany(@Body('url') url: string) {
-    if (!url) {
-      throw new BadRequestException('URL is required');
-    }
+  @Get('company')
+  async scrapeCompany(@Query('url') url: string): Promise<any> {
     return this.scraperService.scrapeCompany(url);
   }
 }
