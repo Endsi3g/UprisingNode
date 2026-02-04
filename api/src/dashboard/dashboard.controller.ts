@@ -92,20 +92,36 @@ export class DashboardController {
   @UseGuards(JwtAuthGuard)
   async getCommissions(@Request() req: AuthenticatedRequest) {
     const userId = req.user.userId;
-    const totalEarnings =
-      await this.transactionsService.getTotalEarnings(userId);
-    const pendingEarnings =
-      await this.transactionsService.getPendingEarnings(userId);
-    const monthlyEarnings =
-      await this.transactionsService.getMonthlyEarnings(userId);
 
-    // Avg per deal calculation
+    // Optimization: Fetch all transactions once and calculate stats in memory
+    // This avoids 3 additional DB queries (getTotalEarnings, getPendingEarnings, getMonthlyEarnings)
     const transactions = await this.transactionsService.findAll(userId);
-    const paidCommissions = transactions.filter(
-      (t) => t.type === 'COMMISSION' && t.status === 'PAID',
-    );
+
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    startOfMonth.setHours(0, 0, 0, 0);
+
+    let totalEarnings = 0;
+    let pendingEarnings = 0;
+    let monthlyEarnings = 0;
+    let paidCommissionsCount = 0;
+
+    for (const t of transactions) {
+      if (t.type === 'COMMISSION') {
+        if (t.status === 'PAID') {
+          totalEarnings += t.amount;
+          paidCommissionsCount++;
+          if (t.createdAt >= startOfMonth) {
+            monthlyEarnings += t.amount;
+          }
+        } else if (t.status === 'PENDING') {
+          pendingEarnings += t.amount;
+        }
+      }
+    }
+
     const avgPerDeal =
-      paidCommissions.length > 0 ? totalEarnings / paidCommissions.length : 0;
+      paidCommissionsCount > 0 ? totalEarnings / paidCommissionsCount : 0;
 
     return {
       totalEarnings,
