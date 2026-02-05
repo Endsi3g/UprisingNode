@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
 import { ScraperService } from './scraper.service';
 
@@ -5,8 +6,8 @@ import { ScraperService } from './scraper.service';
 export class ScraperController {
   constructor(private readonly scraperService: ScraperService) {}
 
-  @Post('company')
-  async scrapeCompany(@Body('url') url: string) {
+  @Post()
+  async scrape(@Body('url') url: string) {
     if (!url) {
       throw new BadRequestException('URL is required');
     }

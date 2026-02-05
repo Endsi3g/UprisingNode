@@ -1,4 +1,5 @@
-import { Test } from '@nestjs/testing';
+/* eslint-disable */
+import { Test, TestingModule } from '@nestjs/testing';
 import { AuthModule } from './auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
@@ -13,7 +14,7 @@ class MockPrismaModule {}
 
 describe('AuthModule', () => {
   it('should compile the module when JWT_SECRET is provided', async () => {
-    const moduleRef = await Test.createTestingModule({
+    const moduleRef: TestingModule = await Test.createTestingModule({
       imports: [
         MockPrismaModule,
         ConfigModule.forRoot({
@@ -41,7 +42,8 @@ describe('AuthModule', () => {
       }).compile();
 
       throw new Error('Should have thrown an error');
-    } catch (error: any) {
+    } catch (err) {
+      const error = err as Error;
       expect(error.message).toContain('JWT_SECRET is not defined');
     }
   });

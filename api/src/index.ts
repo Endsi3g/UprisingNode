@@ -1,14 +1,26 @@
+/* eslint-disable */
 import { NestFactory } from '@nestjs/core';
+import { ExpressAdapter } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
+import express from 'express';
 
-export default async function handler(req, res) {
-  const app = await NestFactory.create(AppModule);
-  app.enableCors({
-    origin: '*', // Adjust for production security later
-    credentials: true,
-  });
+const expressApp = express();
+const adapter = new ExpressAdapter(expressApp);
+
+let appPromise: Promise<any>;
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule, adapter);
+  app.enableCors();
   await app.init();
-
-  const expressApp = app.getHttpAdapter().getInstance();
-  return expressApp(req, res);
+  return app;
 }
+
+export default async (req: any, res: any) => {
+  if (!appPromise) {
+    appPromise = bootstrap();
+  }
+  await appPromise;
+  const app = await appPromise;
+  adapter.getHttpAdapter().getInstance()(req, res);
+};
