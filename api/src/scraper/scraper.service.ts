@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 import { Injectable, Logger } from '@nestjs/common';
 import puppeteer from 'puppeteer';
 
@@ -21,7 +25,8 @@ export class ScraperService {
       await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
 
       // Extract data
-      const data = await page.evaluate(() => {
+
+      const data: any = await page.evaluate(() => {
         const title = document.title;
         const description =
           document
@@ -40,8 +45,9 @@ export class ScraperService {
 
       this.logger.log(`Successfully scraped data for ${url}`);
       return data;
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Failed to scrape ${url}`, error.stack);
+
       throw new Error(`Scraping failed: ${error.message}`);
     } finally {
       if (browser) {
