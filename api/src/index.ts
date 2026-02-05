@@ -22,5 +22,6 @@ export default async (req: any, res: any) => {
   }
   await appPromise;
   const app = await appPromise;
-  adapter.getHttpAdapter().getInstance()(req, res);
+  // ExpressAdapter directly wraps the express instance
+  adapter.getInstance()(req, res);
 };
