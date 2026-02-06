@@ -1,0 +1,70 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { TransactionsService } from './transactions.service';
+import { PrismaService } from '../prisma/prisma.service';
+
+const mockPrismaService = {
+  transaction: {
+    findMany: jest.fn(),
+    aggregate: jest.fn(),
+  },
+};
+
+describe('TransactionsService', () => {
+  let service: TransactionsService;
+  let prisma: PrismaService;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        TransactionsService,
+        {
+          provide: PrismaService,
+          useValue: mockPrismaService,
+        },
+      ],
+    }).compile();
+
+    service = module.get<TransactionsService>(TransactionsService);
+    prisma = module.get<PrismaService>(PrismaService);
+  });
+
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
+
+  describe('getBalance', () => {
+    it('should calculate balance correctly using aggregation', async () => {
+      const userId = 'user1';
+
+      // Mock aggregate to return sums
+      // First call: Commissions (PAID) -> 100
+      // Second call: Withdrawals (non-CANCELLED) -> 30
+      (prisma.transaction.aggregate as jest.Mock)
+        .mockResolvedValueOnce({ _sum: { amount: 100 } })
+        .mockResolvedValueOnce({ _sum: { amount: 30 } });
+
+      const balance = await service.getBalance(userId);
+
+      // Calculation: 100 - 30 = 70
+      expect(balance).toBe(70);
+
+      expect(prisma.transaction.aggregate).toHaveBeenCalledTimes(2);
+      expect(prisma.transaction.aggregate).toHaveBeenCalledWith({
+        _sum: { amount: true },
+        where: {
+          userId,
+          type: 'COMMISSION',
+          status: 'PAID',
+        },
+      });
+      expect(prisma.transaction.aggregate).toHaveBeenCalledWith({
+        _sum: { amount: true },
+        where: {
+          userId,
+          type: 'WITHDRAWAL',
+          status: { not: 'CANCELLED' },
+        },
+      });
+    });
+  });
+});
