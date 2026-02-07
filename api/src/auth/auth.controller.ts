@@ -15,7 +15,7 @@ import {
   ForgotPasswordDto,
   ResetPasswordDto,
 } from './dto/auth.dto';
-import { RequestWithUser } from '../common/interfaces/request-with-user.interface';
+import type { RequestWithUser } from '../common/interfaces/request-with-user.interface';
 
 import { Public } from './public.decorator';
 
