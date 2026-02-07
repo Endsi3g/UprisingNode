@@ -3,6 +3,10 @@ import puppeteer from 'puppeteer';
 import { lookup } from 'dns/promises';
 import { URL } from 'url';
 
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 @Injectable()
 export class ScraperService {
   private readonly logger = new Logger(ScraperService.name);
@@ -44,7 +48,7 @@ export class ScraperService {
 
       this.logger.log(`Successfully scraped data for ${url}`);
       return data;
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Failed to scrape ${url}`, error.stack);
       if (error instanceof BadRequestException) {
         throw error;
@@ -86,6 +90,7 @@ export class ScraperService {
       if (error instanceof BadRequestException) {
         throw error;
       }
+
       throw new BadRequestException(`Invalid URL: ${error.message}`);
     }
   }
@@ -120,10 +125,7 @@ export class ScraperService {
     // fe80::/10 (Link-local)
     if (ip.toLowerCase().startsWith('fe80:')) return true;
     // fc00::/7 (Unique Local)
-    if (
-      ip.toLowerCase().startsWith('fc') ||
-      ip.toLowerCase().startsWith('fd')
-    )
+    if (ip.toLowerCase().startsWith('fc') || ip.toLowerCase().startsWith('fd'))
       return true;
 
     return false;

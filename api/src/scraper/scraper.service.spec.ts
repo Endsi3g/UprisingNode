@@ -1,6 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/require-await */
+
 import { Test, TestingModule } from '@nestjs/testing';
 import { ScraperService } from './scraper.service';
 import { BadRequestException } from '@nestjs/common';
+import { lookup } from 'dns/promises';
 
 // Mock puppeteer
 jest.mock('puppeteer', () => ({
@@ -22,20 +28,17 @@ jest.mock('dns/promises', () => ({
   lookup: jest.fn(),
 }));
 
-import { lookup } from 'dns/promises';
-
 describe('ScraperService', () => {
   let service: ScraperService;
 
   beforeEach(async () => {
     jest.clearAllMocks();
 
-    (lookup as jest.Mock).mockImplementation(async (hostname) => {
+    (lookup as jest.Mock).mockImplementation(async (hostname: string) => {
       if (hostname === 'google.com') return { address: '8.8.8.8', family: 4 };
       if (hostname === 'private.com')
         return { address: '192.168.1.1', family: 4 };
-      if (hostname === 'local.test')
-        return { address: '127.0.0.1', family: 4 };
+      if (hostname === 'local.test') return { address: '127.0.0.1', family: 4 };
       return { address: '1.1.1.1', family: 4 };
     });
 
@@ -88,8 +91,8 @@ describe('ScraperService', () => {
       address: '::ffff:192.168.1.1',
       family: 6,
     }));
-    await expect(service.scrapeCompany('http://ipv4mapped.com')).rejects.toThrow(
-      BadRequestException,
-    );
+    await expect(
+      service.scrapeCompany('http://ipv4mapped.com'),
+    ).rejects.toThrow(BadRequestException);
   });
 });
