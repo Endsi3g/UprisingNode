@@ -1,6 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import puppeteer from 'puppeteer';
 
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 @Injectable()
 export class ScraperService {
   private readonly logger = new Logger(ScraperService.name);

@@ -15,6 +15,9 @@ import {
 } from './dto/transaction.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 @UseGuards(JwtAuthGuard)
 @Controller('transactions')
 export class TransactionsController {

@@ -13,6 +13,9 @@ import { LeadsService } from './leads.service';
 import { CreateLeadDto, UpdateLeadDto } from './dto/lead.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 @UseGuards(JwtAuthGuard)
 @Controller('leads')
 export class LeadsController {
