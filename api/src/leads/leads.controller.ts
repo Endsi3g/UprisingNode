@@ -12,7 +12,7 @@ import {
 import { LeadsService } from './leads.service';
 import { CreateLeadDto, UpdateLeadDto } from './dto/lead.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { AuthenticatedRequest } from '../common/interfaces/authenticated-request.interface';
+import type { AuthenticatedRequest } from '../common/interfaces/authenticated-request.interface';
 
 @UseGuards(JwtAuthGuard)
 @Controller('leads')

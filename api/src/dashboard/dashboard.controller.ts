@@ -5,7 +5,7 @@ import { TransactionsService } from '../transactions/transactions.service';
 import { LeadsService } from '../leads/leads.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { User } from '@prisma/client';
-import { AuthenticatedRequest } from '../common/interfaces/authenticated-request.interface';
+import type { AuthenticatedRequest } from '../common/interfaces/authenticated-request.interface';
 
 interface DashboardStats {
   accumulatedGains: number;
