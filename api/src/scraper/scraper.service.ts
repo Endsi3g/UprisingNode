@@ -1,12 +1,13 @@
 import { Injectable, Logger, BadRequestException } from '@nestjs/common';
 import puppeteer, { Browser, Page } from 'puppeteer';
 import * as dns from 'dns/promises';
+import { ScrapedData } from './scraped-data.interface';
 
 @Injectable()
 export class ScraperService {
   private readonly logger = new Logger(ScraperService.name);
 
-  async scrapeCompany(url: string): Promise<any> {
+  async scrapeCompany(url: string): Promise<ScrapedData> {
     await this.validateUrl(url);
 
     this.logger.log(`Scraping URL: ${url}`);
@@ -24,14 +25,14 @@ export class ScraperService {
       await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
 
       // Extract data
-      const data = await page.evaluate(() => {
+      const data = await page.evaluate((): ScrapedData => {
         const title = document.title;
         const description =
           document
             .querySelector('meta[name="description"]')
             ?.getAttribute('content') || '';
         const headings = Array.from(document.querySelectorAll('h1, h2'))
-          .map((h) => h.textContent?.trim())
+          .map((h) => h.textContent?.trim() || '')
           .filter(Boolean);
 
         return {
