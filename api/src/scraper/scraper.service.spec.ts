@@ -1,5 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Test, TestingModule } from '@nestjs/testing';
 import { ScraperService } from './scraper.service';
+import 'puppeteer';
+import 'dns/promises';
+
+jest.mock('puppeteer');
+jest.mock('dns/promises');
 
 describe('ScraperService', () => {
   let service: ScraperService;
