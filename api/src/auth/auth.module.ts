@@ -11,6 +11,7 @@ import { JwtStrategy } from './jwt.strategy';
 @Module({
   imports: [
     JwtModule.registerAsync({
+      global: true,
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
@@ -19,7 +20,6 @@ import { JwtStrategy } from './jwt.strategy';
           throw new Error('JWT_SECRET must be defined');
         }
         return {
-          global: true,
           secret,
           signOptions: { expiresIn: '7d' },
         };
