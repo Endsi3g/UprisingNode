@@ -1,11 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   WebSocketGateway,
   WebSocketServer,
   SubscribeMessage,
   OnGatewayConnection,
   OnGatewayDisconnect,
+  MessageBody,
+  ConnectedSocket,
+  WsResponse,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { Observable, from } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @WebSocketGateway({
   cors: {
@@ -25,8 +31,18 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('ping')
-  handlePing(client: Socket, data: unknown): string {
+  handlePing(_client: Socket, _data: unknown): string {
     return 'pong';
+  }
+
+  @SubscribeMessage('events')
+  findAll(
+    @MessageBody() _data: any,
+    @ConnectedSocket() _client: Socket,
+  ): Observable<WsResponse<number>> {
+    return from([1, 2, 3]).pipe(
+      map((item) => ({ event: 'events', data: item })),
+    );
   }
 
   // Helper method to broadcast events (can be injected into services)
