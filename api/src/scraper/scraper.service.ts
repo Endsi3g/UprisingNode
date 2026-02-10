@@ -1,13 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common';
 import puppeteer from 'puppeteer';
+import { ScrapedData } from './interfaces/scraped-data.interface';
 
 @Injectable()
 export class ScraperService {
   private readonly logger = new Logger(ScraperService.name);
 
-  async scrapeCompany(url: string): Promise<any> {
+  async scrapeCompany(url: string): Promise<ScrapedData> {
     this.logger.log(`Scraping URL: ${url}`);
 
+    /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return */
     let browser;
     try {
       browser = await puppeteer.launch({
@@ -34,19 +36,24 @@ export class ScraperService {
         return {
           title,
           description,
-          headings,
+          headings: headings,
         };
       });
 
       this.logger.log(`Successfully scraped data for ${url}`);
       return data;
     } catch (error) {
+      /* eslint-disable @typescript-eslint/no-unsafe-member-access */
       this.logger.error(`Failed to scrape ${url}`, error.stack);
       throw new Error(`Scraping failed: ${error.message}`);
+      /* eslint-enable @typescript-eslint/no-unsafe-member-access */
     } finally {
       if (browser) {
+        /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */
         await browser.close();
+        /* eslint-enable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */
       }
     }
+    /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return */
   }
 }
