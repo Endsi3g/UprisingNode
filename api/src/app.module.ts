@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { CacheModule } from '@nestjs/cache-manager';
+import { HttpCacheInterceptor } from './common/interceptors/http-cache.interceptor';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
@@ -17,6 +19,10 @@ import { ResourcesModule } from './resources/resources.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 60000, // 60 seconds
+    }),
     ThrottlerModule.forRoot([
       {
         ttl: 60000, // 1 minute window
@@ -39,6 +45,10 @@ import { ResourcesModule } from './resources/resources.module';
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: HttpCacheInterceptor,
     },
   ],
 })
