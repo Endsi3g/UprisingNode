@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Header } from "@/components/layout";
 import { resourcesService } from "@/services/api.service";
 
@@ -22,6 +22,16 @@ interface Resource {
   description: string;
 }
 
+interface ApiResource {
+  id: number;
+  title: string;
+  category: string;
+  type: string;
+  size?: string;
+  updatedAt: string;
+  description: string;
+}
+
 const categories = [
   { id: "all" as const, label: "Tous", icon: "apps" },
   { id: "scripts" as const, label: "Scripts", icon: "description" },
@@ -35,44 +45,95 @@ export default function ResourcesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [resources, setResources] = useState<Resource[]>([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  const fetchResources = async (
+    pageToFetch: number,
+    reset: boolean,
+    category: string,
+    search: string,
+  ) => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
+    if (reset) {
+      setLoading(true);
+    } else {
+      setIsLoadingMore(true);
+    }
+
+    try {
+      const response = await resourcesService.getAll(
+        {
+          page: pageToFetch,
+          limit: 12,
+          category,
+          search,
+        },
+        { signal: controller.signal },
+      );
+
+      const data = response.data || [];
+      const meta = response.meta;
+
+      const mappedData = data.map((r: ApiResource) => ({
+        id: r.id,
+        title: r.title,
+        category: r.category as ResourceCategory,
+        type: r.type,
+        size: r.size || "Unknown",
+        updated: new Date(r.updatedAt).toLocaleDateString("fr-FR", {
+          relativeTimeFormat: "auto",
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any),
+        description: r.description,
+      }));
+
+      if (reset) {
+        setResources(mappedData);
+        setPage(1);
+      } else {
+        setResources((prev) => [...prev, ...mappedData]);
+        setPage(pageToFetch);
+      }
+
+      if (meta) {
+        setHasMore(meta.page < meta.lastPage);
+      } else {
+        setHasMore(false);
+      }
+    } catch (error: any) {
+      if (error.name === "CanceledError" || error.code === "ERR_CANCELED") {
+        return;
+      }
+      console.error("Failed to load resources", error);
+    } finally {
+      if (abortControllerRef.current === controller) {
+        setLoading(false);
+        setIsLoadingMore(false);
+      }
+    }
+  };
 
   useEffect(() => {
-    const fetchResources = async () => {
-      try {
-        const data = await resourcesService.getAll();
-        // Map API data to UI structure if needed, or assume DTO matches
-        // For now assuming API returns compatible structure but mapping just in case
-        const mappedData = data.map((r: any) => ({
-          id: r.id,
-          title: r.title,
-          category: r.category as ResourceCategory,
-          type: r.type,
-          size: r.size || "Unknown",
-          updated: new Date(r.updatedAt).toLocaleDateString("fr-FR", {
-            relativeTimeFormat: "auto",
-          } as any), // Simple formatted date
-          description: r.description,
-        }));
-        setResources(mappedData);
-      } catch (error) {
-        console.error("Failed to load resources", error);
-        // toast.error("Erreur lors du chargement des ressources");
-      } finally {
-        setLoading(false);
-      }
-    };
+    const timer = setTimeout(() => {
+      fetchResources(1, true, activeCategory, searchQuery);
+    }, 300);
 
-    fetchResources();
-  }, []);
+    return () => clearTimeout(timer);
+  }, [activeCategory, searchQuery]);
 
-  const filteredResources = resources.filter((r) => {
-    const matchesCategory =
-      activeCategory === "all" || r.category === activeCategory;
-    const matchesSearch =
-      r.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      r.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  const handleLoadMore = () => {
+    if (!isLoadingMore && hasMore) {
+      fetchResources(page + 1, false, activeCategory, searchQuery);
+    }
+  };
 
   return (
     <div className="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
@@ -128,7 +189,7 @@ export default function ResourcesPage() {
 
         {/* Resources Grid */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {filteredResources.map((resource) => (
+          {resources.map((resource) => (
             <div
               key={resource.id}
               className="p-6 border border-gray-100 hover:border-black transition-all duration-300 cursor-pointer group"
@@ -173,7 +234,7 @@ export default function ResourcesPage() {
         </section>
 
         {/* Empty State */}
-        {filteredResources.length === 0 && (
+        {!loading && resources.length === 0 && (
           <div className="text-center py-16">
             <span className="material-symbols-outlined text-4xl text-gray-200 mb-4">
               folder_off
@@ -181,6 +242,19 @@ export default function ResourcesPage() {
             <p className="text-sm text-gray-400">
               Aucun document trouvé pour cette recherche.
             </p>
+          </div>
+        )}
+
+        {/* Load More Button */}
+        {hasMore && (
+          <div className="flex justify-center pt-8">
+            <button
+              onClick={handleLoadMore}
+              disabled={isLoadingMore}
+              className="px-6 py-3 bg-gray-50 hover:bg-black text-black hover:text-white text-xs uppercase tracking-widest font-medium transition-all duration-300 disabled:opacity-50"
+            >
+              {isLoadingMore ? "Chargement..." : "Charger plus"}
+            </button>
           </div>
         )}
 

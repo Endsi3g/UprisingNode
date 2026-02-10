@@ -1,0 +1,32 @@
+
+> web@0.1.0 dev
+> next dev
+
+⚠ Port 3000 is in use by process 4813, using available port 3001 instead.
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /app/pnpm-lock.yaml as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles:
+   * /app/web/package-lock.json
+
+▲ Next.js 16.1.4 (Turbopack)
+- Local:         http://localhost:3001
+- Network:       http://192.168.0.2:3001
+
+✓ Starting...
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+✓ Ready in 1845ms
+○ Compiling /login ...
+ GET /login 200 in 7.0s (compile: 6.3s, render: 620ms)
+ GET /login 200 in 104ms (compile: 6ms, render: 98ms)
+○ Compiling /dashboard ...
+ GET /dashboard 200 in 4.1s (compile: 4.1s, render: 72ms)
+ GET /resources 200 in 1533ms (compile: 1143ms, render: 389ms)
+ GET /login 200 in 95ms (compile: 6ms, render: 89ms)
+ GET /dashboard 200 in 37ms (compile: 6ms, render: 31ms)
+ GET /resources 200 in 195ms (compile: 11ms, render: 184ms)

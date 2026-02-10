@@ -5,17 +5,82 @@ import { PrismaService } from '../prisma/prisma.service';
 export class ResourcesService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll() {
-    // Return seed data if DB is empty for demo purposes
-    const resources = await this.prisma.resource.findMany({
-      orderBy: { updatedAt: 'desc' },
-    });
+  async findAll(
+    params: {
+      page?: number;
+      limit?: number;
+      category?: string;
+      search?: string;
+    } = {},
+  ) {
+    const { page = 1, limit = 12, category, search } = params;
+    const skip = (page - 1) * limit;
 
-    if (resources.length === 0) {
-      return this.getMockResources();
+    // Check if DB is empty (for demo purposes fallback)
+    const totalInDb = await this.prisma.resource.count();
+
+    if (totalInDb === 0) {
+      let data = this.getMockResources();
+
+      if (category && category !== 'all') {
+        data = data.filter((r) => r.category === category);
+      }
+
+      if (search) {
+        const s = search.toLowerCase();
+        data = data.filter(
+          (r) =>
+            r.title.toLowerCase().includes(s) ||
+            r.description.toLowerCase().includes(s),
+        );
+      }
+
+      const total = data.length;
+      const paginatedData = data.slice(skip, skip + limit);
+
+      return {
+        data: paginatedData,
+        meta: {
+          total,
+          page,
+          limit,
+          lastPage: Math.ceil(total / limit),
+        },
+      };
     }
 
-    return resources;
+    const where: any = {};
+
+    if (category && category !== 'all') {
+      where.category = category;
+    }
+
+    if (search) {
+      where.OR = [
+        { title: { contains: search } },
+        { description: { contains: search } },
+      ];
+    }
+
+    const [data, total] = await Promise.all([
+      this.prisma.resource.findMany({
+        where,
+        take: limit,
+        skip,
+        orderBy: { updatedAt: 'desc' },
+      }),
+      this.prisma.resource.count({ where }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        lastPage: Math.ceil(total / limit),
+      },
+    };
   }
 
   async findOne(id: string) {
