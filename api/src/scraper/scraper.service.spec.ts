@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Test, TestingModule } from '@nestjs/testing';
 import { ScraperService } from './scraper.service';
 
@@ -13,6 +14,7 @@ describe('ScraperService', () => {
   });
 
   it('should be defined', () => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(service).toBeDefined();
   });
 });

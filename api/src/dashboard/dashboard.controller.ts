@@ -36,17 +36,21 @@ export class DashboardController {
     private readonly transactionsService: TransactionsService,
     private readonly leadsService: LeadsService,
     private readonly prisma: PrismaService,
-  ) { }
+  ) {}
 
   @Get('stats')
   @UseGuards(JwtAuthGuard)
-  async getStats(@Request() req: AuthenticatedRequest): Promise<DashboardStats> {
+  async getStats(
+    @Request() req: AuthenticatedRequest,
+  ): Promise<DashboardStats> {
     const userId = req.user.userId;
     const accumulatedGains =
       await this.transactionsService.getTotalEarnings(userId);
 
     // Get user data for account status
-    const user: User | null = await this.prisma.user.findUnique({ where: { id: userId } });
+    const user: User | null = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
 
     // Calculate potential gains from leads in analysis or negotiation
 
@@ -92,20 +96,16 @@ export class DashboardController {
   @UseGuards(JwtAuthGuard)
   async getCommissions(@Request() req: AuthenticatedRequest) {
     const userId = req.user.userId;
-    const totalEarnings =
-      await this.transactionsService.getTotalEarnings(userId);
-    const pendingEarnings =
-      await this.transactionsService.getPendingEarnings(userId);
-    const monthlyEarnings =
-      await this.transactionsService.getMonthlyEarnings(userId);
 
-    // Avg per deal calculation
-    const transactions = await this.transactionsService.findAll(userId);
-    const paidCommissions = transactions.filter(
-      (t) => t.type === 'COMMISSION' && t.status === 'PAID',
-    );
-    const avgPerDeal =
-      paidCommissions.length > 0 ? totalEarnings / paidCommissions.length : 0;
+    const [stats, pendingEarnings, monthlyEarnings, transactions] =
+      await Promise.all([
+        this.transactionsService.getCommissionStats(userId),
+        this.transactionsService.getPendingEarnings(userId),
+        this.transactionsService.getMonthlyEarnings(userId),
+        this.transactionsService.findAll(userId),
+      ]);
+
+    const { totalEarnings, avgPerDeal } = stats;
 
     return {
       totalEarnings,

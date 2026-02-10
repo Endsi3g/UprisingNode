@@ -85,6 +85,23 @@ export class TransactionsService {
     return aggregations._sum.amount || 0;
   }
 
+  async getCommissionStats(userId: string) {
+    const aggregations = await this.prisma.transaction.aggregate({
+      _sum: { amount: true },
+      _avg: { amount: true },
+      where: {
+        userId,
+        type: 'COMMISSION',
+        status: 'PAID',
+      },
+    });
+
+    return {
+      totalEarnings: aggregations._sum.amount || 0,
+      avgPerDeal: aggregations._avg.amount || 0,
+    };
+  }
+
   async findAll(userId: string) {
     return this.prisma.transaction.findMany({
       where: { userId },
