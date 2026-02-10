@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */
 import { Injectable, Logger } from '@nestjs/common';
 import puppeteer from 'puppeteer';
 
@@ -42,6 +43,7 @@ export class ScraperService {
       return data;
     } catch (error) {
       this.logger.error(`Failed to scrape ${url}`, error.stack);
+
       throw new Error(`Scraping failed: ${error.message}`);
     } finally {
       if (browser) {
