@@ -102,8 +102,13 @@ export const transactionsService = {
 };
 
 export const resourcesService = {
-  getAll: async () => {
-    const response = await api.get("/resources");
+  getAll: async (params?: {
+    page?: number;
+    limit?: number;
+    category?: string;
+    search?: string;
+  }) => {
+    const response = await api.get("/resources", { params });
     return response.data;
   },
   getOne: async (id: string) => {
