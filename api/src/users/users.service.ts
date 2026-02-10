@@ -34,32 +34,29 @@ export class UsersService {
   }
 
   async findAllPartners() {
-    const partners = await this.prisma.user.findMany({
-      where: {
-        role: { in: ['PARTNER', 'ADMIN'] },
-      },
-      select: {
-        id: true,
-        name: true,
-        role: true,
-        avatar: true,
-        createdAt: true,
-        transactions: {
-          where: { type: 'COMMISSION', status: 'PAID' },
-          select: { amount: true },
-        },
-        _count: {
-          select: { leads: true }, // rough proxy for deal count or use transactions
-        },
-      },
-    });
+    const partners = await this.prisma.$queryRaw<
+      Array<{
+        id: string;
+        name: string;
+        avatar: string | null;
+        totalEarnings: number;
+      }>
+    >`
+      SELECT
+        u.id,
+        u.name,
+        u.avatar,
+        (
+          SELECT COALESCE(SUM(t.amount), 0)
+          FROM "Transaction" t
+          WHERE t.userId = u.id AND t.type = 'COMMISSION' AND t.status = 'PAID'
+        ) as totalEarnings
+      FROM User u
+      WHERE u.role IN ('PARTNER', 'ADMIN')
+    `;
 
-    // Calculate aggregates manually since Prisma doesn't support easy complex aggregates on relation in findMany
     return partners.map((p) => {
-      const totalEarnings = p.transactions.reduce(
-        (sum, t) => sum + t.amount,
-        0,
-      );
+      const totalEarnings = p.totalEarnings;
       return {
         id: p.id,
         name: p.name,
