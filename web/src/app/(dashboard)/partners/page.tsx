@@ -26,12 +26,43 @@ export default function PartnersPage() {
   const [partners, setPartners] = useState<Partner[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Pagination State
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalPartners, setTotalPartners] = useState(0);
+
+  // Debounced search
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(searchQuery), 500);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  // Reset page when search changes
+  useEffect(() => {
+    setPage(1);
+  }, [debouncedSearch]);
+
   useEffect(() => {
     const fetchPartners = async () => {
+      setLoading(true);
       try {
-        // @ts-ignore
-        const data = await usersService.getPartners();
-        setPartners(data);
+        const response = await usersService.getPartners({
+          page,
+          limit: 10,
+          search: debouncedSearch,
+        });
+
+        if (response.data && response.meta) {
+          setPartners(response.data);
+          setTotalPages(response.meta.totalPages);
+          setTotalPartners(response.meta.total);
+        } else if (Array.isArray(response)) {
+          // Fallback
+          setPartners(response);
+          setTotalPartners(response.length);
+        }
       } catch (error) {
         console.error("Failed to fetch partners", error);
       } finally {
@@ -40,13 +71,10 @@ export default function PartnersPage() {
     };
 
     fetchPartners();
-  }, []);
+  }, [page, debouncedSearch]);
 
-  const filteredPartners = partners.filter(
-    (p) =>
-      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.expertise.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  const handlePrev = () => setPage((p) => Math.max(1, p - 1));
+  const handleNext = () => setPage((p) => Math.min(totalPages, p + 1));
 
   return (
     <div className="bg-white min-h-screen flex flex-col font-sans text-text-main overflow-x-hidden antialiased selection:bg-gray-100 selection:text-black">
@@ -60,7 +88,7 @@ export default function PartnersPage() {
               Répertoire Partenaires
             </h1>
             <p className="text-gray-400 font-sans text-[10px] uppercase tracking-[0.2em]">
-              Réseau d&apos;Élite • {partners.length} Membres
+              Réseau d&apos;Élite • {totalPartners} Membres
             </p>
           </div>
 
@@ -106,73 +134,99 @@ export default function PartnersPage() {
 
         {/* Partners List */}
         <section className="space-y-4">
-          {filteredPartners.map((partner, index) => (
-            <div
-              key={partner.id}
-              className="p-6 border border-gray-100 hover:border-black transition-all duration-300 cursor-pointer group"
-            >
-              <div className="flex items-center gap-6">
-                {/* Rank */}
-                <div className="text-2xl font-serif text-gray-200 w-8 text-center">
-                  {index + 1}
-                </div>
-
-                {/* Avatar */}
-                <div
-                  className="w-12 h-12 rounded-full bg-gray-100 bg-cover bg-center grayscale group-hover:grayscale-0 transition-all bg-[image:var(--avatar)]"
-                  style={
-                    {
-                      "--avatar": `url(${partner.avatar})`,
-                    } as React.CSSProperties
-                  }
-                />
-
-                {/* Info */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3">
-                    <h3 className="text-base font-serif text-black group-hover:underline underline-offset-4">
-                      {partner.name}
-                    </h3>
-                    <span
-                      className={`text-[9px] uppercase tracking-widest px-2 py-0.5 ${
-                        tierColors[partner.tier]
-                      }`}
-                    >
-                      {partner.tier}
-                    </span>
+          {loading ? (
+            <div className="text-center py-16">
+              <p className="text-sm text-gray-400">Chargement...</p>
+            </div>
+          ) : partners.length > 0 ? (
+            partners.map((partner, index) => (
+              <div
+                key={partner.id}
+                className="p-6 border border-gray-100 hover:border-black transition-all duration-300 cursor-pointer group"
+              >
+                <div className="flex items-center gap-6">
+                  {/* Rank */}
+                  <div className="text-2xl font-serif text-gray-200 w-8 text-center">
+                    {(page - 1) * 10 + index + 1}
                   </div>
-                  <div className="flex items-center gap-4 mt-1">
-                    <span className="text-xs text-gray-400">
-                      {partner.expertise}
-                    </span>
-                    <span className="text-[10px] text-gray-300">•</span>
-                    <span className="text-xs text-gray-400">
-                      {partner.location}
-                    </span>
-                  </div>
-                </div>
 
-                {/* Stats */}
-                <div className="text-right">
-                  <p className="text-lg font-serif text-black">
-                    {partner.totalEarnings.toLocaleString("fr-FR")} $
-                  </p>
-                  <p className="text-[10px] text-gray-400 uppercase tracking-wider">
-                    {partner.dealsThisMonth} deals ce mois
-                  </p>
+                  {/* Avatar */}
+                  <div
+                    className="w-12 h-12 rounded-full bg-gray-100 bg-cover bg-center grayscale group-hover:grayscale-0 transition-all bg-[image:var(--avatar)]"
+                    style={
+                      {
+                        "--avatar": `url(${partner.avatar})`,
+                      } as React.CSSProperties
+                    }
+                  />
+
+                  {/* Info */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-3">
+                      <h3 className="text-base font-serif text-black group-hover:underline underline-offset-4">
+                        {partner.name}
+                      </h3>
+                      <span
+                        className={`text-[9px] uppercase tracking-widest px-2 py-0.5 ${
+                          tierColors[partner.tier]
+                        }`}
+                      >
+                        {partner.tier}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-4 mt-1">
+                      <span className="text-xs text-gray-400">
+                        {partner.expertise}
+                      </span>
+                      <span className="text-[10px] text-gray-300">•</span>
+                      <span className="text-xs text-gray-400">
+                        {partner.location}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Stats */}
+                  <div className="text-right">
+                    <p className="text-lg font-serif text-black">
+                      {partner.totalEarnings.toLocaleString("fr-FR")} $
+                    </p>
+                    <p className="text-[10px] text-gray-400 uppercase tracking-wider">
+                      {partner.dealsThisMonth} deals ce mois
+                    </p>
+                  </div>
                 </div>
               </div>
+            ))
+          ) : (
+            <div className="text-center py-16">
+              <span className="material-symbols-outlined text-4xl text-gray-200 mb-4">
+                group_off
+              </span>
+              <p className="text-sm text-gray-400">Aucun partenaire trouvé.</p>
             </div>
-          ))}
+          )}
         </section>
 
-        {/* Empty State */}
-        {filteredPartners.length === 0 && (
-          <div className="text-center py-16">
-            <span className="material-symbols-outlined text-4xl text-gray-200 mb-4">
-              group_off
+        {/* Pagination Controls */}
+        {!loading && totalPages > 1 && (
+          <div className="flex justify-center items-center gap-4 mt-8">
+            <button
+              onClick={handlePrev}
+              disabled={page === 1}
+              className="px-4 py-2 text-sm border border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+            >
+              Précédent
+            </button>
+            <span className="text-sm text-gray-500">
+              Page {page} sur {totalPages}
             </span>
-            <p className="text-sm text-gray-400">Aucun partenaire trouvé.</p>
+            <button
+              onClick={handleNext}
+              disabled={page === totalPages}
+              className="px-4 py-2 text-sm border border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+            >
+              Suivant
+            </button>
           </div>
         )}
       </main>
