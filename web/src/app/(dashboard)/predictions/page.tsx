@@ -99,7 +99,9 @@ export default function PredictionsPage() {
               value="Relancez le Lead #124"
             />
             <div className="p-6 border border-black/10 flex flex-col gap-4">
-              <h4 className="font-serif text-lg">Suggestion d&apos;Amélioration</h4>
+              <h4 className="font-serif text-lg">
+                Suggestion d&apos;Amélioration
+              </h4>
               <p className="text-sm text-gray-600 leading-relaxed">
                 L&apos;analyse de vos derniers échanges suggère que vous devriez
                 insister davantage sur le ROI à court terme lors de vos
@@ -107,8 +109,8 @@ export default function PredictionsPage() {
                 <br />
                 <br />
                 <span className="font-medium text-black">Conseil :</span>{" "}
-                Utilisez le template &quot;ROI Calculator&quot; disponible dans les
-                ressources.
+                Utilisez le template &quot;ROI Calculator&quot; disponible dans
+                les ressources.
               </p>
               <ActionButton>Voir le template</ActionButton>
             </div>

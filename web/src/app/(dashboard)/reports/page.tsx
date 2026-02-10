@@ -88,7 +88,8 @@ export default function ReportsPage() {
                 <h4 className="font-medium text-sm mb-1">Top Performance</h4>
                 <p className="text-sm text-gray-600 leading-relaxed">
                   Vos emails de relance on un taux d&apos;ouverture de 65% cette
-                  semaine. C&apos;est 15% de plus que la moyenne des partenaires.
+                  semaine. C&apos;est 15% de plus que la moyenne des
+                  partenaires.
                 </p>
               </div>
             </div>
@@ -101,8 +102,8 @@ export default function ReportsPage() {
                   Opportunité Manquée
                 </h4>
                 <p className="text-sm text-gray-600 leading-relaxed">
-                  Le lead &quot;Tech Solutions SA&quot; n&apos;a pas été contacté depuis plus
-                  de 7 jours. Risque de churn estimé à 40%.
+                  Le lead &quot;Tech Solutions SA&quot; n&apos;a pas été
+                  contacté depuis plus de 7 jours. Risque de churn estimé à 40%.
                 </p>
               </div>
             </div>

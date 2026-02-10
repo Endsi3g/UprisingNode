@@ -15,7 +15,9 @@ const LayoutContext = createContext<LayoutContextType | undefined>(undefined);
 export function LayoutProvider({ children }: { children: React.ReactNode }) {
   const [viewMode, setViewMode] = useState<ViewMode>(() => {
     if (typeof window !== "undefined") {
-      return (localStorage.getItem("layout-view-mode") as ViewMode) || "sidebar";
+      return (
+        (localStorage.getItem("layout-view-mode") as ViewMode) || "sidebar"
+      );
     }
     return "sidebar";
   });

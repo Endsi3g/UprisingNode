@@ -12,13 +12,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import {
-  Server,
-  Database,
-  Shield,
-  Activity,
-  CheckCircle,
-} from "lucide-react";
+import { Server, Database, Shield, Activity, CheckCircle } from "lucide-react";
 
 const data = [
   { time: "00:00", latency: 45 },
@@ -157,24 +151,26 @@ export default function StatusPage() {
                 className="p-4 border border-black/10 flex items-center gap-4"
               >
                 <div
-                  className={`p-2 rounded-full ${service.status === "operational"
+                  className={`p-2 rounded-full ${
+                    service.status === "operational"
                       ? "bg-emerald-100 text-emerald-600"
                       : service.status === "degraded"
                         ? "bg-amber-100 text-amber-600"
                         : "bg-red-100 text-red-600"
-                    }`}
+                  }`}
                 >
                   <service.icon className="w-5 h-5" />
                 </div>
                 <div>
                   <p className="font-medium text-sm">{service.name}</p>
                   <p
-                    className={`text-[10px] uppercase tracking-widest mt-1 ${service.status === "operational"
+                    className={`text-[10px] uppercase tracking-widest mt-1 ${
+                      service.status === "operational"
                         ? "text-emerald-600"
                         : service.status === "degraded"
                           ? "text-amber-600"
                           : "text-red-600"
-                      }`}
+                    }`}
                   >
                     {service.status === "operational"
                       ? "Opérationnel"

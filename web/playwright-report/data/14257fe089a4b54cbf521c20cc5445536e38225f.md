@@ -1,0 +1,65 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - link "hub Uprising Node" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]: hub
+        - heading "Uprising Node" [level=2] [ref=e8]
+    - main [ref=e9]:
+      - generic [ref=e10]:
+        - heading "Devenir Partenaire" [level=1] [ref=e11]
+        - paragraph [ref=e13]: Rejoignez le réseau B2B
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - generic [ref=e16]: Nom complet
+          - textbox "Nom complet" [ref=e17]:
+            - /placeholder: Votre nom
+            - text: Test User 1769650449726
+        - generic [ref=e18]:
+          - generic [ref=e19]: Email
+          - textbox "Email" [ref=e20]:
+            - /placeholder: votre@email.com
+            - text: user1769650449726@example.com
+        - generic [ref=e21]:
+          - generic [ref=e22]: Mot de passe
+          - textbox "Mot de passe" [ref=e23]:
+            - /placeholder: ••••••••••••
+            - text: Password123!
+        - generic [ref=e24]:
+          - checkbox "J'accepte les termes et conditions et la politique de confidentialité" [checked] [ref=e25]
+          - generic [ref=e26]:
+            - text: J'accepte les
+            - link "termes et conditions" [ref=e27] [cursor=pointer]:
+              - /url: "#"
+            - text: et la
+            - link "politique de confidentialité" [ref=e28] [cursor=pointer]:
+              - /url: "#"
+        - generic [ref=e29]:
+          - button "Créer mon compte arrow_forward" [ref=e30]:
+            - generic [ref=e31]: Créer mon compte
+            - generic [ref=e32]: arrow_forward
+          - generic [ref=e33]:
+            - generic [ref=e34]: lock
+            - paragraph [ref=e35]: Sécurisé SSL
+      - link "Déjà membre ? Se connecter" [ref=e37] [cursor=pointer]:
+        - /url: /login
+        - generic [ref=e38]: Déjà membre ?
+        - generic [ref=e39]: Se connecter
+    - contentinfo:
+      - paragraph: Uprising Node System v2.4
+  - generic [ref=e44] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e45]:
+      - img [ref=e46]
+    - generic [ref=e49]:
+      - button "Open issues overlay" [ref=e50]:
+        - generic [ref=e51]:
+          - generic [ref=e52]: "0"
+          - generic [ref=e53]: "1"
+        - generic [ref=e54]: Issue
+      - button "Collapse issues badge" [ref=e55]:
+        - img [ref=e56]
+  - alert [ref=e58]
+```
