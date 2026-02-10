@@ -1,4 +1,6 @@
-import { Controller, Get, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, UseGuards, Request, Inject } from '@nestjs/common';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import type { Cache } from 'cache-manager';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 import { TransactionsService } from '../transactions/transactions.service';
@@ -36,17 +38,28 @@ export class DashboardController {
     private readonly transactionsService: TransactionsService,
     private readonly leadsService: LeadsService,
     private readonly prisma: PrismaService,
-  ) { }
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+  ) {}
 
   @Get('stats')
   @UseGuards(JwtAuthGuard)
-  async getStats(@Request() req: AuthenticatedRequest): Promise<DashboardStats> {
+  async getStats(
+    @Request() req: AuthenticatedRequest,
+  ): Promise<DashboardStats> {
     const userId = req.user.userId;
+    const cacheKey = `dashboard:stats:${userId}`;
+    const cached = await this.cacheManager.get<DashboardStats>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
     const accumulatedGains =
       await this.transactionsService.getTotalEarnings(userId);
 
     // Get user data for account status
-    const user: User | null = await this.prisma.user.findUnique({ where: { id: userId } });
+    const user: User | null = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
 
     // Calculate potential gains from leads in analysis or negotiation
 
@@ -77,7 +90,7 @@ export class DashboardController {
       }))
       .slice(0, 5);
 
-    return {
+    const result = {
       accumulatedGains,
       potentialGains,
       activePipeline,
@@ -86,6 +99,9 @@ export class DashboardController {
         verified: user?.emailVerified ?? false,
       },
     };
+
+    await this.cacheManager.set(cacheKey, result, 10000);
+    return result;
   }
 
   @Get('commissions')
