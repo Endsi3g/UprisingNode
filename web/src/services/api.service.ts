@@ -72,6 +72,11 @@ export const leadsService = {
     const response = await api.get("/leads");
     return response.data;
   },
+
+  update: async (id: string, data: any) => {
+    const response = await api.patch(`/leads/${id}`, data);
+    return response.data;
+  },
 };
 
 export const dashboardService = {

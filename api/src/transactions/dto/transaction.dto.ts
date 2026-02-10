@@ -1,11 +1,20 @@
-import { IsString, IsNumber, IsOptional, IsEnum } from 'class-validator';
+import {
+  IsNumber,
+  IsString,
+  IsOptional,
+  // IsEnum,
+  IsNotEmpty,
+} from 'class-validator';
 
 export class CreateTransactionDto {
   @IsNumber()
+  @IsNotEmpty()
   amount: number;
 
   @IsString()
-  type: string; // COMMISSION | WITHDRAWAL
+  @IsNotEmpty()
+  // @IsEnum(['COMMISSION', 'WITHDRAWAL', 'BONUS']) // Relaxed for MVP
+  type: string;
 
   @IsString()
   @IsOptional()
@@ -15,5 +24,5 @@ export class CreateTransactionDto {
 export class UpdateTransactionDto {
   @IsString()
   @IsOptional()
-  status?: string; // PENDING | VALIDATED | PAID | CANCELLED
+  status?: string;
 }
