@@ -16,7 +16,7 @@ import { ResourcesModule } from './resources/resources.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }),
     ThrottlerModule.forRoot([
       {
         ttl: 60000, // 1 minute window
