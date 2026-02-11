@@ -2,6 +2,7 @@ import {
   WebSocketGateway,
   WebSocketServer,
   SubscribeMessage,
+  OnGatewayInit,
   OnGatewayConnection,
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
@@ -12,11 +13,19 @@ import { Server, Socket } from 'socket.io';
     origin: '*',
   },
 })
-export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class EventsGateway
+  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
+{
   @WebSocketServer()
   server: Server;
 
-  handleConnection(client: Socket) {
+  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+  afterInit(server: Server) {
+    console.log('WebSocket Initialized');
+  }
+
+  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+  handleConnection(client: Socket, ...args: any[]) {
     console.log(`Client connected: ${client.id}`);
   }
 
@@ -25,12 +34,13 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('ping')
-  handlePing(client: Socket, data: unknown): string {
+  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+  handlePing(client: Socket, data: any): string {
     return 'pong';
   }
 
-  // Helper method to broadcast events (can be injected into services)
-  broadcast(event: string, data: any) {
-    this.server.emit(event, data);
+  // Example: Notify dashboard of new lead
+  notifyNewLead(lead: any) {
+    this.server.emit('newLead', lead);
   }
 }

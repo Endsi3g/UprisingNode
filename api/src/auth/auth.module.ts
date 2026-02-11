@@ -15,7 +15,8 @@ import { JwtStrategy } from './jwt.strategy';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         const secret = configService.get<string>('JWT_SECRET');
-        if (!secret) throw new Error('JWT_SECRET environment variable is not defined');
+        if (!secret)
+          throw new Error('JWT_SECRET environment variable is not defined');
         return {
           secret,
           signOptions: { expiresIn: '7d' },
