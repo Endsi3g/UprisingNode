@@ -1,14 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common';
-import puppeteer from 'puppeteer';
+import puppeteer, { Browser } from 'puppeteer';
+import { ScrapedData } from './interfaces/scraped-data.interface';
 
 @Injectable()
 export class ScraperService {
   private readonly logger = new Logger(ScraperService.name);
 
-  async scrapeCompany(url: string): Promise<any> {
+  async scrapeCompany(url: string): Promise<ScrapedData> {
     this.logger.log(`Scraping URL: ${url}`);
 
-    let browser;
+    let browser: Browser | undefined;
     try {
       browser = await puppeteer.launch({
         headless: true, // Run in headless mode
@@ -29,7 +30,7 @@ export class ScraperService {
             ?.getAttribute('content') || '';
         const headings = Array.from(document.querySelectorAll('h1, h2'))
           .map((h) => h.textContent?.trim())
-          .filter(Boolean);
+          .filter((h): h is string => !!h);
 
         return {
           title,
@@ -40,8 +41,10 @@ export class ScraperService {
 
       this.logger.log(`Successfully scraped data for ${url}`);
       return data;
-    } catch (error) {
+    } catch (error: any) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       this.logger.error(`Failed to scrape ${url}`, error.stack);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       throw new Error(`Scraping failed: ${error.message}`);
     } finally {
       if (browser) {
