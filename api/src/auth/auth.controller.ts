@@ -17,7 +17,7 @@ import {
 } from './dto/auth.dto';
 
 import { Public } from './public.decorator';
-import { RequestWithUser } from '../common/interfaces/request-with-user.interface';
+import type { RequestWithUser } from '../common/interfaces/request-with-user.interface';
 
 @Controller('auth')
 export class AuthController {
