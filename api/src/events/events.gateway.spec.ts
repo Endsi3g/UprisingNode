@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventsGateway } from './events.gateway';
 import { Socket } from 'socket.io';
@@ -17,8 +20,8 @@ describe('EventsGateway', () => {
     expect(gateway).toBeDefined();
   });
 
-  it('handlePing should return pong', () => {
-    const mockSocket = {} as Socket;
-    expect(gateway.handlePing(mockSocket, {})).toBe('pong');
+  it('should handle ping', () => {
+    const mockClient = { id: 'test' } as Socket;
+    expect(gateway.handlePing(mockClient, {})).toBe('pong');
   });
 });
