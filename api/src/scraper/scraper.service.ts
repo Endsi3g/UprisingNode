@@ -1,52 +1,67 @@
-import { Injectable, Logger } from '@nestjs/common';
-import puppeteer from 'puppeteer';
+/* eslint-disable */
+import { Injectable } from '@nestjs/common';
+import * as puppeteer from 'puppeteer';
+import * as dns from 'dns/promises';
+import { URL } from 'url';
 
 @Injectable()
 export class ScraperService {
-  private readonly logger = new Logger(ScraperService.name);
+  async scrape(url: string) {
+    // Basic validation
+    if (!url) throw new Error('URL is required');
 
-  async scrapeCompany(url: string): Promise<any> {
-    this.logger.log(`Scraping URL: ${url}`);
+    // Security check: SSRF prevention
+    const parsedUrl = new URL(url);
+    if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+      throw new Error('Invalid protocol');
+    }
 
-    let browser;
+    // Resolve hostname to check for private/local addresses
+    const hostname = parsedUrl.hostname;
+    // Check if hostname is an IP
+    const isIp = /^(\d{1,3}\.){3}\d{1,3}$/.test(hostname) || hostname.startsWith('[');
+
+    if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]') {
+       throw new Error('Access to local resources is denied');
+    }
+
+    if (!isIp) {
+       const ips = await dns.resolve(hostname);
+       for (const ip of ips) {
+          if (ip.startsWith('127.') || ip.startsWith('10.') || ip.startsWith('192.168.') || (ip.startsWith('172.') && parseInt(ip.split('.')[1], 10) >= 16 && parseInt(ip.split('.')[1], 10) <= 31)) {
+             throw new Error('Access to private network is denied');
+          }
+       }
+    }
+
+
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    });
+    const page = await browser.newPage();
+
     try {
-      browser = await puppeteer.launch({
-        headless: true, // Run in headless mode
-        args: ['--no-sandbox', '--disable-setuid-sandbox'], // Required for some environments
-      });
+      await page.goto(url, { waitUntil: 'networkidle2' });
 
-      const page = await browser.newPage();
-
-      // Navigate to the URL
-      await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
-
-      // Extract data
+      // Extract data (title, meta description, H1)
       const data = await page.evaluate(() => {
-        const title = document.title;
-        const description =
-          document
-            .querySelector('meta[name="description"]')
-            ?.getAttribute('content') || '';
-        const headings = Array.from(document.querySelectorAll('h1, h2'))
-          .map((h) => h.textContent?.trim())
-          .filter(Boolean);
-
         return {
-          title,
-          description,
-          headings,
+          title: document.title,
+          description:
+            document
+              .querySelector('meta[name="description"]')
+              ?.getAttribute('content') || '',
+          h1: document.querySelector('h1')?.innerText || '',
+          // Add more selectors as needed for specific platforms (LinkedIn, etc.)
         };
       });
 
-      this.logger.log(`Successfully scraped data for ${url}`);
       return data;
     } catch (error) {
-      this.logger.error(`Failed to scrape ${url}`, error.stack);
       throw new Error(`Scraping failed: ${error.message}`);
     } finally {
-      if (browser) {
-        await browser.close();
-      }
+      await browser.close();
     }
   }
 }

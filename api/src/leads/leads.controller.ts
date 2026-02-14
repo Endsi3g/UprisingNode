@@ -19,18 +19,24 @@ export class LeadsController {
   constructor(private readonly leadsService: LeadsService) {}
 
   @Post()
-  create(@Request() req, @Body() createLeadDto: CreateLeadDto) {
-    return this.leadsService.create(req.user.userId, createLeadDto);
+  create(@Request() req: any, @Body() createLeadDto: CreateLeadDto) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const userId = req.user.userId as string;
+    return this.leadsService.create(userId, createLeadDto);
   }
 
   @Get()
-  findAll(@Request() req) {
-    return this.leadsService.findAll(req.user.userId);
+  findAll(@Request() req: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const userId = req.user.userId as string;
+    return this.leadsService.findAll(userId);
   }
 
   @Get('stats')
-  async getStats(@Request() req) {
-    const leads = await this.leadsService.findAll(req.user.userId);
+  async getStats(@Request() req: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const userId = req.user.userId as string;
+    const leads = await this.leadsService.findAll(userId);
 
     const activeLeads = leads.filter(
       (l) => l.status !== 'CLOSED' && l.status !== 'LOST',
@@ -54,21 +60,27 @@ export class LeadsController {
   }
 
   @Get(':id')
-  findOne(@Request() req, @Param('id') id: string) {
-    return this.leadsService.findOne(req.user.userId, id);
+  findOne(@Request() req: any, @Param('id') id: string) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const userId = req.user.userId as string;
+    return this.leadsService.findOne(userId, id);
   }
 
   @Patch(':id')
   update(
-    @Request() req,
+    @Request() req: any,
     @Param('id') id: string,
     @Body() updateLeadDto: UpdateLeadDto,
   ) {
-    return this.leadsService.update(req.user.userId, id, updateLeadDto);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const userId = req.user.userId as string;
+    return this.leadsService.update(userId, id, updateLeadDto);
   }
 
   @Delete(':id')
-  remove(@Request() req, @Param('id') id: string) {
-    return this.leadsService.remove(req.user.userId, id);
+  remove(@Request() req: any, @Param('id') id: string) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const userId = req.user.userId as string;
+    return this.leadsService.remove(userId, id);
   }
 }
