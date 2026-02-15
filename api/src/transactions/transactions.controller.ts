@@ -8,6 +8,8 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { TransactionsService } from './transactions.service';
 import {
   CreateTransactionDto,
