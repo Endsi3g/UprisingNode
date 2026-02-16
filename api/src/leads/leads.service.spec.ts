@@ -2,6 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { LeadsService } from './leads.service';
 import { PrismaService } from '../prisma/prisma.service';
 
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 const mockPrismaService = {
   lead: {
     findMany: jest.fn(),
@@ -39,7 +43,9 @@ describe('LeadsService', () => {
 
   describe('getPotentialGains', () => {
     it('should calculate potential gains correctly', async () => {
-      mockPrismaService.lead.aggregate.mockResolvedValue({ _sum: { score: 50 } });
+      mockPrismaService.lead.aggregate.mockResolvedValue({
+        _sum: { score: 50 },
+      });
       const result = await service.getPotentialGains('user-id');
       expect(result).toBe(500);
       expect(mockPrismaService.lead.aggregate).toHaveBeenCalledWith({
@@ -52,7 +58,9 @@ describe('LeadsService', () => {
     });
 
     it('should return 0 if no score', async () => {
-      mockPrismaService.lead.aggregate.mockResolvedValue({ _sum: { score: null } });
+      mockPrismaService.lead.aggregate.mockResolvedValue({
+        _sum: { score: null },
+      });
       const result = await service.getPotentialGains('user-id');
       expect(result).toBe(0);
     });
