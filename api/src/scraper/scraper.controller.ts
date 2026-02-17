@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
 import { ScraperService } from './scraper.service';
 
