@@ -1,0 +1,4 @@
+## 2024-05-22 - SSRF Vulnerability in ScraperService
+**Vulnerability:** The `ScraperService` accepted arbitrary URLs and passed them directly to `puppeteer.launch`. This allowed attackers to access internal network resources (e.g., localhost, private IPs) by supplying URLs like `http://localhost:3000/metrics` or `http://169.254.169.254/latest/meta-data/`.
+**Learning:** Puppeteer (and other headless browsers) acts as a proxy for the server. Without strict validation of the target URL, it can be used to bypass network firewalls and access internal services.
+**Prevention:** Always validate user-provided URLs before passing them to external request libraries. Resolve the hostname to an IP address and check if it falls within private IP ranges (RFC 1918, RFC 4193, etc.) before allowing the request.
