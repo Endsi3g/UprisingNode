@@ -7,7 +7,6 @@ import * as dns from 'dns/promises';
 // Mock dns/promises
 jest.mock('dns/promises');
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
 const mockLookup: any = dns.lookup;
 
 describe('ScraperService', () => {
