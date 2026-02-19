@@ -25,7 +25,7 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('ping')
-  handlePing(_client: Socket, _data: unknown): string {
+  handlePing(): string {
     return 'pong';
   }
 
