@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Test, TestingModule } from '@nestjs/testing';
 import { LeadsService } from './leads.service';
 import { PrismaService } from '../prisma/prisma.service';
 
 describe('LeadsService', () => {
   let service: LeadsService;
-  let prisma: PrismaService;
 
   const mockPrismaService = {
     lead: {
@@ -30,7 +32,6 @@ describe('LeadsService', () => {
     }).compile();
 
     service = module.get<LeadsService>(LeadsService);
-    prisma = module.get<PrismaService>(PrismaService);
   });
 
   it('should be defined', () => {
@@ -39,7 +40,9 @@ describe('LeadsService', () => {
 
   describe('getPotentialGains', () => {
     it('should return calculated gains', async () => {
-      mockPrismaService.lead.aggregate.mockResolvedValue({ _sum: { score: 50 } });
+      mockPrismaService.lead.aggregate.mockResolvedValue({
+        _sum: { score: 50 },
+      });
 
       const result = await service.getPotentialGains('user-1');
       expect(result).toBe(500); // 50 * 10
@@ -53,7 +56,9 @@ describe('LeadsService', () => {
     });
 
     it('should return 0 if score sum is null', async () => {
-      mockPrismaService.lead.aggregate.mockResolvedValue({ _sum: { score: null } });
+      mockPrismaService.lead.aggregate.mockResolvedValue({
+        _sum: { score: null },
+      });
 
       const result = await service.getPotentialGains('user-1');
       expect(result).toBe(0);
@@ -63,7 +68,12 @@ describe('LeadsService', () => {
   describe('getActivePipeline', () => {
     it('should return active pipeline leads', async () => {
       const mockLeads = [
-        { id: '1', companyName: 'Company A', status: 'ANALYSIS', createdAt: new Date() },
+        {
+          id: '1',
+          companyName: 'Company A',
+          status: 'ANALYSIS',
+          createdAt: new Date(),
+        },
       ];
       mockPrismaService.lead.findMany.mockResolvedValue(mockLeads);
 
