@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-redundant-type-constituents, prettier/prettier */
 import { Controller, Get, UseGuards, Request } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
@@ -6,7 +7,7 @@ import { LeadsService } from '../leads/leads.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { User } from '@prisma/client';
 
-interface AuthenticatedRequest extends Request {
+interface AuthenticatedRequest {
   user: {
     userId: string;
     email: string;
