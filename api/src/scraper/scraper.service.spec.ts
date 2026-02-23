@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return, @typescript-eslint/require-await, @typescript-eslint/no-explicit-any */
 import { Test, TestingModule } from '@nestjs/testing';
 import { ScraperService } from './scraper.service';
 import * as dns from 'dns/promises';
@@ -37,53 +38,68 @@ describe('ScraperService', () => {
   describe('validateUrl', () => {
     const validateUrl = async (url: string) => {
       // Access private method
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
       return (service as any).validateUrl(url);
     };
 
     it('should allow public IPs', async () => {
-      (dns.lookup as jest.Mock).mockResolvedValue({ address: '8.8.8.8' });
+      (dns.lookup as any as jest.Mock).mockResolvedValue({
+        address: '8.8.8.8',
+      });
       await expect(validateUrl('https://google.com')).resolves.not.toThrow();
     });
 
     it('should block private IP 127.0.0.1', async () => {
-      (dns.lookup as jest.Mock).mockResolvedValue({ address: '127.0.0.1' });
+      (dns.lookup as any as jest.Mock).mockResolvedValue({
+        address: '127.0.0.1',
+      });
       await expect(validateUrl('http://localhost')).rejects.toThrow();
     });
 
     it('should block private IP 0.0.0.0', async () => {
-      (dns.lookup as jest.Mock).mockResolvedValue({ address: '0.0.0.0' });
+      (dns.lookup as any as jest.Mock).mockResolvedValue({
+        address: '0.0.0.0',
+      });
       await expect(validateUrl('http://0.0.0.0')).rejects.toThrow();
     });
 
     it('should block private IP 10.0.0.1', async () => {
-      (dns.lookup as jest.Mock).mockResolvedValue({ address: '10.0.0.1' });
+      (dns.lookup as any as jest.Mock).mockResolvedValue({
+        address: '10.0.0.1',
+      });
       await expect(validateUrl('http://10.0.0.1')).rejects.toThrow();
     });
 
     it('should block private IP 192.168.1.1', async () => {
-      (dns.lookup as jest.Mock).mockResolvedValue({ address: '192.168.1.1' });
+      (dns.lookup as any as jest.Mock).mockResolvedValue({
+        address: '192.168.1.1',
+      });
       await expect(validateUrl('http://192.168.1.1')).rejects.toThrow();
     });
 
     it('should block private IP 169.254.169.254', async () => {
-      (dns.lookup as jest.Mock).mockResolvedValue({ address: '169.254.169.254' });
+      (dns.lookup as any as jest.Mock).mockResolvedValue({
+        address: '169.254.169.254',
+      });
       await expect(validateUrl('http://169.254.169.254')).rejects.toThrow();
     });
 
     it('should block private IPv6 ::1', async () => {
-      (dns.lookup as jest.Mock).mockResolvedValue({ address: '::1' });
+      (dns.lookup as any as jest.Mock).mockResolvedValue({ address: '::1' });
       await expect(validateUrl('http://[::1]')).rejects.toThrow();
     });
 
     it('should block private IPv6 ::ffff:127.0.0.1 (IPv4-mapped)', async () => {
-      (dns.lookup as jest.Mock).mockResolvedValue({ address: '::ffff:127.0.0.1' });
+      (dns.lookup as any as jest.Mock).mockResolvedValue({
+        address: '::ffff:127.0.0.1',
+      });
       await expect(validateUrl('http://[::ffff:127.0.0.1]')).rejects.toThrow();
     });
 
     it('should block invalid protocol file://', async () => {
       // No DNS lookup needed for invalid protocol check usually, but mock it just in case logic order varies
-      (dns.lookup as jest.Mock).mockResolvedValue({ address: '127.0.0.1' });
+      (dns.lookup as any as jest.Mock).mockResolvedValue({
+        address: '127.0.0.1',
+      });
       await expect(validateUrl('file:///etc/passwd')).rejects.toThrow();
     });
 
