@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import {
   Controller,
   Get,
@@ -30,25 +32,11 @@ export class LeadsController {
 
   @Get('stats')
   async getStats(@Request() req) {
-    const leads = await this.leadsService.findAll(req.user.userId);
-
-    const activeLeads = leads.filter(
-      (l) => l.status !== 'CLOSED' && l.status !== 'LOST',
-    ).length;
-    const inAudit = leads.filter((l) => l.status === 'ANALYSIS').length;
-    const signedDeals = leads.filter((l) => l.status === 'CLOSED').length;
-
-    // Calculate potential balance from lead scores
-    const currentBalance = leads
-      .filter((l) => l.status === 'CLOSED')
-      .reduce((sum, l) => sum + (l.score || 0) * 10, 0);
+    const stats = await this.leadsService.getStats(req.user.userId);
 
     return {
-      currentBalance,
+      ...stats,
       targetBalance: 15000,
-      activeLeads,
-      inAudit,
-      signedDeals,
       monthlyGrowth: 18, // TODO: Calculate from historical data
     };
   }
