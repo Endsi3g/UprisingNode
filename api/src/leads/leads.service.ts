@@ -48,4 +48,56 @@ export class LeadsService {
       where: { id },
     });
   }
+
+  async getPotentialGains(userId: string) {
+    const result = await this.prisma.lead.aggregate({
+      _sum: { score: true },
+      where: {
+        ownerId: userId,
+        status: { in: ['ANALYSIS', 'NEGOTIATION', 'PROSPECT'] },
+      },
+    });
+    return (result._sum.score || 0) * 10;
+  }
+
+  async getActivePipeline(userId: string) {
+    return this.prisma.lead.findMany({
+      where: {
+        ownerId: userId,
+        status: { notIn: ['CLOSED', 'LOST'] },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 5,
+    });
+  }
+
+  async getStats(userId: string) {
+    const statusCounts = await this.prisma.lead.groupBy({
+      by: ['status'],
+      where: { ownerId: userId },
+      _count: { status: true },
+    });
+
+    const activeLeads = statusCounts
+      .filter((g) => g.status !== 'CLOSED' && g.status !== 'LOST')
+      .reduce((sum, g) => sum + g._count.status, 0);
+
+    const inAudit =
+      statusCounts.find((g) => g.status === 'ANALYSIS')?._count.status || 0;
+    const signedDeals =
+      statusCounts.find((g) => g.status === 'CLOSED')?._count.status || 0;
+
+    const balanceResult = await this.prisma.lead.aggregate({
+      _sum: { score: true },
+      where: { ownerId: userId, status: 'CLOSED' },
+    });
+    const currentBalance = (balanceResult._sum.score || 0) * 10;
+
+    return {
+      activeLeads,
+      inAudit,
+      signedDeals,
+      currentBalance,
+    };
+  }
 }

@@ -23,6 +23,7 @@ export class TransactionsController {
   @Post()
   create(@Request() req, @Body() createTransactionDto: CreateTransactionDto) {
     return this.transactionsService.create(
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       req.user.userId,
       createTransactionDto,
     );
@@ -30,11 +31,13 @@ export class TransactionsController {
 
   @Get()
   findAll(@Request() req) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
     return this.transactionsService.findAll(req.user.userId);
   }
 
   @Get(':id')
   findOne(@Request() req, @Param('id') id: string) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
     return this.transactionsService.findOne(req.user.userId, id);
   }
 
@@ -46,6 +49,7 @@ export class TransactionsController {
     @Body() updateTransactionDto: UpdateTransactionDto,
   ) {
     return this.transactionsService.update(
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       req.user.userId,
       id,
       updateTransactionDto,
