@@ -20,7 +20,7 @@ import { Public } from './public.decorator';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   @Public()
   @Post('register')
@@ -53,6 +53,8 @@ export class AuthController {
   }
 
   @Get('me')
+  /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+  /* eslint-disable @typescript-eslint/no-unsafe-return */
   getProfile(@Request() req) {
     return req.user;
   }

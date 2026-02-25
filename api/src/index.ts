@@ -9,6 +9,9 @@ export default async function handler(req, res) {
   });
   await app.init();
 
+  /* eslint-disable @typescript-eslint/no-unsafe-assignment */
   const expressApp = app.getHttpAdapter().getInstance();
+  /* eslint-disable @typescript-eslint/no-unsafe-return */
+  /* eslint-disable @typescript-eslint/no-unsafe-call */
   return expressApp(req, res);
 }
