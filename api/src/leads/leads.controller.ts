@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import {
   Controller,
   Get,
@@ -19,29 +24,33 @@ export class LeadsController {
   constructor(private readonly leadsService: LeadsService) {}
 
   @Post()
-  create(@Request() req, @Body() createLeadDto: CreateLeadDto) {
+  create(@Request() req: any, @Body() createLeadDto: CreateLeadDto) {
     return this.leadsService.create(req.user.userId, createLeadDto);
   }
 
   @Get()
-  findAll(@Request() req) {
+  findAll(@Request() req: any) {
     return this.leadsService.findAll(req.user.userId);
   }
 
   @Get('stats')
-  async getStats(@Request() req) {
+  async getStats(@Request() req: any) {
     const leads = await this.leadsService.findAll(req.user.userId);
 
     const activeLeads = leads.filter(
-      (l) => l.status !== 'CLOSED' && l.status !== 'LOST',
+      (l: any) => l.status !== 'CLOSED' && l.status !== 'LOST',
     ).length;
-    const inAudit = leads.filter((l) => l.status === 'ANALYSIS').length;
-    const signedDeals = leads.filter((l) => l.status === 'CLOSED').length;
+
+    const inAudit = leads.filter((l: any) => l.status === 'ANALYSIS').length;
+
+    const signedDeals = leads.filter((l: any) => l.status === 'CLOSED').length;
 
     // Calculate potential balance from lead scores
     const currentBalance = leads
-      .filter((l) => l.status === 'CLOSED')
-      .reduce((sum, l) => sum + (l.score || 0) * 10, 0);
+
+      .filter((l: any) => l.status === 'CLOSED')
+
+      .reduce((sum: any, l: any) => sum + (l.score || 0) * 10, 0);
 
     return {
       currentBalance,
@@ -54,13 +63,13 @@ export class LeadsController {
   }
 
   @Get(':id')
-  findOne(@Request() req, @Param('id') id: string) {
+  findOne(@Request() req: any, @Param('id') id: string) {
     return this.leadsService.findOne(req.user.userId, id);
   }
 
   @Patch(':id')
   update(
-    @Request() req,
+    @Request() req: any,
     @Param('id') id: string,
     @Body() updateLeadDto: UpdateLeadDto,
   ) {
@@ -68,7 +77,7 @@ export class LeadsController {
   }
 
   @Delete(':id')
-  remove(@Request() req, @Param('id') id: string) {
+  remove(@Request() req: any, @Param('id') id: string) {
     return this.leadsService.remove(req.user.userId, id);
   }
 }

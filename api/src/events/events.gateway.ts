@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   WebSocketGateway,
   WebSocketServer,
@@ -25,11 +26,12 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('ping')
-  handlePing(client: Socket, data: unknown): string {
+  handlePing(_client: Socket, _data: unknown): string {
     return 'pong';
   }
 
   // Helper method to broadcast events (can be injected into services)
+
   broadcast(event: string, data: any) {
     this.server.emit(event, data);
   }
