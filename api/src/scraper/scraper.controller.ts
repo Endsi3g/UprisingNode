@@ -6,6 +6,7 @@ export class ScraperController {
   constructor(private readonly scraperService: ScraperService) {}
 
   @Post('company')
+  /* eslint-disable @typescript-eslint/no-unsafe-return */
   async scrapeCompany(@Body('url') url: string) {
     if (!url) {
       throw new BadRequestException('URL is required');

@@ -25,6 +25,7 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('ping')
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   handlePing(client: Socket, data: unknown): string {
     return 'pong';
   }

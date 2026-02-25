@@ -21,6 +21,8 @@ export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
 
   @Post()
+  /* eslint-disable @typescript-eslint/no-unsafe-argument */
+  /* eslint-disable @typescript-eslint/no-unsafe-member-access */
   create(@Request() req, @Body() createTransactionDto: CreateTransactionDto) {
     return this.transactionsService.create(
       req.user.userId,

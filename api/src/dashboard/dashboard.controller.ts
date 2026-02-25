@@ -53,6 +53,11 @@ export class DashboardController {
     });
 
     // Calculate potential gains from leads in analysis or negotiation
+
+    // Get active pipeline
+    // const leads = await this.leadsService.findAll(userId);
+
+    // Calculate potential gains from leads not yet closed
     const potentialGains = await this.leadsService.getPotentialGains(userId);
 
     const activePipelineLeads =

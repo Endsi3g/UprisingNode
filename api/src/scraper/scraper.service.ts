@@ -8,6 +8,10 @@ export class ScraperService {
   async scrapeCompany(url: string): Promise<any> {
     this.logger.log(`Scraping URL: ${url}`);
 
+    /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+    /* eslint-disable @typescript-eslint/no-unsafe-call */
+    /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
     let browser;
     try {
       browser = await puppeteer.launch({

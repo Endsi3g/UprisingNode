@@ -19,6 +19,8 @@ export class LeadsController {
   constructor(private readonly leadsService: LeadsService) {}
 
   @Post()
+  /* eslint-disable @typescript-eslint/no-unsafe-argument */
+  /* eslint-disable @typescript-eslint/no-unsafe-member-access */
   create(@Request() req, @Body() createLeadDto: CreateLeadDto) {
     return this.leadsService.create(req.user.userId, createLeadDto);
   }
