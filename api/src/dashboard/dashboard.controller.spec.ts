@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Test, TestingModule } from '@nestjs/testing';
 import { DashboardController } from './dashboard.controller';
 import { TransactionsService } from '../transactions/transactions.service';
@@ -28,7 +29,6 @@ const mockPrismaService = {
 
 describe('DashboardController', () => {
   let controller: DashboardController;
-  let leadsService: typeof mockLeadsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -41,7 +41,6 @@ describe('DashboardController', () => {
     }).compile();
 
     controller = module.get<DashboardController>(DashboardController);
-    leadsService = module.get(LeadsService);
   });
 
   it('should be defined', () => {
