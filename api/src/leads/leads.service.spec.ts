@@ -2,6 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { LeadsService } from './leads.service';
 import { PrismaService } from '../prisma/prisma.service';
 
+/* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/unbound-method */
+
 describe('LeadsService', () => {
   let service: LeadsService;
   let prisma: PrismaService;
@@ -59,17 +61,14 @@ describe('LeadsService', () => {
   describe('getPotentialGains', () => {
     it('should calculate potential gains correctly', async () => {
       const userId = 'user-1';
-      /* eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
       (prisma.lead.aggregate as jest.Mock).mockResolvedValue({
         _sum: { score: 150 },
       });
 
       // We need to cast service to any because the method doesn't exist yet
-      /* eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
       const result = await (service as any).getPotentialGains(userId);
 
       expect(result).toBe(1500); // 150 * 10
-      /* eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
       expect(prisma.lead.aggregate).toHaveBeenCalledWith({
         _sum: { score: true },
         where: {
@@ -81,12 +80,10 @@ describe('LeadsService', () => {
 
     it('should return 0 if no scores found', async () => {
       const userId = 'user-1';
-      /* eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
       (prisma.lead.aggregate as jest.Mock).mockResolvedValue({
         _sum: { score: null },
       });
 
-      /* eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
       const result = await (service as any).getPotentialGains(userId);
       expect(result).toBe(0);
     });
@@ -99,14 +96,11 @@ describe('LeadsService', () => {
         { id: '1', status: 'ANALYSIS', createdAt: new Date() },
         { id: '2', status: 'NEGOTIATION', createdAt: new Date() },
       ];
-      /* eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
       (prisma.lead.findMany as jest.Mock).mockResolvedValue(mockLeads);
 
-      /* eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
       const result = await (service as any).getActivePipeline(userId);
 
       expect(result).toEqual(mockLeads);
-      /* eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
       expect(prisma.lead.findMany).toHaveBeenCalledWith({
         where: {
           ownerId: userId,

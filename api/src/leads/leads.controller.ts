@@ -18,6 +18,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 export class LeadsController {
   constructor(private readonly leadsService: LeadsService) {}
 
+  /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
   @Post()
   create(@Request() req, @Body() createLeadDto: CreateLeadDto) {
     return this.leadsService.create(req.user.userId, createLeadDto);
@@ -71,4 +72,5 @@ export class LeadsController {
   remove(@Request() req, @Param('id') id: string) {
     return this.leadsService.remove(req.user.userId, id);
   }
+  /* eslint-enable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 }
