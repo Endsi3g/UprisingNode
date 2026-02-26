@@ -51,31 +51,20 @@ export class DashboardController {
     // Calculate potential gains from leads in analysis or negotiation
 
     // Get active pipeline
-    const leads = await this.leadsService.findAll(userId);
+    // Optimization: Use dedicated DB queries instead of fetching all leads
+    const potentialGains = await this.leadsService.getPotentialGains(userId);
+    const activePipelineLeads =
+      await this.leadsService.getActivePipeline(userId);
 
-    // Calculate potential gains from leads not yet closed
-    const potentialLeads = leads.filter(
-      (l) =>
-        l.status === 'ANALYSIS' ||
-        l.status === 'NEGOTIATION' ||
-        l.status === 'PROSPECT',
-    );
-    const potentialGains = potentialLeads.reduce((sum, lead) => {
-      return sum + (lead.score || 0) * 10;
-    }, 0);
-
-    const activePipeline = leads
-      .filter((l) => l.status !== 'CLOSED' && l.status !== 'LOST')
-      .map((l) => ({
-        id: l.id,
-        company: l.companyName || 'Unknown',
-        status:
-          (l.status.toLowerCase() as 'analysis' | 'pending' | 'approved') ||
-          'analysis',
-        submittedAt: l.createdAt.toISOString(),
-        riskScore: 'En attente', // Needs AI analysis service
-      }))
-      .slice(0, 5);
+    const activePipeline = activePipelineLeads.map((l) => ({
+      id: l.id,
+      company: l.companyName || 'Unknown',
+      status:
+        (l.status.toLowerCase() as 'analysis' | 'pending' | 'approved') ||
+        'analysis',
+      submittedAt: l.createdAt.toISOString(),
+      riskScore: 'En attente', // Needs AI analysis service
+    }));
 
     return {
       accumulatedGains,
