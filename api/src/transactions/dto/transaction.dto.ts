@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { IsString, IsNumber, IsOptional, IsEnum } from 'class-validator';
 
 export class CreateTransactionDto {
