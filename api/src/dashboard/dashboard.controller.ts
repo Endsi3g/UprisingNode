@@ -53,9 +53,13 @@ export class DashboardController {
     });
 
     // Calculate potential gains from leads in analysis or negotiation
+    // ⚡ Bolt Optimization: Switched from O(N) in-memory reduction to O(1) database aggregation
+    // Expected Impact: Reduces memory usage and network transfer for users with many leads
     const potentialGains = await this.leadsService.getPotentialGains(userId);
 
     // Get active pipeline
+    // ⚡ Bolt Optimization: Switched from O(N) fetch-and-filter to database-level LIMIT 5 and filtering
+    // Expected Impact: Prevents over-fetching and speeds up dashboard load times
     const leads = await this.leadsService.getActivePipeline(userId);
 
     const activePipeline = leads.map((l) => ({
