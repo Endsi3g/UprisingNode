@@ -14,6 +14,7 @@ export interface ScrapedData {
 @Injectable()
 export class ScraperService {
   private readonly logger = new Logger(ScraperService.name);
+  private dnsCache = new Map<string, string>();
 
   private async isUrlAllowed(targetUrl: string): Promise<boolean> {
     try {
@@ -23,7 +24,12 @@ export class ScraperService {
         return false;
       }
 
-      const { address } = await lookup(parsedUrl.hostname);
+      let address = this.dnsCache.get(parsedUrl.hostname);
+      if (!address) {
+        const result = await lookup(parsedUrl.hostname);
+        address = result.address;
+        this.dnsCache.set(parsedUrl.hostname, address);
+      }
 
       if (this.isPrivateIp(address)) {
         return false;
@@ -82,19 +88,21 @@ export class ScraperService {
       const page = await browser.newPage();
 
       await page.setRequestInterception(true);
-      page.on('request', async (request) => {
-        try {
-          const isAllowed = await this.isUrlAllowed(request.url());
-          if (isAllowed) {
-            void request.continue();
-          } else {
-            this.logger.warn(`Blocked request to ${request.url()}`);
-            void request.abort();
-          }
-        } catch (err) {
+      page.on('request', (request) => {
+        void (async () => {
+          try {
+            const isAllowed = await this.isUrlAllowed(request.url());
+            if (isAllowed) {
+              void request.continue();
+            } else {
+              this.logger.warn(`Blocked request to ${request.url()}`);
+              void request.abort();
+            }
+          } catch {
             this.logger.warn(`Error validating request to ${request.url()}`);
             void request.abort();
-        }
+          }
+        })();
       });
 
       // Navigate to the URL
@@ -122,7 +130,7 @@ export class ScraperService {
       return data;
     } catch (error) {
       if (error instanceof BadRequestException) {
-          throw error;
+        throw error;
       }
       this.logger.error(`Failed to scrape ${url}`, (error as Error).stack);
       throw new Error(`Scraping failed: ${(error as Error).message}`);

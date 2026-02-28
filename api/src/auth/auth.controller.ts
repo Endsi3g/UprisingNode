@@ -15,12 +15,17 @@ import {
   ForgotPasswordDto,
   ResetPasswordDto,
 } from './dto/auth.dto';
+import type { Request as ExpressRequest } from 'express';
+
+export interface AuthenticatedRequest extends ExpressRequest {
+  user: any;
+}
 
 import { Public } from './public.decorator';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   @Public()
   @Post('register')
@@ -53,7 +58,8 @@ export class AuthController {
   }
 
   @Get('me')
-  getProfile(@Request() req) {
+  getProfile(@Request() req: AuthenticatedRequest) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return req.user;
   }
 }
