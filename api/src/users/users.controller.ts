@@ -3,16 +3,21 @@ import {
   Get,
   Body,
   Patch,
-  Put,
   UseGuards,
   Request,
   Param,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateProfileDto } from './dto/user.dto';
-import { ChangePasswordDto } from './dto/change-password.dto';
-import { UpdatePreferencesDto } from './dto/update-preferences.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+
+interface AuthenticatedRequest extends Request {
+  user: {
+    userId: string;
+    email: string;
+    role: string;
+  };
+}
 
 @UseGuards(JwtAuthGuard)
 @Controller('users')
@@ -30,12 +35,15 @@ export class UsersController {
   }
 
   @Get('profile') // /users/profile
-  getProfile(@Request() req) {
+  getProfile(@Request() req: AuthenticatedRequest) {
     return this.usersService.findOne(req.user.userId);
   }
 
   @Patch('profile')
-  updateProfile(@Request() req, @Body() dto: UpdateProfileDto) {
+  updateProfile(
+    @Request() req: AuthenticatedRequest,
+    @Body() dto: UpdateProfileDto,
+  ) {
     return this.usersService.update(req.user.userId, dto);
   }
 }
