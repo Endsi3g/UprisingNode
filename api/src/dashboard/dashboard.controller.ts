@@ -5,8 +5,9 @@ import { TransactionsService } from '../transactions/transactions.service';
 import { LeadsService } from '../leads/leads.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { User } from '@prisma/client';
+import type { Request as ExpressRequest } from 'express';
 
-interface AuthenticatedRequest extends Request {
+interface AuthenticatedRequest extends ExpressRequest {
   user: {
     userId: string;
     email: string;
