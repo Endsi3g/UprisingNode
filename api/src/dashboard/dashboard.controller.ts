@@ -5,8 +5,9 @@ import { TransactionsService } from '../transactions/transactions.service';
 import { LeadsService } from '../leads/leads.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { User } from '@prisma/client';
+import type { Request as ExpressRequest } from 'express';
 
-interface AuthenticatedRequest extends Request {
+interface AuthenticatedRequest extends ExpressRequest {
   user: {
     userId: string;
     email: string;
@@ -36,46 +37,37 @@ export class DashboardController {
     private readonly transactionsService: TransactionsService,
     private readonly leadsService: LeadsService,
     private readonly prisma: PrismaService,
-  ) { }
+  ) {}
 
   @Get('stats')
   @UseGuards(JwtAuthGuard)
-  async getStats(@Request() req: AuthenticatedRequest): Promise<DashboardStats> {
+  async getStats(
+    @Request() req: AuthenticatedRequest,
+  ): Promise<DashboardStats> {
     const userId = req.user.userId;
     const accumulatedGains =
       await this.transactionsService.getTotalEarnings(userId);
 
     // Get user data for account status
-    const user: User | null = await this.prisma.user.findUnique({ where: { id: userId } });
+    const user: User | null = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
 
     // Calculate potential gains from leads in analysis or negotiation
+    // Get potential gains directly from db aggregation to avoid O(N) in memory processing
+    const potentialGains = await this.leadsService.getPotentialGains(userId);
 
     // Get active pipeline
-    const leads = await this.leadsService.findAll(userId);
-
-    // Calculate potential gains from leads not yet closed
-    const potentialLeads = leads.filter(
-      (l) =>
-        l.status === 'ANALYSIS' ||
-        l.status === 'NEGOTIATION' ||
-        l.status === 'PROSPECT',
-    );
-    const potentialGains = potentialLeads.reduce((sum, lead) => {
-      return sum + (lead.score || 0) * 10;
-    }, 0);
-
-    const activePipeline = leads
-      .filter((l) => l.status !== 'CLOSED' && l.status !== 'LOST')
-      .map((l) => ({
-        id: l.id,
-        company: l.companyName || 'Unknown',
-        status:
-          (l.status.toLowerCase() as 'analysis' | 'pending' | 'approved') ||
-          'analysis',
-        submittedAt: l.createdAt.toISOString(),
-        riskScore: 'En attente', // Needs AI analysis service
-      }))
-      .slice(0, 5);
+    const leadsPipeline = await this.leadsService.getActivePipeline(userId);
+    const activePipeline = leadsPipeline.map((l) => ({
+      id: l.id,
+      company: l.companyName || 'Unknown',
+      status:
+        (l.status.toLowerCase() as 'analysis' | 'pending' | 'approved') ||
+        'analysis',
+      submittedAt: l.createdAt.toISOString(),
+      riskScore: 'En attente', // Needs AI analysis service
+    }));
 
     return {
       accumulatedGains,
