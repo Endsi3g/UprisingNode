@@ -1,4 +1,0 @@
-## 2024-05-20 - Server-Side Request Forgery (SSRF) in Puppeteer Scraper
-**Vulnerability:** The `ScraperService` accepts arbitrary URLs and instructs Puppeteer to navigate to them without validating the destination. This allows attackers to access internal network resources, loopback addresses, or cloud metadata services.
-**Learning:** Even when using higher-level tools like headless browsers (Puppeteer/Playwright), the underlying network requests are still susceptible to SSRF if the inputs are not strictly validated against an allowlist or blocklist of internal IP ranges and protocols.
-**Prevention:** Implement strict URL protocol checking (only HTTP/HTTPS) and DNS resolution validation. Resolve the hostname of every requested URL (including those intercepted by Puppeteer to handle redirects) and block requests to private, local, and reserved IP address blocks before the connection is established.
