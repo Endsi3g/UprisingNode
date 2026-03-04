@@ -86,33 +86,34 @@ export class LeadsService {
   // Impact: Reduces payload size and CPU usage significantly for users with many leads
   async getLeadStats(userId: string) {
     // Execute all independent aggregation queries concurrently for maximum performance
-    const [activeLeadsCount, inAuditCount, signedDealsCount, closedScoreAgg] = await Promise.all([
-      this.prisma.lead.count({
-        where: {
-          ownerId: userId,
-          status: { notIn: ['CLOSED', 'LOST'] },
-        },
-      }),
-      this.prisma.lead.count({
-        where: {
-          ownerId: userId,
-          status: 'ANALYSIS',
-        },
-      }),
-      this.prisma.lead.count({
-        where: {
-          ownerId: userId,
-          status: 'CLOSED',
-        },
-      }),
-      this.prisma.lead.aggregate({
-        _sum: { score: true },
-        where: {
-          ownerId: userId,
-          status: 'CLOSED',
-        },
-      }),
-    ]);
+    const [activeLeadsCount, inAuditCount, signedDealsCount, closedScoreAgg] =
+      await Promise.all([
+        this.prisma.lead.count({
+          where: {
+            ownerId: userId,
+            status: { notIn: ['CLOSED', 'LOST'] },
+          },
+        }),
+        this.prisma.lead.count({
+          where: {
+            ownerId: userId,
+            status: 'ANALYSIS',
+          },
+        }),
+        this.prisma.lead.count({
+          where: {
+            ownerId: userId,
+            status: 'CLOSED',
+          },
+        }),
+        this.prisma.lead.aggregate({
+          _sum: { score: true },
+          where: {
+            ownerId: userId,
+            status: 'CLOSED',
+          },
+        }),
+      ]);
 
     const currentBalance = (closedScoreAgg._sum.score || 0) * 10;
 

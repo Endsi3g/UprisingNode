@@ -12,6 +12,7 @@ import {
 import { LeadsService } from './leads.service';
 import { CreateLeadDto, UpdateLeadDto } from './dto/lead.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import type { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
 
 @UseGuards(JwtAuthGuard)
 @Controller('leads')
@@ -19,17 +20,20 @@ export class LeadsController {
   constructor(private readonly leadsService: LeadsService) {}
 
   @Post()
-  create(@Request() req, @Body() createLeadDto: CreateLeadDto) {
+  create(
+    @Request() req: AuthenticatedRequest,
+    @Body() createLeadDto: CreateLeadDto,
+  ) {
     return this.leadsService.create(req.user.userId, createLeadDto);
   }
 
   @Get()
-  findAll(@Request() req) {
+  findAll(@Request() req: AuthenticatedRequest) {
     return this.leadsService.findAll(req.user.userId);
   }
 
   @Get('stats')
-  async getStats(@Request() req) {
+  async getStats(@Request() req: AuthenticatedRequest) {
     // ⚡ Bolt: Offload stats calculation to the database layer
     // Impact: Avoids loading all leads into memory for aggregations, saving memory and CPU
     const stats = await this.leadsService.getLeadStats(req.user.userId);
@@ -45,13 +49,13 @@ export class LeadsController {
   }
 
   @Get(':id')
-  findOne(@Request() req, @Param('id') id: string) {
+  findOne(@Request() req: AuthenticatedRequest, @Param('id') id: string) {
     return this.leadsService.findOne(req.user.userId, id);
   }
 
   @Patch(':id')
   update(
-    @Request() req,
+    @Request() req: AuthenticatedRequest,
     @Param('id') id: string,
     @Body() updateLeadDto: UpdateLeadDto,
   ) {
@@ -59,7 +63,7 @@ export class LeadsController {
   }
 
   @Delete(':id')
-  remove(@Request() req, @Param('id') id: string) {
+  remove(@Request() req: AuthenticatedRequest, @Param('id') id: string) {
     return this.leadsService.remove(req.user.userId, id);
   }
 }
