@@ -1,3 +1,0 @@
-## 2024-05-19 - Replacing in-memory aggregations with DB queries
-**Learning:** Found multiple places (`DashboardController.getStats`, `LeadsController.getStats`) where all records were being fetched into memory via `findAll()` just to calculate lengths and sums (e.g., potential gains, active pipeline count). This is an O(N) memory operation which scales poorly as the user's lead list grows.
-**Action:** Always favor Prisma aggregations (`_sum`, `count`) and specific database queries (`take`, `where`) to compute metrics and filtered lists. When multiple independent DB queries are needed, bundle them using `Promise.all()` to decrease latency.

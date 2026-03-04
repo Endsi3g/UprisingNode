@@ -10,7 +10,6 @@ import {
 import { UsersService } from './users.service';
 import { UpdateProfileDto } from './dto/user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import type { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
 
 @UseGuards(JwtAuthGuard)
 @Controller('users')
@@ -28,15 +27,14 @@ export class UsersController {
   }
 
   @Get('profile') // /users/profile
-  getProfile(@Request() req: AuthenticatedRequest) {
+  getProfile(@Request() req) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
     return this.usersService.findOne(req.user.userId);
   }
 
   @Patch('profile')
-  updateProfile(
-    @Request() req: AuthenticatedRequest,
-    @Body() dto: UpdateProfileDto,
-  ) {
+  updateProfile(@Request() req, @Body() dto: UpdateProfileDto) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
     return this.usersService.update(req.user.userId, dto);
   }
 }
