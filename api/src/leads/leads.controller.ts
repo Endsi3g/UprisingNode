@@ -31,11 +31,14 @@ export class LeadsController {
   }
 
   @Get('stats')
-  async getStats(@Request() req) {
+  async getStats(@Request() req: any) {
     // ⚡ Bolt: Offload stats calculation to the database layer
     // Impact: Avoids loading all leads into memory for aggregations, saving memory and CPU
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-    const stats: any = await this.leadsService.getLeadStats(req.user.userId);
+
+    const stats: any = await this.leadsService.getLeadStats(
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      req.user.userId as string,
+    );
 
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
