@@ -20,7 +20,7 @@ import { Public } from './public.decorator';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   @Public()
   @Post('register')
@@ -53,7 +53,10 @@ export class AuthController {
   }
 
   @Get('me')
-  getProfile(@Request() req) {
+  getProfile(
+    @Request()
+    req: import('./interfaces/authenticated-request.interface').AuthenticatedRequest,
+  ) {
     return req.user;
   }
 }
