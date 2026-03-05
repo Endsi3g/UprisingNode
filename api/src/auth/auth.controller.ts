@@ -17,7 +17,7 @@ import {
 } from './dto/auth.dto';
 
 import { Public } from './public.decorator';
-import { AuthenticatedRequest } from './interfaces/authenticated-request.interface';
+import type { AuthenticatedRequest } from './interfaces/authenticated-request.interface';
 
 @Controller('auth')
 export class AuthController {
