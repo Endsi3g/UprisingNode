@@ -24,6 +24,30 @@ export class LeadsService {
     });
   }
 
+  // Optimized method to calculate potential gains at the database level
+  async getPotentialGains(userId: string) {
+    const aggregations = await this.prisma.lead.aggregate({
+      _sum: { score: true },
+      where: {
+        ownerId: userId,
+        status: { in: ['ANALYSIS', 'NEGOTIATION', 'PROSPECT'] },
+      },
+    });
+    return (aggregations._sum.score || 0) * 10;
+  }
+
+  // Optimized method to retrieve the active pipeline limiting the results at the database level
+  async getActivePipeline(userId: string) {
+    return this.prisma.lead.findMany({
+      where: {
+        ownerId: userId,
+        status: { notIn: ['CLOSED', 'LOST'] },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 5,
+    });
+  }
+
   async findOne(userId: string, id: string) {
     const lead = await this.prisma.lead.findFirst({
       where: { id, ownerId: userId },
