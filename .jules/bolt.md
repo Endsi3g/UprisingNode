@@ -1,0 +1,3 @@
+## 2024-03-05 - In-memory O(N) Processing in Dashboard Stats
+**Learning:** `DashboardController.getStats` was fetching all leads into memory (using `LeadsService.findAll(userId)`) to calculate `potentialGains` and retrieve `activePipeline` metrics. For large datasets, this approach is a performance bottleneck since all rows are loaded and then filtered/reduced in Node.js rather than at the database layer.
+**Action:** Push aggregations (`sum`, `count`) and limiting/filtering (`where`, `take`) to the database level via Prisma to reduce memory footprint and latency. Parallelize independent queries using `Promise.all`.
