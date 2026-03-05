@@ -1,9 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import helmet from 'helmet';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Add security headers
+  app.use(helmet());
 
   // Global validation pipe - strips unknown properties and validates DTOs
   app.useGlobalPipes(
@@ -21,4 +25,5 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT ?? 3000);
 }
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 bootstrap();
