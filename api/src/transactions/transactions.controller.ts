@@ -14,7 +14,7 @@ import {
   UpdateTransactionDto,
 } from './dto/transaction.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
+import type { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
 
 @UseGuards(JwtAuthGuard)
 @Controller('transactions')
