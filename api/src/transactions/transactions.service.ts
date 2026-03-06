@@ -85,6 +85,57 @@ export class TransactionsService {
     return aggregations._sum.amount || 0;
   }
 
+  // BOLT OPTIMIZATION:
+  // Aggregates total, pending, monthly earnings, and counts paid commissions in parallel database queries.
+  // This bypasses loading multiple heavy transaction arrays and N separate sequential await calls.
+  async getCommissionsStats(userId: string) {
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+    startOfMonth.setHours(0, 0, 0, 0);
+
+    const [totalAgg, pendingAgg, monthlyAgg, paidCommissionsCount] =
+      await Promise.all([
+        this.prisma.transaction.aggregate({
+          _sum: { amount: true },
+          where: { userId, type: 'COMMISSION', status: 'PAID' },
+        }),
+        this.prisma.transaction.aggregate({
+          _sum: { amount: true },
+          where: { userId, type: 'COMMISSION', status: 'PENDING' },
+        }),
+        this.prisma.transaction.aggregate({
+          _sum: { amount: true },
+          where: {
+            userId,
+            type: 'COMMISSION',
+            status: 'PAID',
+            createdAt: { gte: startOfMonth },
+          },
+        }),
+        this.prisma.transaction.count({
+          where: { userId, type: 'COMMISSION', status: 'PAID' },
+        }),
+      ]);
+
+    return {
+      totalEarnings: totalAgg._sum.amount || 0,
+      pendingEarnings: pendingAgg._sum.amount || 0,
+      monthlyEarnings: monthlyAgg._sum.amount || 0,
+      paidCommissionsCount,
+    };
+  }
+
+  // BOLT OPTIMIZATION:
+  // Retrieve limited number of commissions instead of fetching all transactions
+  // Avoids mapping and filtering thousands of records in memory
+  async findCommissions(userId: string, limit: number = 20) {
+    return this.prisma.transaction.findMany({
+      where: { userId, type: 'COMMISSION' },
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+    });
+  }
+
   async findAll(userId: string) {
     return this.prisma.transaction.findMany({
       where: { userId },
