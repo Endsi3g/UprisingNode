@@ -24,6 +24,35 @@ export class LeadsService {
     });
   }
 
+  // BOLT OPTIMIZATION:
+  // Calculates potential gains at the database level instead of loading all leads in memory
+  // Time complexity goes from O(N) to O(1) in application code, memory usage significantly reduced
+  async getPotentialGains(userId: string): Promise<number> {
+    const aggregations = await this.prisma.lead.aggregate({
+      _sum: { score: true },
+      where: {
+        ownerId: userId,
+        status: { in: ['ANALYSIS', 'NEGOTIATION', 'PROSPECT'] },
+      },
+    });
+    // Each score point equals 10 monetary units (as defined in previous business logic)
+    return (aggregations._sum.score || 0) * 10;
+  }
+
+  // BOLT OPTIMIZATION:
+  // Fetches only the needed active pipeline items at database level
+  // Replaces in-memory filter and slice(0,5) on potentially thousands of leads
+  async getActivePipeline(userId: string, limit: number = 5) {
+    return this.prisma.lead.findMany({
+      where: {
+        ownerId: userId,
+        status: { notIn: ['CLOSED', 'LOST'] },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+    });
+  }
+
   async findOne(userId: string, id: string) {
     const lead = await this.prisma.lead.findFirst({
       where: { id, ownerId: userId },
