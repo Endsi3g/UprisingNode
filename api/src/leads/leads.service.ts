@@ -24,6 +24,33 @@ export class LeadsService {
     });
   }
 
+  // ⚡ Bolt Optimization: Calculate potential gains at the database level using Prisma aggregate.
+  // This replaces O(N) in-memory filtering and reduce operations on all leads.
+  async getPotentialGains(userId: string): Promise<number> {
+    const aggregations = await this.prisma.lead.aggregate({
+      _sum: { score: true },
+      where: {
+        ownerId: userId,
+        status: { in: ['ANALYSIS', 'NEGOTIATION', 'PROSPECT'] },
+      },
+    });
+    // The previous logic calculated score * 10
+    return (aggregations._sum.score || 0) * 10;
+  }
+
+  // ⚡ Bolt Optimization: Fetch only the necessary 5 active leads directly from the database.
+  // This avoids fetching all leads and filtering/slicing in memory.
+  async getActivePipeline(userId: string) {
+    return this.prisma.lead.findMany({
+      where: {
+        ownerId: userId,
+        status: { notIn: ['CLOSED', 'LOST'] },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 5,
+    });
+  }
+
   async findOne(userId: string, id: string) {
     const lead = await this.prisma.lead.findFirst({
       where: { id, ownerId: userId },
