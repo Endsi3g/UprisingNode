@@ -24,6 +24,32 @@ export class LeadsService {
     });
   }
 
+  // ⚡ Bolt: Offload potential gains calculation to the database using aggregations
+  // instead of fetching all leads and summing in memory. O(N) -> O(1) memory.
+  async getPotentialGains(userId: string): Promise<number> {
+    const aggregations = await this.prisma.lead.aggregate({
+      _sum: { score: true },
+      where: {
+        ownerId: userId,
+        status: { in: ['ANALYSIS', 'NEGOTIATION', 'PROSPECT'] },
+      },
+    });
+    return (aggregations._sum.score || 0) * 10;
+  }
+
+  // ⚡ Bolt: Fetch only the required active pipeline leads directly from DB
+  // to avoid loading the entire lead list and slicing it in memory.
+  async getActivePipeline(userId: string) {
+    return this.prisma.lead.findMany({
+      where: {
+        ownerId: userId,
+        status: { notIn: ['CLOSED', 'LOST'] },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 5,
+    });
+  }
+
   async findOne(userId: string, id: string) {
     const lead = await this.prisma.lead.findFirst({
       where: { id, ownerId: userId },
