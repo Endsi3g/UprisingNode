@@ -1,12 +1,20 @@
-import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  BadRequestException,
+  UseGuards,
+} from '@nestjs/common';
 import { ScraperService } from './scraper.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('scraper')
 export class ScraperController {
   constructor(private readonly scraperService: ScraperService) {}
 
   @Post('company')
-  async scrapeCompany(@Body('url') url: string) {
+  async scrapeCompany(@Body('url') url: string): Promise<unknown> {
     if (!url) {
       throw new BadRequestException('URL is required');
     }
