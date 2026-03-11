@@ -1,14 +1,69 @@
-import { Injectable, Logger } from '@nestjs/common';
-import puppeteer from 'puppeteer';
+import { Injectable, Logger, BadRequestException } from '@nestjs/common';
+import puppeteer, { Browser } from 'puppeteer';
+
+export interface ScrapedData {
+  title: string;
+  description: string;
+  headings: string[];
+}
 
 @Injectable()
 export class ScraperService {
   private readonly logger = new Logger(ScraperService.name);
 
-  async scrapeCompany(url: string): Promise<any> {
+  private isSafeUrl(url: string): boolean {
+    try {
+      const parsedUrl = new URL(url);
+
+      // Only allow http and https
+      if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+        return false;
+      }
+
+      const hostname = parsedUrl.hostname;
+
+      // Block common internal/metadata IP addresses and hostnames
+      const blockedHostnames = [
+        'localhost',
+        '127.0.0.1',
+        '::1',
+        '169.254.169.254',
+        '[::1]',
+      ];
+
+      if (blockedHostnames.includes(hostname)) {
+        return false;
+      }
+
+      // Block private IP ranges (10.x.x.x, 172.16.x.x-172.31.x.x, 192.168.x.x)
+      const ipRegex = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
+      const match = hostname.match(ipRegex);
+      if (match) {
+        const p1 = parseInt(match[1], 10);
+        const p2 = parseInt(match[2], 10);
+        if (
+          p1 === 10 ||
+          (p1 === 172 && p2 >= 16 && p2 <= 31) ||
+          (p1 === 192 && p2 === 168)
+        ) {
+          return false;
+        }
+      }
+
+      return true;
+    } catch {
+      return false; // Invalid URL format
+    }
+  }
+
+  async scrapeCompany(url: string): Promise<ScrapedData> {
+    if (!this.isSafeUrl(url)) {
+      throw new BadRequestException('Invalid or unsafe URL provided');
+    }
+
     this.logger.log(`Scraping URL: ${url}`);
 
-    let browser;
+    let browser: Browser | undefined;
     try {
       browser = await puppeteer.launch({
         headless: true, // Run in headless mode
@@ -28,7 +83,7 @@ export class ScraperService {
             .querySelector('meta[name="description"]')
             ?.getAttribute('content') || '';
         const headings = Array.from(document.querySelectorAll('h1, h2'))
-          .map((h) => h.textContent?.trim())
+          .map((h) => h.textContent?.trim() || '')
           .filter(Boolean);
 
         return {
@@ -41,8 +96,12 @@ export class ScraperService {
       this.logger.log(`Successfully scraped data for ${url}`);
       return data;
     } catch (error) {
-      this.logger.error(`Failed to scrape ${url}`, error.stack);
-      throw new Error(`Scraping failed: ${error.message}`);
+      const e = error as Error;
+      this.logger.error(`Failed to scrape ${url}`, e.stack);
+      if (e instanceof BadRequestException) {
+        throw e;
+      }
+      throw new Error(`Scraping failed: ${e.message}`);
     } finally {
       if (browser) {
         await browser.close();
