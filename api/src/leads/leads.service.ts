@@ -48,4 +48,48 @@ export class LeadsService {
       where: { id },
     });
   }
+
+  // ⚡ Bolt: Calculate potential gains at DB level instead of O(N) in-memory
+  async getPotentialGains(userId: string): Promise<number> {
+    const aggregations = await this.prisma.lead.aggregate({
+      _sum: { score: true },
+      where: {
+        ownerId: userId,
+        status: {
+          in: ['ANALYSIS', 'NEGOTIATION', 'PROSPECT'],
+        },
+      },
+    });
+    return (aggregations._sum.score || 0) * 10;
+  }
+
+  // ⚡ Bolt: Fetch only needed active pipeline items instead of full table
+  async getActivePipeline(userId: string) {
+    const leads = await this.prisma.lead.findMany({
+      where: {
+        ownerId: userId,
+        status: {
+          notIn: ['CLOSED', 'LOST'],
+        },
+      },
+      take: 5,
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        companyName: true,
+        status: true,
+        createdAt: true,
+      },
+    });
+
+    return leads.map((l) => ({
+      id: l.id,
+      company: l.companyName || 'Unknown',
+      status:
+        (l.status.toLowerCase() as 'analysis' | 'pending' | 'approved') ||
+        'analysis',
+      submittedAt: l.createdAt.toISOString(),
+      riskScore: 'En attente', // Needs AI analysis service
+    }));
+  }
 }

@@ -1,0 +1,3 @@
+## 2025-05-17 - Dashboard Stats O(N) In-Memory Filtering Bottleneck
+**Learning:** The `DashboardController.getStats` endpoint originally retrieved the entire leads table into memory using `LeadsService.findAll(userId)` just to calculate sums and take the top 5 records. This is a severe O(N) scaling bottleneck in NestJS/Prisma applications as the user's lead count grows.
+**Action:** Always verify if iterative in-memory operations like `.filter()`, `.reduce()`, or `.slice()` on Prisma-returned arrays can be replaced with database-level aggregations (`prisma.lead.aggregate({ _sum: ... })`) or query limits (`take: 5`). This drastically reduces application memory usage and DB data transfer.
