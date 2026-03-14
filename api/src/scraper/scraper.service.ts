@@ -1,14 +1,53 @@
-import { Injectable, Logger } from '@nestjs/common';
-import puppeteer from 'puppeteer';
+import { Injectable, Logger, BadRequestException } from '@nestjs/common';
+import puppeteer, { Browser } from 'puppeteer';
+
+export interface ScrapedData {
+  title: string;
+  description: string;
+  headings: string[];
+}
 
 @Injectable()
 export class ScraperService {
   private readonly logger = new Logger(ScraperService.name);
 
-  async scrapeCompany(url: string): Promise<any> {
+  private isSafeUrl(urlString: string): boolean {
+    try {
+      const parsedUrl = new URL(urlString);
+
+      if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+        return false;
+      }
+
+      const hostname = parsedUrl.hostname;
+
+      if (
+        hostname === 'localhost' ||
+        hostname.startsWith('127.') ||
+        hostname.startsWith('169.254.') || // Cloud Metadata
+        hostname.startsWith('10.') ||
+        hostname.match(/^172\.(1[6-9]|2[0-9]|3[0-1])\./) ||
+        hostname.startsWith('192.168.') ||
+        hostname === '[::1]'
+      ) {
+        return false;
+      }
+
+      return true;
+    } catch {
+      return false; // Invalid URL format
+    }
+  }
+
+  async scrapeCompany(url: string): Promise<ScrapedData> {
+    if (!this.isSafeUrl(url)) {
+      this.logger.warn(`Attempted to scrape unsafe URL: ${url}`);
+      throw new BadRequestException('Invalid or restricted URL provided');
+    }
+
     this.logger.log(`Scraping URL: ${url}`);
 
-    let browser;
+    let browser: Browser | null = null;
     try {
       browser = await puppeteer.launch({
         headless: true, // Run in headless mode
@@ -39,10 +78,16 @@ export class ScraperService {
       });
 
       this.logger.log(`Successfully scraped data for ${url}`);
-      return data;
+      return data as ScrapedData;
     } catch (error) {
-      this.logger.error(`Failed to scrape ${url}`, error.stack);
-      throw new Error(`Scraping failed: ${error.message}`);
+      if (error instanceof BadRequestException) {
+        throw error; // Re-throw validation errors directly
+      }
+      const e = error as Error;
+      this.logger.error(`Failed to scrape ${url}`, e.stack);
+      throw new BadRequestException(
+        'Failed to extract data from the provided URL',
+      );
     } finally {
       if (browser) {
         await browser.close();
