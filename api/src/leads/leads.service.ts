@@ -24,6 +24,32 @@ export class LeadsService {
     });
   }
 
+  // ⚡ Bolt Optimization: Replace O(N) in-memory array summing with database aggregation
+  // Expected Impact: Reduces memory usage and CPU cycles on the application server
+  async getPotentialGains(userId: string): Promise<number> {
+    const aggregations = await this.prisma.lead.aggregate({
+      _sum: { score: true },
+      where: {
+        ownerId: userId,
+        status: { in: ['ANALYSIS', 'NEGOTIATION', 'PROSPECT'] },
+      },
+    });
+    return (aggregations._sum.score || 0) * 10;
+  }
+
+  // ⚡ Bolt Optimization: Replace O(N) in-memory array filtering with database take and where constraints
+  // Expected Impact: Reduces memory usage and CPU cycles on the application server
+  async getActivePipeline(userId: string) {
+    return this.prisma.lead.findMany({
+      where: {
+        ownerId: userId,
+        status: { notIn: ['CLOSED', 'LOST'] },
+      },
+      take: 5,
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
   async findOne(userId: string, id: string) {
     const lead = await this.prisma.lead.findFirst({
       where: { id, ownerId: userId },
