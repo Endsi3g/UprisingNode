@@ -48,4 +48,42 @@ export class LeadsService {
       where: { id },
     });
   }
+
+  // ⚡ Bolt Performance Optimization:
+  // Replaced O(N) in-memory array filtering with O(1) database aggregations.
+  // This reduces memory usage and transfer time over the network by calculating
+  // metrics directly in the database using group and sum operations.
+  async getStats(userId: string) {
+    const statusCounts = await this.prisma.lead.groupBy({
+      by: ['status'],
+      where: { ownerId: userId },
+      _count: { _all: true },
+    });
+
+    const closedLeadsSum = await this.prisma.lead.aggregate({
+      where: { ownerId: userId, status: 'CLOSED' },
+      _sum: { score: true },
+    });
+
+    let activeLeads = 0;
+    let inAudit = 0;
+    let signedDeals = 0;
+
+    for (const group of statusCounts) {
+      const count = group._count._all;
+      if (group.status !== 'CLOSED' && group.status !== 'LOST') {
+        activeLeads += count;
+      }
+      if (group.status === 'ANALYSIS') {
+        inAudit += count;
+      }
+      if (group.status === 'CLOSED') {
+        signedDeals += count;
+      }
+    }
+
+    const currentBalance = (closedLeadsSum._sum?.score || 0) * 10;
+
+    return { activeLeads, inAudit, signedDeals, currentBalance };
+  }
 }
