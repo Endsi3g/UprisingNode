@@ -1,0 +1,4 @@
+## 2024-05-24 - Avoid Hardcoded Security Configuration Fallbacks
+**Vulnerability:** The application used a hardcoded fallback string (`'secret'`) for the `JWT_SECRET` in `AuthModule` and `JwtStrategy`. This could lead to predictable JWT tokens and security bypasses if the environment variable is not set correctly in production.
+**Learning:** Security configurations should "fail securely" by explicitly throwing errors during application initialization if required environment variables are missing, rather than falling back to insecure defaults. Additionally, NestJS `JwtModule.registerAsync` should be used to properly access and validate environment variables with explicit type assertions to satisfy TypeScript.
+**Prevention:** Never use the `process.env.VAR || 'default'` pattern for security secrets or keys. Always validate the presence of the environment variable and throw an initialization error if it is missing.
