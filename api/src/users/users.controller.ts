@@ -1,46 +1,40 @@
-/* eslint-disable */
 import {
   Controller,
   Get,
-  Post,
   Body,
   Patch,
-  Param,
-  Delete,
+  UseGuards,
   Request,
+  Param,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UpdateUserDto } from './dto/user.dto';
+import { UpdateProfileDto } from './dto/user.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get('profile')
-  getProfile(@Request() req: any) {
+  @Get('partners')
+  findAllPartners() {
+    return this.usersService.findAllPartners();
+  }
 
-    return this.usersService.findById(req.user.userId);
+  @Get(':id/details')
+  async getPartnerDetails(@Param('id') id: string) {
+    return this.usersService.findOnePublic(id);
+  }
+
+  @Get('profile') // /users/profile
+  getProfile(@Request() req: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
+    return this.usersService.findOne(req.user.userId);
   }
 
   @Patch('profile')
-  updateProfile(@Body() updateUserDto: UpdateUserDto, @Request() req: any) {
-
-    return this.usersService.update(req.user.userId, updateUserDto);
-  }
-
-  // Admin routes would go here with appropriate Role guards
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findById(id);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(id);
+  updateProfile(@Request() req: any, @Body() dto: UpdateProfileDto) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
+    return this.usersService.update(req.user.userId, dto);
   }
 }

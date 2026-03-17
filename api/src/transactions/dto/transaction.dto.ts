@@ -1,4 +1,5 @@
-/* eslint-disable */
+import { IsString, IsNumber, IsOptional } from 'class-validator';
+
 export class CreateTransactionDto {
   @IsNumber()
   amount: number;
