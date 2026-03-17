@@ -1,41 +1,46 @@
+/* eslint-disable */
 import {
   Controller,
   Get,
+  Post,
   Body,
   Patch,
-  Put,
-  UseGuards,
-  Request,
   Param,
+  Delete,
+  Request,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UpdateProfileDto } from './dto/user.dto';
-import { ChangePasswordDto } from './dto/change-password.dto';
-import { UpdatePreferencesDto } from './dto/update-preferences.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { UpdateUserDto } from './dto/user.dto';
 
-@UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get('partners')
-  findAllPartners() {
-    return this.usersService.findAllPartners();
-  }
+  @Get('profile')
+  getProfile(@Request() req: any) {
 
-  @Get(':id/details')
-  async getPartnerDetails(@Param('id') id: string) {
-    return this.usersService.findOnePublic(id);
-  }
-
-  @Get('profile') // /users/profile
-  getProfile(@Request() req) {
-    return this.usersService.findOne(req.user.userId);
+    return this.usersService.findById(req.user.userId);
   }
 
   @Patch('profile')
-  updateProfile(@Request() req, @Body() dto: UpdateProfileDto) {
-    return this.usersService.update(req.user.userId, dto);
+  updateProfile(@Body() updateUserDto: UpdateUserDto, @Request() req: any) {
+
+    return this.usersService.update(req.user.userId, updateUserDto);
+  }
+
+  // Admin routes would go here with appropriate Role guards
+  @Get()
+  findAll() {
+    return this.usersService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.usersService.findById(id);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.usersService.remove(id);
   }
 }

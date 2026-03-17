@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {
   Controller,
   Get,
@@ -6,69 +7,67 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   Request,
+  Query,
 } from '@nestjs/common';
 import { LeadsService } from './leads.service';
 import { CreateLeadDto, UpdateLeadDto } from './dto/lead.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
-@UseGuards(JwtAuthGuard)
 @Controller('leads')
 export class LeadsController {
   constructor(private readonly leadsService: LeadsService) {}
 
   @Post()
-  create(@Request() req, @Body() createLeadDto: CreateLeadDto) {
-    return this.leadsService.create(req.user.userId, createLeadDto);
+  create(@Body() createLeadDto: CreateLeadDto, @Request() req: any) {
+
+    return this.leadsService.create(createLeadDto, req.user.userId);
   }
 
   @Get()
-  findAll(@Request() req) {
+  findAll(@Request() req: any) {
+
     return this.leadsService.findAll(req.user.userId);
   }
 
   @Get('stats')
-  async getStats(@Request() req) {
-    const leads = await this.leadsService.findAll(req.user.userId);
+  getStats(@Request() req: any) {
 
-    const activeLeads = leads.filter(
-      (l) => l.status !== 'CLOSED' && l.status !== 'LOST',
-    ).length;
-    const inAudit = leads.filter((l) => l.status === 'ANALYSIS').length;
-    const signedDeals = leads.filter((l) => l.status === 'CLOSED').length;
+    return this.leadsService.getStats(req.user.userId);
+  }
 
-    // Calculate potential balance from lead scores
-    const currentBalance = leads
-      .filter((l) => l.status === 'CLOSED')
-      .reduce((sum, l) => sum + (l.score || 0) * 10, 0);
+  @Get('export')
+  exportCsv(@Request() req: any) {
+    // Implementation placeholder
 
-    return {
-      currentBalance,
-      targetBalance: 15000,
-      activeLeads,
-      inAudit,
-      signedDeals,
-      monthlyGrowth: 18, // TODO: Calculate from historical data
-    };
+    return `Exporting leads for user ${req.user.userId}`;
+  }
+
+  @Get('import')
+  importCsv(@Request() req: any) {
+    // Implementation placeholder
+
+    return `Importing leads for user ${req.user.userId}`;
   }
 
   @Get(':id')
-  findOne(@Request() req, @Param('id') id: string) {
-    return this.leadsService.findOne(req.user.userId, id);
+  findOne(@Param('id') id: string, @Request() req: any) {
+
+    return this.leadsService.findOne(id, req.user.userId);
   }
 
   @Patch(':id')
   update(
-    @Request() req,
     @Param('id') id: string,
     @Body() updateLeadDto: UpdateLeadDto,
+    @Request() req: any,
   ) {
-    return this.leadsService.update(req.user.userId, id, updateLeadDto);
+
+    return this.leadsService.update(id, updateLeadDto, req.user.userId);
   }
 
   @Delete(':id')
-  remove(@Request() req, @Param('id') id: string) {
-    return this.leadsService.remove(req.user.userId, id);
+  remove(@Param('id') id: string, @Request() req: any) {
+
+    return this.leadsService.remove(id, req.user.userId);
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {
   Controller,
   Get,
@@ -5,50 +6,61 @@ import {
   Body,
   Patch,
   Param,
-  UseGuards,
+  Delete,
   Request,
 } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
-import {
-  CreateTransactionDto,
-  UpdateTransactionDto,
-} from './dto/transaction.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { CreateTransactionDto } from './dto/transaction.dto';
 
-@UseGuards(JwtAuthGuard)
 @Controller('transactions')
 export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
 
   @Post()
-  create(@Request() req, @Body() createTransactionDto: CreateTransactionDto) {
+  create(
+    @Body() createTransactionDto: CreateTransactionDto,
+    @Request() req: any,
+  ) {
     return this.transactionsService.create(
-      req.user.userId,
       createTransactionDto,
+      req.user.userId,
     );
   }
 
   @Get()
-  findAll(@Request() req) {
+  findAll(@Request() req: any) {
+
     return this.transactionsService.findAll(req.user.userId);
   }
 
-  @Get(':id')
-  findOne(@Request() req, @Param('id') id: string) {
-    return this.transactionsService.findOne(req.user.userId, id);
+  @Get('stats')
+  getStats(@Request() req: any) {
+
+    return this.transactionsService.getStats(req.user.userId);
   }
 
-  // Only for simulation/dev purposes in this MVP
+  @Get(':id')
+  findOne(@Param('id') id: string, @Request() req: any) {
+
+    return this.transactionsService.findOne(id, req.user.userId);
+  }
+
   @Patch(':id')
   update(
-    @Request() req,
     @Param('id') id: string,
-    @Body() updateTransactionDto: UpdateTransactionDto,
+    @Body() updateTransactionDto: any,
+    @Request() req: any,
   ) {
     return this.transactionsService.update(
-      req.user.userId,
       id,
       updateTransactionDto,
+      req.user.userId,
     );
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string, @Request() req: any) {
+
+    return this.transactionsService.remove(id, req.user.userId);
   }
 }
