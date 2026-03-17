@@ -1,0 +1,4 @@
+## 2024-05-24 - SSRF Protection on Web Scraper
+**Vulnerability:** The scraper service takes an unvalidated URL from the client and triggers a Puppeteer navigation (`page.goto`). This exposes the service to Server-Side Request Forgery (SSRF) and Local File Inclusion (LFI).
+**Learning:** Puppeteer does not by default restrict navigations to safe protocols or remote IPs. Taking untrusted URLs creates an immediate SSRF risk allowing the attacker to interact with the local filesystem, the loopback network, and cloud metadata APIs like `169.254.169.254`.
+**Prevention:** Always parse and validate untrusted URLs. Ensure the protocol is strictly `http:` or `https:`. Validate that the hostname is not pointing to private subnets, loopback addresses, or known cloud metadata IP addresses before calling `page.goto`.
