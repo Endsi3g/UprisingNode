@@ -34,8 +34,9 @@ function isSafeUrl(urlString: string): boolean {
     }
 
     // Basic regex for IPv4 loopback, private, and link-local addresses
+    // Match only numeric IPs to prevent false positives like '10.example.com'
     const ipv4Regex =
-      /^(127\.|10\.|172\.(1[6-9]|2[0-9]|3[0-1])\.|192\.168\.|169\.254\.)/;
+      /^(127\.\d+\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(1[6-9]|2[0-9]|3[0-1])\.\d+\.\d+|192\.168\.\d+\.\d+|169\.254\.\d+\.\d+)$/;
     if (ipv4Regex.test(hostname)) {
       return false;
     }
