@@ -53,7 +53,7 @@ export class AuthController {
   }
 
   @Get('me')
-  getProfile(@Request() req) {
+  getProfile(@Request() req: import('../types').AuthenticatedRequest) {
     return req.user;
   }
 }

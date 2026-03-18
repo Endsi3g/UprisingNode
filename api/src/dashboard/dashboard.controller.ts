@@ -6,13 +6,7 @@ import { LeadsService } from '../leads/leads.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { User } from '@prisma/client';
 
-interface AuthenticatedRequest extends Request {
-  user: {
-    userId: string;
-    email: string;
-    role: string;
-  };
-}
+import { AuthenticatedRequest } from '../types';
 
 interface DashboardStats {
   accumulatedGains: number;
