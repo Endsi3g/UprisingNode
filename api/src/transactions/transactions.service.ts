@@ -85,6 +85,18 @@ export class TransactionsService {
     return aggregations._sum.amount || 0;
   }
 
+  // ⚡ Bolt Optimization: Replace O(N) array filtering to find commission count
+  // with db-level counting query
+  async countPaidCommissions(userId: string): Promise<number> {
+    return this.prisma.transaction.count({
+      where: {
+        userId,
+        type: 'COMMISSION',
+        status: 'PAID',
+      },
+    });
+  }
+
   async findAll(userId: string) {
     return this.prisma.transaction.findMany({
       where: { userId },
