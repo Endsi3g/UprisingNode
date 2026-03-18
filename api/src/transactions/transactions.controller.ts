@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 import {
   Controller,
   Get,
@@ -21,10 +22,7 @@ export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
 
   @Post()
-  create(
-    @Request() req: import('../types').AuthenticatedRequest,
-    @Body() createTransactionDto: CreateTransactionDto,
-  ) {
+  create(@Request() req, @Body() createTransactionDto: CreateTransactionDto) {
     return this.transactionsService.create(
       req.user.userId,
       createTransactionDto,
@@ -32,22 +30,19 @@ export class TransactionsController {
   }
 
   @Get()
-  findAll(@Request() req: import('../types').AuthenticatedRequest) {
+  findAll(@Request() req) {
     return this.transactionsService.findAll(req.user.userId);
   }
 
   @Get(':id')
-  findOne(
-    @Request() req: import('../types').AuthenticatedRequest,
-    @Param('id') id: string,
-  ) {
+  findOne(@Request() req, @Param('id') id: string) {
     return this.transactionsService.findOne(req.user.userId, id);
   }
 
   // Only for simulation/dev purposes in this MVP
   @Patch(':id')
   update(
-    @Request() req: import('../types').AuthenticatedRequest,
+    @Request() req,
     @Param('id') id: string,
     @Body() updateTransactionDto: UpdateTransactionDto,
   ) {

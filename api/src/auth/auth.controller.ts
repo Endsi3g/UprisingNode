@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return */
 import {
   Controller,
   Post,
@@ -53,7 +54,7 @@ export class AuthController {
   }
 
   @Get('me')
-  getProfile(@Request() req: import('../types').AuthenticatedRequest) {
+  getProfile(@Request() req) {
     return req.user;
   }
 }

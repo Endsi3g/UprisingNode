@@ -42,10 +42,11 @@ function isSafeUrl(urlString: string): boolean {
     }
 
     // Basic check for IPv6 localhost/private
+    // Note: Node's URL.hostname wraps IPv6 addresses in brackets
     if (
       hostname.includes('::1') ||
-      hostname.startsWith('fd') ||
-      hostname.startsWith('fc')
+      hostname.startsWith('[fd') ||
+      hostname.startsWith('[fc')
     ) {
       return false;
     }

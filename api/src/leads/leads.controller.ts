@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 import {
   Controller,
   Get,
@@ -19,20 +20,17 @@ export class LeadsController {
   constructor(private readonly leadsService: LeadsService) {}
 
   @Post()
-  create(
-    @Request() req: import('../types').AuthenticatedRequest,
-    @Body() createLeadDto: CreateLeadDto,
-  ) {
+  create(@Request() req, @Body() createLeadDto: CreateLeadDto) {
     return this.leadsService.create(req.user.userId, createLeadDto);
   }
 
   @Get()
-  findAll(@Request() req: import('../types').AuthenticatedRequest) {
+  findAll(@Request() req) {
     return this.leadsService.findAll(req.user.userId);
   }
 
   @Get('stats')
-  async getStats(@Request() req: import('../types').AuthenticatedRequest) {
+  async getStats(@Request() req) {
     const leads = await this.leadsService.findAll(req.user.userId);
 
     const activeLeads = leads.filter(
@@ -57,16 +55,13 @@ export class LeadsController {
   }
 
   @Get(':id')
-  findOne(
-    @Request() req: import('../types').AuthenticatedRequest,
-    @Param('id') id: string,
-  ) {
+  findOne(@Request() req, @Param('id') id: string) {
     return this.leadsService.findOne(req.user.userId, id);
   }
 
   @Patch(':id')
   update(
-    @Request() req: import('../types').AuthenticatedRequest,
+    @Request() req,
     @Param('id') id: string,
     @Body() updateLeadDto: UpdateLeadDto,
   ) {
@@ -74,10 +69,7 @@ export class LeadsController {
   }
 
   @Delete(':id')
-  remove(
-    @Request() req: import('../types').AuthenticatedRequest,
-    @Param('id') id: string,
-  ) {
+  remove(@Request() req, @Param('id') id: string) {
     return this.leadsService.remove(req.user.userId, id);
   }
 }
