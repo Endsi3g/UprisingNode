@@ -23,7 +23,11 @@ export class ScraperService {
       const hostname = url.hostname;
 
       // Block common internal hostnames
-      if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]') {
+      if (
+        hostname === 'localhost' ||
+        hostname === '127.0.0.1' ||
+        hostname === '[::1]'
+      ) {
         return false;
       }
 
