@@ -12,6 +12,7 @@ import {
 import { LeadsService } from './leads.service';
 import { CreateLeadDto, UpdateLeadDto } from './dto/lead.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import type { AuthenticatedRequest } from '../auth/types';
 
 @UseGuards(JwtAuthGuard)
 @Controller('leads')
@@ -19,48 +20,42 @@ export class LeadsController {
   constructor(private readonly leadsService: LeadsService) {}
 
   @Post()
-  create(@Request() req, @Body() createLeadDto: CreateLeadDto) {
+  create(
+    @Request() req: AuthenticatedRequest,
+    @Body() createLeadDto: CreateLeadDto,
+  ) {
     return this.leadsService.create(req.user.userId, createLeadDto);
   }
 
   @Get()
-  findAll(@Request() req) {
+  findAll(@Request() req: AuthenticatedRequest) {
     return this.leadsService.findAll(req.user.userId);
   }
 
   @Get('stats')
-  async getStats(@Request() req) {
-    const leads = await this.leadsService.findAll(req.user.userId);
-
-    const activeLeads = leads.filter(
-      (l) => l.status !== 'CLOSED' && l.status !== 'LOST',
-    ).length;
-    const inAudit = leads.filter((l) => l.status === 'ANALYSIS').length;
-    const signedDeals = leads.filter((l) => l.status === 'CLOSED').length;
-
-    // Calculate potential balance from lead scores
-    const currentBalance = leads
-      .filter((l) => l.status === 'CLOSED')
-      .reduce((sum, l) => sum + (l.score || 0) * 10, 0);
+  async getStats(@Request() req: AuthenticatedRequest) {
+    // ⚡ Bolt Optimization: Use database-level aggregations in `getStats` service method
+    // to avoid O(N) in-memory array filtering.
+    const stats = await this.leadsService.getStats(req.user.userId);
 
     return {
-      currentBalance,
+      currentBalance: stats.currentBalance,
       targetBalance: 15000,
-      activeLeads,
-      inAudit,
-      signedDeals,
+      activeLeads: stats.activeLeads,
+      inAudit: stats.inAudit,
+      signedDeals: stats.signedDeals,
       monthlyGrowth: 18, // TODO: Calculate from historical data
     };
   }
 
   @Get(':id')
-  findOne(@Request() req, @Param('id') id: string) {
+  findOne(@Request() req: AuthenticatedRequest, @Param('id') id: string) {
     return this.leadsService.findOne(req.user.userId, id);
   }
 
   @Patch(':id')
   update(
-    @Request() req,
+    @Request() req: AuthenticatedRequest,
     @Param('id') id: string,
     @Body() updateLeadDto: UpdateLeadDto,
   ) {
@@ -68,7 +63,7 @@ export class LeadsController {
   }
 
   @Delete(':id')
-  remove(@Request() req, @Param('id') id: string) {
+  remove(@Request() req: AuthenticatedRequest, @Param('id') id: string) {
     return this.leadsService.remove(req.user.userId, id);
   }
 }
