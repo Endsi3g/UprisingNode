@@ -24,6 +24,48 @@ export class LeadsService {
     });
   }
 
+  // ⚡ Bolt Optimization: Use database-level aggregations to calculate stats instead of O(N) in-memory filtering.
+  // Expected impact: Significant reduction in memory usage and faster response times for users with many leads.
+  async getStats(userId: string) {
+    const statusCounts = await this.prisma.lead.groupBy({
+      by: ['status'],
+      where: { ownerId: userId },
+      _count: { _all: true },
+    });
+
+    let inAudit = 0;
+    let signedDeals = 0;
+    let totalExcludingClosedLost = 0;
+
+    for (const group of statusCounts) {
+      const count = group._count._all;
+      if (group.status === 'ANALYSIS') inAudit += count;
+      if (group.status === 'CLOSED') signedDeals += count;
+      if (group.status !== 'CLOSED' && group.status !== 'LOST') {
+        totalExcludingClosedLost += count;
+      }
+    }
+
+    const currentBalanceAggr = await this.prisma.lead.aggregate({
+      where: {
+        ownerId: userId,
+        status: 'CLOSED',
+      },
+      _sum: {
+        score: true,
+      },
+    });
+
+    const currentBalance = (currentBalanceAggr._sum.score || 0) * 10;
+
+    return {
+      activeLeads: totalExcludingClosedLost,
+      inAudit,
+      signedDeals,
+      currentBalance,
+    };
+  }
+
   async findOne(userId: string, id: string) {
     const lead = await this.prisma.lead.findFirst({
       where: { id, ownerId: userId },
