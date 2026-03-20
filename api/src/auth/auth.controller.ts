@@ -8,6 +8,7 @@ import {
   Request,
 } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
+import type { AuthenticatedRequest } from './types';
 import { AuthService } from './auth.service';
 import {
   RegisterDto,
@@ -53,7 +54,7 @@ export class AuthController {
   }
 
   @Get('me')
-  getProfile(@Request() req) {
+  getProfile(@Request() req: AuthenticatedRequest) {
     return req.user;
   }
 }
