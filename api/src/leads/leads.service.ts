@@ -24,6 +24,46 @@ export class LeadsService {
     });
   }
 
+  // ⚡ Bolt: Added getStats method to compute stats via DB aggregations instead of in-memory filtering.
+  async getStats(userId: string) {
+    const statusCounts = await this.prisma.lead.groupBy({
+      by: ['status'],
+      where: { ownerId: userId },
+      _count: { _all: true },
+    });
+
+    const activeLeadsCount = statusCounts
+      .filter((s) => s.status !== 'CLOSED' && s.status !== 'LOST')
+      .reduce((acc, curr) => acc + curr._count._all, 0);
+
+    const inAuditCount = statusCounts
+      .filter((s) => s.status === 'ANALYSIS')
+      .reduce((acc, curr) => acc + curr._count._all, 0);
+
+    const signedDealsCount = statusCounts
+      .filter((s) => s.status === 'CLOSED')
+      .reduce((acc, curr) => acc + curr._count._all, 0);
+
+    const scoreSumResult = await this.prisma.lead.aggregate({
+      _sum: { score: true },
+      where: {
+        ownerId: userId,
+        status: 'CLOSED',
+      },
+    });
+
+    const currentBalance = (scoreSumResult._sum.score || 0) * 10;
+
+    return {
+      currentBalance,
+      targetBalance: 15000,
+      activeLeads: activeLeadsCount,
+      inAudit: inAuditCount,
+      signedDeals: signedDealsCount,
+      monthlyGrowth: 18, // TODO: Calculate from historical data
+    };
+  }
+
   async findOne(userId: string, id: string) {
     const lead = await this.prisma.lead.findFirst({
       where: { id, ownerId: userId },
