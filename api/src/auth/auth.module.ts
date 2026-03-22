@@ -1,24 +1,33 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PasswordService } from './password.service';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { JwtStrategy } from './jwt.strategy';
 
-// 🛡️ SECURITY: Fail securely if JWT_SECRET is missing. Never use hardcoded fallbacks.
-const jwtSecret = process.env.JWT_SECRET;
-if (!jwtSecret) {
-  throw new Error('FATAL: JWT_SECRET environment variable is missing.');
-}
-
 @Module({
   imports: [
-    JwtModule.register({
+    JwtModule.registerAsync({
       global: true,
-      secret: jwtSecret,
-      signOptions: { expiresIn: '7d' },
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        // 🛡️ SECURITY: Fail securely if JWT_SECRET is missing. Never use hardcoded fallbacks.
+        const jwtSecret = configService.get<string>('JWT_SECRET') ||
+          (process.env.NODE_ENV === 'test' ? 'test-secret' : undefined);
+
+        if (!jwtSecret) {
+          throw new Error('FATAL: JWT_SECRET environment variable is missing.');
+        }
+
+        return {
+          secret: jwtSecret,
+          signOptions: { expiresIn: '7d' },
+        };
+      },
     }),
   ],
   controllers: [AuthController],
