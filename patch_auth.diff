@@ -1,0 +1,21 @@
+<<<<<<< SEARCH
+import { Public } from './public.decorator';
+
+@Controller('auth')
+=======
+import { Public } from './public.decorator';
+import type { AuthenticatedRequest } from './types';
+
+@Controller('auth')
+>>>>>>> REPLACE
+<<<<<<< SEARCH
+  @Get('me')
+  getProfile(@Request() req) {
+    return req.user;
+  }
+=======
+  @Get('me')
+  getProfile(@Request() req: AuthenticatedRequest) {
+    return req.user;
+  }
+>>>>>>> REPLACE
