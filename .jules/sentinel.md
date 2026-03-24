@@ -1,0 +1,4 @@
+## 2024-05-27 - SSRF via Puppeteer in ScraperService
+**Vulnerability:** The `ScraperService` in `api/src/scraper/scraper.service.ts` accepted arbitrary user-provided URLs and navigated to them using a headless Puppeteer browser without validation. This allowed Server-Side Request Forgery (SSRF), enabling attackers to access internal networks, localhost, or cloud metadata endpoints (e.g., AWS `169.254.169.254`).
+**Learning:** Any service that fetches remote URLs (especially headless browsers) must strictly validate the input URL against a blocklist of private IPs and restricted hostnames before navigation to prevent SSRF attacks.
+**Prevention:** Always implement an `isSafeUrl` function that parses the URL, enforces safe protocols (`http`/`https`), and blocks private/internal IP ranges and metadata endpoints before passing the URL to fetching libraries or headless browsers.
