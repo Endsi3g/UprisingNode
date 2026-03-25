@@ -1,0 +1,4 @@
+## 2025-01-25 - Server-Side Request Forgery (SSRF) in ScraperService
+**Vulnerability:** User-provided URLs in `ScraperService.scrapeCompany` are directly passed to Puppeteer's `page.goto()` without validation. This allows an attacker to access internal network resources (like `127.0.0.1`, AWS metadata `169.254.169.254`, or private subnets), bypassing firewall restrictions.
+**Learning:** URL rewriting in Puppeteer request interception breaks SNI and TLS certificate validation. A lightweight URL string validation blocking private/metadata hostnames and IPs before calling `page.goto()` is preferred for basic SSRF protection without breaking HTTPS.
+**Prevention:** Always validate user-provided URLs before fetching or navigating. Enforce `http:` or `https:` protocols and explicitly block private and reserved IP ranges and internal hostnames (e.g., `localhost`).
