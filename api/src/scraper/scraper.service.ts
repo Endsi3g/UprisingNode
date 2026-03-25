@@ -26,18 +26,18 @@ export class ScraperService {
       // Node's URL parses IPv6 literal like "http://[::1]" as "[::1]"
       const blockedHostnames = ['localhost', '::1', '[::1]'];
       const blockedIPRanges = [
-        /^127\./,           // Loopback
-        /^10\./,            // Class A private
-        /^192\.168\./,      // Class C private
+        /^127\./, // Loopback
+        /^10\./, // Class A private
+        /^192\.168\./, // Class C private
         /^172\.(1[6-9]|2[0-9]|3[0-1])\./, // Class B private
-        /^169\.254\.169\.254$/ // AWS metadata
+        /^169\.254\.169\.254$/, // AWS metadata
       ];
 
       if (blockedHostnames.includes(hostname)) {
         return false;
       }
 
-      if (blockedIPRanges.some(regex => regex.test(hostname))) {
+      if (blockedIPRanges.some((regex) => regex.test(hostname))) {
         return false;
       }
 
@@ -75,7 +75,7 @@ export class ScraperService {
             ?.getAttribute('content') || '';
         const headings = Array.from(document.querySelectorAll('h1, h2'))
           .map((h) => h.textContent?.trim())
-          .filter(Boolean) as string[];
+          .filter(Boolean);
 
         return {
           title,
