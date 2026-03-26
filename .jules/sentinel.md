@@ -1,0 +1,4 @@
+## 2024-03-26 - Fix SSRF Vulnerability in ScraperService
+**Vulnerability:** Server-Side Request Forgery (SSRF) risk found in ScraperService where Puppeteer navigated to user-provided URLs without validating if they belong to internal network boundaries.
+**Learning:** URL rewriting for Puppeteer interceptors can break TLS/SNI. A lightweight `isSafeUrl` function analyzing the URL string explicitly before navigation provides SSRF protection for metadata services and private IP ranges without interfering with HTTPS connections.
+**Prevention:** Any service that takes a user-supplied URL and makes outgoing requests (HTTP or via headless browsers) must use an explicit allowlist (like `http`/`https` protocols) and a denylist matching private IPs and local loops to avoid accidental exposure of internal endpoints.
