@@ -1,0 +1,4 @@
+## 2024-05-18 - SSRF Vulnerability via Puppeteer Navigation
+**Vulnerability:** Server-Side Request Forgery (SSRF). The `ScraperService` used user-provided URLs directly in `page.goto()` without validation. This allowed users to scrape internal services, cloud metadata endpoints (e.g. `169.254.169.254`), or scan internal networks.
+**Learning:** Puppeteer's `page.goto()` is highly susceptible to SSRF because it will follow local network paths and internal IPs if not strictly validated. Relying only on URL rewriting or request interception breaks SNI/TLS validation.
+**Prevention:** Implement lightweight URL validation before `page.goto()` using the `URL` API. Enforce `http:` or `https:` protocols and explicitly block hostnames associated with localhost, private/internal IP ranges (like 10.x.x.x, 192.168.x.x, 127.x.x.x), local TLDs (`.local`), and specific cloud metadata IP addresses (`169.254.169.254`).
