@@ -92,6 +92,16 @@ export class TransactionsService {
     });
   }
 
+  async countPaidCommissions(userId: string): Promise<number> {
+    return this.prisma.transaction.count({
+      where: {
+        userId,
+        type: 'COMMISSION',
+        status: 'PAID',
+      },
+    });
+  }
+
   async findOne(userId: string, id: string) {
     const transaction = await this.prisma.transaction.findFirst({
       where: { id, userId },
