@@ -4,7 +4,6 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { TransactionsService } from '../transactions/transactions.service';
 import { LeadsService } from '../leads/leads.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { User } from '@prisma/client';
 
 interface AuthenticatedRequest extends Request {
   user: {
@@ -36,20 +35,23 @@ export class DashboardController {
     private readonly transactionsService: TransactionsService,
     private readonly leadsService: LeadsService,
     private readonly prisma: PrismaService,
-  ) { }
+  ) {}
 
   @Get('stats')
   @UseGuards(JwtAuthGuard)
-  async getStats(@Request() req: AuthenticatedRequest): Promise<DashboardStats> {
+  async getStats(
+    @Request() req: AuthenticatedRequest,
+  ): Promise<DashboardStats> {
     const userId = req.user.userId;
 
     // ⚡ Bolt: Execute queries concurrently instead of sequentially and use database-level aggregations
-    const [accumulatedGains, user, potentialGains, activeLeadsData] = await Promise.all([
-      this.transactionsService.getTotalEarnings(userId),
-      this.prisma.user.findUnique({ where: { id: userId } }),
-      this.leadsService.getPotentialGains(userId),
-      this.leadsService.getActivePipeline(userId),
-    ]);
+    const [accumulatedGains, user, potentialGains, activeLeadsData] =
+      await Promise.all([
+        this.transactionsService.getTotalEarnings(userId),
+        this.prisma.user.findUnique({ where: { id: userId } }),
+        this.leadsService.getPotentialGains(userId),
+        this.leadsService.getActivePipeline(userId),
+      ]);
 
     const activePipeline = activeLeadsData.map((l) => ({
       id: l.id,
