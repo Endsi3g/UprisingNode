@@ -42,40 +42,24 @@ export class DashboardController {
   @UseGuards(JwtAuthGuard)
   async getStats(@Request() req: AuthenticatedRequest): Promise<DashboardStats> {
     const userId = req.user.userId;
-    const accumulatedGains =
-      await this.transactionsService.getTotalEarnings(userId);
 
-    // Get user data for account status
-    const user: User | null = await this.prisma.user.findUnique({ where: { id: userId } });
+    // ⚡ Bolt: Execute queries concurrently instead of sequentially and use database-level aggregations
+    const [accumulatedGains, user, potentialGains, activeLeadsData] = await Promise.all([
+      this.transactionsService.getTotalEarnings(userId),
+      this.prisma.user.findUnique({ where: { id: userId } }),
+      this.leadsService.getPotentialGains(userId),
+      this.leadsService.getActivePipeline(userId),
+    ]);
 
-    // Calculate potential gains from leads in analysis or negotiation
-
-    // Get active pipeline
-    const leads = await this.leadsService.findAll(userId);
-
-    // Calculate potential gains from leads not yet closed
-    const potentialLeads = leads.filter(
-      (l) =>
-        l.status === 'ANALYSIS' ||
-        l.status === 'NEGOTIATION' ||
-        l.status === 'PROSPECT',
-    );
-    const potentialGains = potentialLeads.reduce((sum, lead) => {
-      return sum + (lead.score || 0) * 10;
-    }, 0);
-
-    const activePipeline = leads
-      .filter((l) => l.status !== 'CLOSED' && l.status !== 'LOST')
-      .map((l) => ({
-        id: l.id,
-        company: l.companyName || 'Unknown',
-        status:
-          (l.status.toLowerCase() as 'analysis' | 'pending' | 'approved') ||
-          'analysis',
-        submittedAt: l.createdAt.toISOString(),
-        riskScore: 'En attente', // Needs AI analysis service
-      }))
-      .slice(0, 5);
+    const activePipeline = activeLeadsData.map((l) => ({
+      id: l.id,
+      company: l.companyName || 'Unknown',
+      status:
+        (l.status.toLowerCase() as 'analysis' | 'pending' | 'approved') ||
+        'analysis',
+      submittedAt: l.createdAt.toISOString(),
+      riskScore: 'En attente', // Needs AI analysis service
+    }));
 
     return {
       accumulatedGains,
@@ -92,20 +76,25 @@ export class DashboardController {
   @UseGuards(JwtAuthGuard)
   async getCommissions(@Request() req: AuthenticatedRequest) {
     const userId = req.user.userId;
-    const totalEarnings =
-      await this.transactionsService.getTotalEarnings(userId);
-    const pendingEarnings =
-      await this.transactionsService.getPendingEarnings(userId);
-    const monthlyEarnings =
-      await this.transactionsService.getMonthlyEarnings(userId);
+
+    // ⚡ Bolt: Execute queries concurrently and count paid commissions via DB query instead of in memory filtering
+    const [
+      totalEarnings,
+      pendingEarnings,
+      monthlyEarnings,
+      transactions,
+      paidCommissionsCount,
+    ] = await Promise.all([
+      this.transactionsService.getTotalEarnings(userId),
+      this.transactionsService.getPendingEarnings(userId),
+      this.transactionsService.getMonthlyEarnings(userId),
+      this.transactionsService.findAll(userId),
+      this.transactionsService.countPaidCommissions(userId),
+    ]);
 
     // Avg per deal calculation
-    const transactions = await this.transactionsService.findAll(userId);
-    const paidCommissions = transactions.filter(
-      (t) => t.type === 'COMMISSION' && t.status === 'PAID',
-    );
     const avgPerDeal =
-      paidCommissions.length > 0 ? totalEarnings / paidCommissions.length : 0;
+      paidCommissionsCount > 0 ? totalEarnings / paidCommissionsCount : 0;
 
     return {
       totalEarnings,
