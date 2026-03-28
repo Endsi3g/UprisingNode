@@ -1,14 +1,21 @@
 import { Injectable, Logger } from '@nestjs/common';
 import puppeteer from 'puppeteer';
+import type { Browser } from 'puppeteer';
+
+export interface ScrapedData {
+  title: string;
+  description: string;
+  headings: string[];
+}
 
 @Injectable()
 export class ScraperService {
   private readonly logger = new Logger(ScraperService.name);
 
-  async scrapeCompany(url: string): Promise<any> {
+  async scrapeCompany(url: string): Promise<ScrapedData> {
     this.logger.log(`Scraping URL: ${url}`);
 
-    let browser;
+    let browser: Browser | undefined;
     try {
       browser = await puppeteer.launch({
         headless: true, // Run in headless mode
@@ -18,9 +25,11 @@ export class ScraperService {
       const page = await browser.newPage();
 
       // Navigate to the URL
+
       await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
 
       // Extract data
+
       const data = await page.evaluate(() => {
         const title = document.title;
         const description =
@@ -39,10 +48,11 @@ export class ScraperService {
       });
 
       this.logger.log(`Successfully scraped data for ${url}`);
-      return data;
+      return data as ScrapedData;
     } catch (error) {
-      this.logger.error(`Failed to scrape ${url}`, error.stack);
-      throw new Error(`Scraping failed: ${error.message}`);
+      const e = error as Error;
+      this.logger.error(`Failed to scrape ${url}`, e.stack);
+      throw new Error(`Scraping failed: ${e.message}`);
     } finally {
       if (browser) {
         await browser.close();

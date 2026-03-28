@@ -1,0 +1,3 @@
+## 2024-05-24 - Database Aggregations over In-Memory Processing
+**Learning:** Found critical performance bottlenecks in dashboard stats processing where O(N) array filtering/reductions were happening in memory instead of being pushed to the database (Prisma aggregations, `_sum`, `count`, etc). Also, sequentially awaiting independent metrics significantly increases overall endpoint latency.
+**Action:** Default to database-level calculations (`count`, `aggregate`, `groupBy`) when retrieving metrics, rather than `findMany()` followed by manual filtering/reductions. Always use `Promise.all` for independent metric fetching in dashboard endpoints to minimize response time.

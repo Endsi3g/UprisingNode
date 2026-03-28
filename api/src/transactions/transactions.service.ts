@@ -68,6 +68,18 @@ export class TransactionsService {
     return aggregations._sum.amount || 0;
   }
 
+  // ⚡ Bolt: Get a count of paid commissions from database instead of counting O(N) objects in memory
+  async countPaidCommissions(userId: string): Promise<number> {
+    const count = await this.prisma.transaction.count({
+      where: {
+        userId,
+        type: 'COMMISSION',
+        status: 'PAID',
+      },
+    });
+    return count;
+  }
+
   async getMonthlyEarnings(userId: string): Promise<number> {
     const startOfMonth = new Date();
     startOfMonth.setDate(1);
