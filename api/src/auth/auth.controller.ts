@@ -1,3 +1,4 @@
+import { AuthenticatedRequest } from './types';
 import {
   Controller,
   Post,
@@ -53,7 +54,7 @@ export class AuthController {
   }
 
   @Get('me')
-  getProfile(@Request() req) {
+  getProfile(@Request() req: AuthenticatedRequest) {
     return req.user;
   }
 }
