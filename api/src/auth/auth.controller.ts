@@ -1,4 +1,4 @@
-import { AuthenticatedRequest } from './types';
+import type { AuthenticatedRequest } from './types';
 import {
   Controller,
   Post,
