@@ -1,0 +1,3 @@
+## 2025-02-17 - Optimize API Concurrent Operations & DB Aggregations
+**Learning:** Sequential DB fetching and O(N) array manipulations in memory (like `filter`, `reduce` and `map` on potentially large arrays such as `transactions` or `leads` in `DashboardController`) can bottleneck API response times significantly, leading to sluggish frontend performance.
+**Action:** Replace sequential API fetching logic in NestJS controllers using `Promise.all` for completely independent data fetching, and delegate data aggregation tasks (like calculating total score or filtering for "PAID" records) directly to the database via Prisma operations like `.aggregate` and `.count`.

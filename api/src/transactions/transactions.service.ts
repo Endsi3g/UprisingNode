@@ -85,6 +85,16 @@ export class TransactionsService {
     return aggregations._sum.amount || 0;
   }
 
+  async countPaidCommissions(userId: string): Promise<number> {
+    return this.prisma.transaction.count({
+      where: {
+        userId,
+        type: 'COMMISSION',
+        status: 'PAID',
+      },
+    });
+  }
+
   async findAll(userId: string) {
     return this.prisma.transaction.findMany({
       where: { userId },
