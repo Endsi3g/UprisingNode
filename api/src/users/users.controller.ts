@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call */
 import {
   Controller,
   Get,
@@ -19,7 +18,7 @@ export class UsersController {
 
   @Get('profile')
   getProfile(@Request() req: AuthenticatedRequest) {
-    return this.usersService.getProfile(req.user.userId);
+    return this.usersService.findOne(req.user.userId);
   }
 
   @Patch('profile')
@@ -27,6 +26,6 @@ export class UsersController {
     @Request() req: AuthenticatedRequest,
     @Body() updateProfileDto: UpdateProfileDto,
   ) {
-    return this.usersService.updateProfile(req.user.userId, updateProfileDto);
+    return this.usersService.update(req.user.userId, updateProfileDto);
   }
 }
