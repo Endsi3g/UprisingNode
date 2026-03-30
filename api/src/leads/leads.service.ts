@@ -24,6 +24,38 @@ export class LeadsService {
     });
   }
 
+  async getPotentialGains(userId: string): Promise<number> {
+    const agg = await this.prisma.lead.aggregate({
+      _sum: { score: true },
+      where: {
+        ownerId: userId,
+        status: { in: ['ANALYSIS', 'NEGOTIATION', 'PROSPECT'] },
+      },
+    });
+    return (agg._sum.score || 0) * 10;
+  }
+
+  async getActivePipeline(userId: string) {
+    const activeLeads = await this.prisma.lead.findMany({
+      where: {
+        ownerId: userId,
+        status: { notIn: ['CLOSED', 'LOST'] },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 5,
+    });
+
+    return activeLeads.map((l) => ({
+      id: l.id,
+      company: l.companyName || 'Unknown',
+      status:
+        (l.status.toLowerCase() as 'analysis' | 'pending' | 'approved') ||
+        'analysis',
+      submittedAt: l.createdAt.toISOString(),
+      riskScore: 'En attente',
+    }));
+  }
+
   async findOne(userId: string, id: string) {
     const lead = await this.prisma.lead.findFirst({
       where: { id, ownerId: userId },
