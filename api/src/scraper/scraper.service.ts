@@ -1,14 +1,59 @@
 import { Injectable, Logger } from '@nestjs/common';
 import puppeteer from 'puppeteer';
+import type { Browser } from 'puppeteer';
+
+function isSafeUrl(urlString: string): boolean {
+  try {
+    const url = new URL(urlString);
+
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+      return false;
+    }
+
+    const hostname = url.hostname;
+
+    // Block localhost and IPv6 loopback
+    if (hostname === 'localhost' || hostname === '::1') {
+      return false;
+    }
+
+    // Block IPv4 private and link-local addresses
+    if (
+      hostname.startsWith('127.') ||
+      hostname.startsWith('10.') ||
+      hostname.startsWith('192.168.') ||
+      hostname.startsWith('169.254.')
+    ) {
+      return false;
+    }
+
+    // Block 172.16.0.0/12 (172.16.x.x to 172.31.x.x)
+    if (hostname.startsWith('172.')) {
+      const secondOctet = parseInt(hostname.split('.')[1], 10);
+      if (secondOctet >= 16 && secondOctet <= 31) {
+        return false;
+      }
+    }
+
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 @Injectable()
 export class ScraperService {
   private readonly logger = new Logger(ScraperService.name);
 
-  async scrapeCompany(url: string): Promise<any> {
+  async scrapeCompany(url: string): Promise<Record<string, unknown>> {
     this.logger.log(`Scraping URL: ${url}`);
 
-    let browser;
+    if (!isSafeUrl(url)) {
+      this.logger.warn(`Rejected unsafe URL: ${url}`);
+      throw new Error('Invalid or restricted URL provided');
+    }
+
+    let browser: Browser | undefined;
     try {
       browser = await puppeteer.launch({
         headless: true, // Run in headless mode
@@ -39,10 +84,11 @@ export class ScraperService {
       });
 
       this.logger.log(`Successfully scraped data for ${url}`);
-      return data;
+      return data as Record<string, unknown>;
     } catch (error) {
-      this.logger.error(`Failed to scrape ${url}`, error.stack);
-      throw new Error(`Scraping failed: ${error.message}`);
+      const e = error as Error;
+      this.logger.error(`Failed to scrape ${url}`, e.stack);
+      throw new Error(`Scraping failed: ${e.message}`);
     } finally {
       if (browser) {
         await browser.close();

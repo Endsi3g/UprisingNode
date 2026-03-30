@@ -1,0 +1,4 @@
+## 2024-03-30 - Prevent SSRF in ScraperService
+**Vulnerability:** ScraperService was accepting unvalidated user input directly into puppeteer's `page.goto()`, enabling Server-Side Request Forgery (SSRF) to read local files, access cloud metadata endpoints (like `169.254.169.254`), or hit internal private APIs.
+**Learning:** URL string matching is fragile due to DNS rebinding or strange URL formats. Parsing the domain with `new URL()` ensures standard extraction. Also, puppeteer doesn't support request interception with SNI/TLS effectively, so up-front string validation before `page.goto()` is the preferred reliable method in this context.
+**Prevention:** Always validate and restrict URLs provided by untrusted sources before passing them to server-side headless browsers or HTTP clients, explicitly blocking localhost, internal IP ranges, and requiring safe protocols (http/https).

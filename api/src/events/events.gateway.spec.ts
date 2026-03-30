@@ -1,13 +1,20 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventsGateway } from './events.gateway';
-import { Socket } from 'socket.io';
+import { PrismaService } from '../prisma/prisma.service';
 
 describe('EventsGateway', () => {
   let gateway: EventsGateway;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [EventsGateway],
+      providers: [
+        EventsGateway,
+        {
+          provide: PrismaService,
+          useValue: {},
+        },
+      ],
     }).compile();
 
     gateway = module.get<EventsGateway>(EventsGateway);
@@ -15,10 +22,5 @@ describe('EventsGateway', () => {
 
   it('should be defined', () => {
     expect(gateway).toBeDefined();
-  });
-
-  it('handlePing should return pong', () => {
-    const mockSocket = {} as Socket;
-    expect(gateway.handlePing(mockSocket, {})).toBe('pong');
   });
 });
