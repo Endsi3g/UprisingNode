@@ -31,6 +31,7 @@
     "@nestjs/websockets": "^11.1.12",
     "@prisma/client": "^6.0.0",
     "@types/bcrypt": "^6.0.0",
+    "@types/express": "^5.0.6",
     "@types/passport-jwt": "^4.0.1",
     "@vercel/node": "^5.5.28",
     "bcrypt": "^6.0.0",
