@@ -1,19 +1,41 @@
-import { IsString, IsNumber, IsOptional, IsEnum } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, IsOptional } from 'class-validator';
 
 export class CreateTransactionDto {
+  @IsNotEmpty()
   @IsNumber()
   amount: number;
 
+  @IsNotEmpty()
   @IsString()
-  type: string; // COMMISSION | WITHDRAWAL
+  type: string; // "COMMISSION", "WITHDRAWAL", etc.
 
-  @IsString()
   @IsOptional()
+  @IsString()
+  status?: string;
+
+  @IsOptional()
+  @IsString()
   description?: string;
+
+  @IsOptional()
+  @IsString()
+  leadId?: string;
 }
 
 export class UpdateTransactionDto {
-  @IsString()
   @IsOptional()
-  status?: string; // PENDING | VALIDATED | PAID | CANCELLED
+  @IsNumber()
+  amount?: number;
+
+  @IsOptional()
+  @IsString()
+  type?: string;
+
+  @IsOptional()
+  @IsString()
+  status?: string;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
 }
