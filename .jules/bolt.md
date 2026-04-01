@@ -1,0 +1,3 @@
+## 2024-05-24 - Prevent sequential DB query waterfalls in Dashboard endpoints
+**Learning:** Dashboard endpoints often make multiple independent database queries (e.g., fetching stats like total earnings, user info, and leads separately), causing unnecessary sequential query waterfalls which bottleneck endpoint response time.
+**Action:** Always group independent sequential database queries using `Promise.all` to fetch them concurrently and significantly improve endpoint latency.
