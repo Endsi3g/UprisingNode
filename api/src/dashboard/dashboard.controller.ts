@@ -35,18 +35,20 @@ export class DashboardController {
     private readonly transactionsService: TransactionsService,
     private readonly leadsService: LeadsService,
     private readonly prisma: PrismaService,
-  ) { }
+  ) {}
 
   @Get('stats')
   @UseGuards(JwtAuthGuard)
-  async getStats(@Request() req: AuthenticatedRequest): Promise<DashboardStats> {
+  async getStats(
+    @Request() req: AuthenticatedRequest,
+  ): Promise<DashboardStats> {
     const userId = req.user.userId;
 
     // Bolt ⚡: Run independent queries in parallel
     const [accumulatedGains, user, leads] = await Promise.all([
       this.transactionsService.getTotalEarnings(userId),
       this.prisma.user.findUnique({ where: { id: userId } }),
-      this.leadsService.findAll(userId)
+      this.leadsService.findAll(userId),
     ]);
 
     // Calculate potential gains from leads not yet closed
@@ -90,12 +92,13 @@ export class DashboardController {
     const userId = req.user.userId;
 
     // Bolt ⚡: Run independent queries in parallel
-    const [totalEarnings, pendingEarnings, monthlyEarnings, transactions] = await Promise.all([
-      this.transactionsService.getTotalEarnings(userId),
-      this.transactionsService.getPendingEarnings(userId),
-      this.transactionsService.getMonthlyEarnings(userId),
-      this.transactionsService.findAll(userId)
-    ]);
+    const [totalEarnings, pendingEarnings, monthlyEarnings, transactions] =
+      await Promise.all([
+        this.transactionsService.getTotalEarnings(userId),
+        this.transactionsService.getPendingEarnings(userId),
+        this.transactionsService.getMonthlyEarnings(userId),
+        this.transactionsService.findAll(userId),
+      ]);
 
     const paidCommissions = transactions.filter(
       (t) => t.type === 'COMMISSION' && t.status === 'PAID',
