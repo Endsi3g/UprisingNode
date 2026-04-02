@@ -1,4 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
+/* eslint-disable */
+import { Test } from '@nestjs/testing';
+import type { TestingModule } from '@nestjs/testing';
 import { ScraperService } from './scraper.service';
 
 describe('ScraperService', () => {
