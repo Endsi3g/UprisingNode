@@ -1,0 +1,4 @@
+## 2024-04-03 - SSRF Vulnerability in Scraper Service
+**Vulnerability:** The `ScraperService` accepts user-provided URLs and passes them directly to Puppeteer without any validation or sanitization, leading to a Server-Side Request Forgery (SSRF) vulnerability. This allows an attacker to access internal network resources, local files, and cloud metadata endpoints.
+**Learning:** External URLs must never be trusted. Passing user-controlled URLs to any HTTP client or browser automation tool like Puppeteer without strict validation is a critical security risk.
+**Prevention:** Implement an `isSafeUrl` function to parse the domain using the `URL` object, strictly allow only `http` and `https` protocols, and explicitly block private/internal IP ranges (e.g., 10.x.x.x, 192.168.x.x), localhosts, and cloud metadata endpoints. Always fail securely if the URL is invalid.
