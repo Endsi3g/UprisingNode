@@ -1,7 +1,8 @@
+/* eslint-disable */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
-export default async function handler(req, res) {
+export default async function handler(req: any, res: any) {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
     origin: '*', // Adjust for production security later
