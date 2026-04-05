@@ -10,7 +10,7 @@ import {
 import { UsersService } from './users.service';
 import { UpdateProfileDto } from './dto/user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { AuthenticatedRequest } from '../auth/types';
+import type { AuthenticatedRequest } from '../auth/types';
 
 @UseGuards(JwtAuthGuard)
 @Controller('users')
