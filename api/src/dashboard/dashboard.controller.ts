@@ -36,22 +36,25 @@ export class DashboardController {
     private readonly transactionsService: TransactionsService,
     private readonly leadsService: LeadsService,
     private readonly prisma: PrismaService,
-  ) { }
+  ) {}
 
   @Get('stats')
   @UseGuards(JwtAuthGuard)
-  async getStats(@Request() req: AuthenticatedRequest): Promise<DashboardStats> {
+  async getStats(
+    @Request() req: AuthenticatedRequest,
+  ): Promise<DashboardStats> {
     const userId = req.user.userId;
-    const accumulatedGains =
-      await this.transactionsService.getTotalEarnings(userId);
 
-    // Get user data for account status
-    const user: User | null = await this.prisma.user.findUnique({ where: { id: userId } });
+    // Execute independent database queries concurrently to avoid sequential waterfall
+    const [accumulatedGains, user, leads] = await Promise.all([
+      this.transactionsService.getTotalEarnings(userId),
+      this.prisma.user.findUnique({ where: { id: userId } }),
+      this.leadsService.findAll(userId),
+    ]);
 
     // Calculate potential gains from leads in analysis or negotiation
 
     // Get active pipeline
-    const leads = await this.leadsService.findAll(userId);
 
     // Calculate potential gains from leads not yet closed
     const potentialLeads = leads.filter(
@@ -92,15 +95,17 @@ export class DashboardController {
   @UseGuards(JwtAuthGuard)
   async getCommissions(@Request() req: AuthenticatedRequest) {
     const userId = req.user.userId;
-    const totalEarnings =
-      await this.transactionsService.getTotalEarnings(userId);
-    const pendingEarnings =
-      await this.transactionsService.getPendingEarnings(userId);
-    const monthlyEarnings =
-      await this.transactionsService.getMonthlyEarnings(userId);
+
+    // Execute independent database queries concurrently
+    const [totalEarnings, pendingEarnings, monthlyEarnings, transactions] =
+      await Promise.all([
+        this.transactionsService.getTotalEarnings(userId),
+        this.transactionsService.getPendingEarnings(userId),
+        this.transactionsService.getMonthlyEarnings(userId),
+        this.transactionsService.findAll(userId),
+      ]);
 
     // Avg per deal calculation
-    const transactions = await this.transactionsService.findAll(userId);
     const paidCommissions = transactions.filter(
       (t) => t.type === 'COMMISSION' && t.status === 'PAID',
     );
