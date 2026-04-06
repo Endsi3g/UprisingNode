@@ -14,6 +14,15 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { UpdatePreferencesDto } from './dto/update-preferences.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+import type { Request as ExpressRequest } from 'express';
+
+interface AuthenticatedRequest extends ExpressRequest {
+  user: {
+    userId: string;
+    email: string;
+    role: string;
+  };
+}
 @UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
@@ -30,12 +39,15 @@ export class UsersController {
   }
 
   @Get('profile') // /users/profile
-  getProfile(@Request() req) {
+  getProfile(@Request() req: AuthenticatedRequest) {
     return this.usersService.findOne(req.user.userId);
   }
 
   @Patch('profile')
-  updateProfile(@Request() req, @Body() dto: UpdateProfileDto) {
+  updateProfile(
+    @Request() req: AuthenticatedRequest,
+    @Body() dto: UpdateProfileDto,
+  ) {
     return this.usersService.update(req.user.userId, dto);
   }
 }
