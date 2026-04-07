@@ -8,6 +8,7 @@ import {
   Request,
 } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
+import type { Request as ExpressRequest } from 'express';
 import { AuthService } from './auth.service';
 import {
   RegisterDto,
@@ -18,9 +19,17 @@ import {
 
 import { Public } from './public.decorator';
 
+interface AuthenticatedRequest extends ExpressRequest {
+  user: {
+    userId: string;
+    email: string;
+    role: string;
+  };
+}
+
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   @Public()
   @Post('register')
@@ -53,7 +62,7 @@ export class AuthController {
   }
 
   @Get('me')
-  getProfile(@Request() req) {
+  getProfile(@Request() req: AuthenticatedRequest) {
     return req.user;
   }
 }
