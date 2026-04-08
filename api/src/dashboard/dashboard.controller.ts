@@ -4,7 +4,6 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { TransactionsService } from '../transactions/transactions.service';
 import { LeadsService } from '../leads/leads.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { User } from '@prisma/client';
 
 interface AuthenticatedRequest extends Request {
   user: {
