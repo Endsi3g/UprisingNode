@@ -4,15 +4,8 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { TransactionsService } from '../transactions/transactions.service';
 import { LeadsService } from '../leads/leads.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { User } from '@prisma/client';
-
-interface AuthenticatedRequest extends Request {
-  user: {
-    userId: string;
-    email: string;
-    role: string;
-  };
-}
+import type { User } from '@prisma/client';
+import { AuthenticatedRequest } from '../types';
 
 interface DashboardStats {
   accumulatedGains: number;
