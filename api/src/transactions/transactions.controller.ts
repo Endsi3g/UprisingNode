@@ -9,7 +9,7 @@ import {
   Request,
 } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
-import { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
+import type { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
 import {
   CreateTransactionDto,
   UpdateTransactionDto,

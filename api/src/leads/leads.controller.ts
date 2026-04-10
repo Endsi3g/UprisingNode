@@ -10,7 +10,7 @@ import {
   Request,
 } from '@nestjs/common';
 import { LeadsService } from './leads.service';
-import { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
+import type { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
 import { CreateLeadDto, UpdateLeadDto } from './dto/lead.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 

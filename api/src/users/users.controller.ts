@@ -8,7 +8,7 @@ import {
   Param,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
+import type { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
 import { UpdateProfileDto } from './dto/user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
