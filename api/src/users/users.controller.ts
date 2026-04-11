@@ -1,5 +1,5 @@
-import type { Request } from 'express';
-interface AuthenticatedRequest extends Request {
+import type { Request as ExpressRequest } from 'express';
+interface AuthenticatedRequest extends ExpressRequest {
   user: { userId: string; email: string; role: string };
 }
 import {
