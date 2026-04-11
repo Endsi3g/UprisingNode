@@ -2,6 +2,7 @@ import { Injectable, Logger, BadRequestException } from '@nestjs/common';
 import puppeteer from 'puppeteer';
 import type { Browser, HTTPRequest } from 'puppeteer';
 import * as dns from 'dns/promises';
+import * as net from 'net';
 
 @Injectable()
 export class ScraperService {
@@ -15,7 +16,7 @@ export class ScraperService {
       }
       const { address } = await dns.lookup(parsedUrl.hostname);
 
-      const isIPv4 = address.includes('.');
+      const isIPv4 = net.isIPv4(address);
       if (isIPv4) {
         const parts = address.split('.').map(Number);
         if (
