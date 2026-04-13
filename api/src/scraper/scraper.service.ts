@@ -33,7 +33,7 @@ export class ScraperService {
           } else {
             await request.continue();
           }
-        } catch (error) {
+        } catch {
           // Ignore errors like Target closed that happen on browser shutdown
         }
       });
