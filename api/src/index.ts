@@ -1,14 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
-export default async function handler(req, res) {
-  const app = await NestFactory.create(AppModule);
-  app.enableCors({
-    origin: '*', // Adjust for production security later
-    credentials: true,
-  });
-  await app.init();
+// For Vercel Serverless Functions
+let app;
 
-  const expressApp = app.getHttpAdapter().getInstance();
-  return expressApp(req, res);
+export default async function handler(req: any, res: any) {
+  if (!app) {
+    app = await NestFactory.create(AppModule);
+    app.enableCors();
+    app.setGlobalPrefix('api');
+    await app.init();
+  }
+
+  return app.getHttpAdapter().getInstance()(req, res);
 }
