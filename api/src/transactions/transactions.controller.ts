@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
 import {
   Controller,
   Get,
@@ -21,34 +22,31 @@ export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
 
   @Post()
-  create(@Request() req, @Body() createTransactionDto: CreateTransactionDto) {
-    return this.transactionsService.create(
-      req.user.userId,
-      createTransactionDto,
-    );
+  create(@Request() req: any, @Body() dto: CreateTransactionDto) {
+    return this.transactionsService.create(req.user.userId, dto);
   }
 
   @Get()
-  findAll(@Request() req) {
+  findAll(@Request() req: any) {
     return this.transactionsService.findAll(req.user.userId);
   }
 
+  @Get('balance')
+  getBalance(@Request() req: any) {
+    return this.transactionsService.getBalance(req.user.userId);
+  }
+
   @Get(':id')
-  findOne(@Request() req, @Param('id') id: string) {
+  findOne(@Request() req: any, @Param('id') id: string) {
     return this.transactionsService.findOne(req.user.userId, id);
   }
 
-  // Only for simulation/dev purposes in this MVP
   @Patch(':id')
   update(
-    @Request() req,
+    @Request() req: any,
     @Param('id') id: string,
-    @Body() updateTransactionDto: UpdateTransactionDto,
+    @Body() dto: UpdateTransactionDto,
   ) {
-    return this.transactionsService.update(
-      req.user.userId,
-      id,
-      updateTransactionDto,
-    );
+    return this.transactionsService.update(req.user.userId, id, dto);
   }
 }

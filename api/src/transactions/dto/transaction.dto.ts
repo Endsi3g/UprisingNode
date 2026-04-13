@@ -1,19 +1,70 @@
-import { IsString, IsNumber, IsOptional, IsEnum } from 'class-validator';
+import {
+  IsString,
+  IsNumber,
+  IsOptional,
+  IsDateString,
+  IsEnum,
+} from 'class-validator';
 
-export class CreateTransactionDto {
+export enum TransactionType {
+  COMMISSION = 'COMMISSION',
+  WITHDRAWAL = 'WITHDRAWAL',
+}
+
+export enum TransactionStatus {
+  PENDING = 'PENDING',
+  PAID = 'PAID',
+  CANCELLED = 'CANCELLED',
+}
+
+export class TransactionDto {
+  @IsString()
+  id: string;
+
+  @IsString()
+  description: string;
+
   @IsNumber()
   amount: number;
 
+  @IsEnum(TransactionType)
+  type: string;
+
+  @IsEnum(TransactionStatus)
+  status: string;
+
+  @IsDateString()
+  createdAt: string;
+
+  @IsOptional()
   @IsString()
-  type: string; // COMMISSION | WITHDRAWAL
+  leadId?: string;
 
   @IsString()
+  userId: string;
+}
+
+export class CreateTransactionDto {
+  @IsString()
+  description: string;
+
+  @IsNumber()
+  amount: number;
+
+  @IsEnum(TransactionType)
+  type: string;
+
   @IsOptional()
-  description?: string;
+  @IsString()
+  leadId?: string;
+
+  @IsOptional()
+  @IsString()
+  userId?: string;
 }
 
 export class UpdateTransactionDto {
-  @IsString()
   @IsOptional()
-  status?: string; // PENDING | VALIDATED | PAID | CANCELLED
+  @IsEnum(TransactionStatus)
+  status?: string;
 }
