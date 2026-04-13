@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 import { Injectable, Logger } from '@nestjs/common';
 import puppeteer from 'puppeteer';
 
@@ -5,7 +6,7 @@ import puppeteer from 'puppeteer';
 export class ScraperService {
   private readonly logger = new Logger(ScraperService.name);
 
-  async scrapeCompany(url: string): Promise<any> {
+  async scrapeCompany(url: string): Promise<Record<string, unknown>> {
     this.logger.log(`Scraping URL: ${url}`);
 
     let browser;
@@ -39,10 +40,11 @@ export class ScraperService {
       });
 
       this.logger.log(`Successfully scraped data for ${url}`);
-      return data;
-    } catch (error) {
-      this.logger.error(`Failed to scrape ${url}`, error.stack);
-      throw new Error(`Scraping failed: ${error.message}`);
+      return data as Record<string, unknown>;
+    } catch (error: unknown) {
+      const err = error as Error;
+      this.logger.error(`Failed to scrape ${url}`, err.stack);
+      throw new Error(`Scraping failed: ${err.message}`);
     } finally {
       if (browser) {
         await browser.close();
