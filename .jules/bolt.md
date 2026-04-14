@@ -1,0 +1,3 @@
+## 2024-04-14 - Concurrent Promises in Dashboard Controller
+**Learning:** Sequential await statements in controllers can lead to a query waterfall, significantly increasing latency. `DashboardController.getStats` and `DashboardController.getCommissions` perform several independent asynchronous operations sequentially.
+**Action:** Use `Promise.all` to run independent queries concurrently. Ensure unused type imports (e.g. `User` from `@prisma/client` after removing the explicit type annotation due to Promise.all inference) are either preserved with `import type` or removed, as required by strict CI linting.
