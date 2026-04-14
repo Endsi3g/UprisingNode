@@ -30,7 +30,7 @@ export class ScraperService {
           address.startsWith('10.') ||
           address.startsWith('192.168.') ||
           address.startsWith('169.254.') || // Cloud Metadata
-          address.startsWith('0.') || // 0.0.0.0/8
+          address.startsWith('0.') ||       // 0.0.0.0/8
           address.match(/^172\.(1[6-9]|2[0-9]|3[0-1])\./)
         ) {
           return false;

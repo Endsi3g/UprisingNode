@@ -6,9 +6,7 @@ export class ScraperController {
   constructor(private readonly scraperService: ScraperService) {}
 
   @Post('company')
-  async scrapeCompany(
-    @Body('url') url: string,
-  ): Promise<Record<string, unknown>> {
+  async scrapeCompany(@Body('url') url: string): Promise<Record<string, unknown>> {
     if (!url) {
       throw new BadRequestException('URL is required');
     }
