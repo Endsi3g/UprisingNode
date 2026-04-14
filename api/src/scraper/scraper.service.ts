@@ -57,7 +57,7 @@ export class ScraperService {
     }
   }
 
-  async scrapeCompany(url: string): Promise<Record<string, unknown>> {
+  async scrapeCompany(url: string): Promise<any> {
     this.logger.log(`Scraping URL: ${url}`);
 
     if (!(await this.isSafeUrl(url))) {
@@ -97,7 +97,7 @@ export class ScraperService {
       await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
 
       // Extract data
-      const data = (await page.evaluate(() => {
+      const data = await page.evaluate(() => {
         const title = document.title;
         const description =
           document
@@ -112,7 +112,7 @@ export class ScraperService {
           description,
           headings,
         };
-      })) as Record<string, unknown>;
+      });
 
       this.logger.log(`Successfully scraped data for ${url}`);
       return data;
