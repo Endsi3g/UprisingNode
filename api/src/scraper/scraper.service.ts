@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-redundant-type-constituents */
 import { Injectable, Logger } from '@nestjs/common';
 import puppeteer from 'puppeteer';
+import type { Browser } from 'puppeteer';
 
 @Injectable()
 export class ScraperService {
@@ -9,7 +10,7 @@ export class ScraperService {
   async scrapeCompany(url: string): Promise<Record<string, unknown>> {
     this.logger.log(`Scraping URL: ${url}`);
 
-    let browser: puppeteer.Browser | undefined;
+    let browser: Browser | undefined;
     try {
       browser = await puppeteer.launch({
         headless: true, // Run in headless mode
