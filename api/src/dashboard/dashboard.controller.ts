@@ -4,7 +4,6 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { TransactionsService } from '../transactions/transactions.service';
 import { LeadsService } from '../leads/leads.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { User } from '@prisma/client';
 
 interface AuthenticatedRequest extends Request {
   user: {
@@ -36,22 +35,26 @@ export class DashboardController {
     private readonly transactionsService: TransactionsService,
     private readonly leadsService: LeadsService,
     private readonly prisma: PrismaService,
-  ) { }
+  ) {}
 
   @Get('stats')
   @UseGuards(JwtAuthGuard)
-  async getStats(@Request() req: AuthenticatedRequest): Promise<DashboardStats> {
+  async getStats(
+    @Request() req: AuthenticatedRequest,
+  ): Promise<DashboardStats> {
     const userId = req.user.userId;
-    const accumulatedGains =
-      await this.transactionsService.getTotalEarnings(userId);
 
-    // Get user data for account status
-    const user: User | null = await this.prisma.user.findUnique({ where: { id: userId } });
+    // ⚡ Bolt Optimization: Use Promise.all to fetch earnings, user, and leads concurrently.
+    // This prevents sequential query waterfalls and significantly reduces response latency.
+    const [accumulatedGains, user, leads] = await Promise.all([
+      this.transactionsService.getTotalEarnings(userId),
+      this.prisma.user.findUnique({ where: { id: userId } }),
+      this.leadsService.findAll(userId),
+    ]);
 
     // Calculate potential gains from leads in analysis or negotiation
 
     // Get active pipeline
-    const leads = await this.leadsService.findAll(userId);
 
     // Calculate potential gains from leads not yet closed
     const potentialLeads = leads.filter(
@@ -92,15 +95,18 @@ export class DashboardController {
   @UseGuards(JwtAuthGuard)
   async getCommissions(@Request() req: AuthenticatedRequest) {
     const userId = req.user.userId;
-    const totalEarnings =
-      await this.transactionsService.getTotalEarnings(userId);
-    const pendingEarnings =
-      await this.transactionsService.getPendingEarnings(userId);
-    const monthlyEarnings =
-      await this.transactionsService.getMonthlyEarnings(userId);
+
+    // ⚡ Bolt Optimization: Fetch all transactions metrics and history concurrently.
+    // Avoids 4 sequential database calls to improve response time significantly.
+    const [totalEarnings, pendingEarnings, monthlyEarnings, transactions] =
+      await Promise.all([
+        this.transactionsService.getTotalEarnings(userId),
+        this.transactionsService.getPendingEarnings(userId),
+        this.transactionsService.getMonthlyEarnings(userId),
+        this.transactionsService.findAll(userId),
+      ]);
 
     // Avg per deal calculation
-    const transactions = await this.transactionsService.findAll(userId);
     const paidCommissions = transactions.filter(
       (t) => t.type === 'COMMISSION' && t.status === 'PAID',
     );
