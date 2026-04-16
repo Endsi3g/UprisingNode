@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unused-vars */
 import {
   Controller,
   Get,
@@ -30,12 +31,12 @@ export class UsersController {
   }
 
   @Get('profile') // /users/profile
-  getProfile(@Request() req) {
+  getProfile(@Request() req: any) {
     return this.usersService.findOne(req.user.userId);
   }
 
   @Patch('profile')
-  updateProfile(@Request() req, @Body() dto: UpdateProfileDto) {
+  updateProfile(@Request() req: any, @Body() dto: UpdateProfileDto) {
     return this.usersService.update(req.user.userId, dto);
   }
 }
