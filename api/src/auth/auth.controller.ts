@@ -7,6 +7,7 @@ import {
   Get,
   Request,
 } from '@nestjs/common';
+import { Request as ExpressRequest } from 'express';
 import { Throttle } from '@nestjs/throttler';
 import { AuthService } from './auth.service';
 import {
@@ -20,7 +21,7 @@ import { Public } from './public.decorator';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   @Public()
   @Post('register')
@@ -53,7 +54,12 @@ export class AuthController {
   }
 
   @Get('me')
-  getProfile(@Request() req) {
+  getProfile(
+    @Request()
+    req: ExpressRequest & {
+      user: { userId: string; email: string; role: string };
+    },
+  ) {
     return req.user;
   }
 }
