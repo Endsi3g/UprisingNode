@@ -7,6 +7,7 @@ import {
   Get,
   Request,
 } from '@nestjs/common';
+import { Request as ExpressRequest } from 'express';
 import { Throttle } from '@nestjs/throttler';
 import { AuthService } from './auth.service';
 import {
@@ -53,7 +54,12 @@ export class AuthController {
   }
 
   @Get('me')
-  getProfile(@Request() req) {
+  getProfile(
+    @Request()
+    req: ExpressRequest & {
+      user: { userId: string; email: string; role: string };
+    },
+  ) {
     return req.user;
   }
 }
