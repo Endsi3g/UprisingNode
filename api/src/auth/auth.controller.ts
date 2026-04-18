@@ -15,6 +15,7 @@ import {
   ForgotPasswordDto,
   ResetPasswordDto,
 } from './dto/auth.dto';
+import { AuthenticatedRequest } from './authenticated-request.interface';
 
 import { Public } from './public.decorator';
 
@@ -53,7 +54,7 @@ export class AuthController {
   }
 
   @Get('me')
-  getProfile(@Request() req) {
+  getProfile(@Request() req: AuthenticatedRequest) {
     return req.user;
   }
 }

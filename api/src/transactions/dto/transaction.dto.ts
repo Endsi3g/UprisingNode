@@ -1,19 +1,29 @@
-import { IsString, IsNumber, IsOptional, IsEnum } from 'class-validator';
+import { IsNumber, IsString, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class CreateTransactionDto {
   @IsNumber()
-  amount: number;
-
-  @IsString()
-  type: string; // COMMISSION | WITHDRAWAL
+  @IsNotEmpty()
+  amount!: number;
 
   @IsString()
   @IsOptional()
   description?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  type!: string; // Using string to map to Prisma enum easily
 }
 
 export class UpdateTransactionDto {
+  @IsNumber()
+  @IsOptional()
+  amount?: number;
+
   @IsString()
   @IsOptional()
-  status?: string; // PENDING | VALIDATED | PAID | CANCELLED
+  description?: string;
+
+  @IsString()
+  @IsOptional()
+  status?: string;
 }
