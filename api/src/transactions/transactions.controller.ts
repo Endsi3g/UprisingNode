@@ -10,7 +10,7 @@ import {
 import { TransactionsService } from './transactions.service';
 import { CreateTransactionDto } from './dto/transaction.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { AuthenticatedRequest } from '../auth/authenticated-request.interface';
+import type { AuthenticatedRequest } from '../auth/authenticated-request.interface';
 
 @UseGuards(JwtAuthGuard)
 @Controller('transactions')
