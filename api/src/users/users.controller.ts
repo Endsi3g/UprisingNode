@@ -3,15 +3,13 @@ import {
   Get,
   Body,
   Patch,
-  Put,
   UseGuards,
   Request,
   Param,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateProfileDto } from './dto/user.dto';
-import { ChangePasswordDto } from './dto/change-password.dto';
-import { UpdatePreferencesDto } from './dto/update-preferences.dto';
+
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import type { AuthenticatedRequest } from '../types/authenticated-request';
 
