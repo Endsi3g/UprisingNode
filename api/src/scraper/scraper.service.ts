@@ -53,7 +53,7 @@ export class ScraperService {
     }
   }
 
-  async scrapeCompany(url: string): Promise<any> {
+  async scrapeCompany(url: string): Promise<Record<string, unknown>> {
     this.logger.log(`Scraping URL: ${url}`);
 
     let browser: Browser | undefined;
@@ -107,7 +107,7 @@ export class ScraperService {
       });
 
       this.logger.log(`Successfully scraped data for ${url}`);
-      return data;
+      return data as Record<string, unknown>;
     } catch (error: unknown) {
       const err = error as Error;
       this.logger.error(`Failed to scrape ${url}`, err.stack);
