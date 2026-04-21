@@ -7,18 +7,23 @@ import { AuthController } from './auth.controller';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { JwtStrategy } from './jwt.strategy';
 
-const jwtSecret = process.env.JWT_SECRET;
-if (!jwtSecret) {
-  // Sentinel: Fail securely if critical secret is missing rather than using a vulnerable fallback
-  throw new Error('FATAL: JWT_SECRET environment variable is not defined.');
-}
-
 @Module({
   imports: [
-    JwtModule.register({
+    JwtModule.registerAsync({
       global: true,
-      secret: jwtSecret,
-      signOptions: { expiresIn: '7d' },
+      useFactory: () => {
+        const secret = process.env.JWT_SECRET;
+        if (!secret) {
+          // Sentinel: Fail securely on initialization if critical secret is missing
+          throw new Error(
+            'FATAL: JWT_SECRET environment variable is not defined.',
+          );
+        }
+        return {
+          secret,
+          signOptions: { expiresIn: '7d' },
+        };
+      },
     }),
   ],
   controllers: [AuthController],
