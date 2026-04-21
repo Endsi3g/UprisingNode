@@ -5,7 +5,7 @@ import {
   OnGatewayConnection,
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
-import { Server, Socket } from 'socket.io';
+import { Server } from 'socket.io';
 
 @WebSocketGateway({
   cors: {
@@ -16,16 +16,17 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
 
-  handleConnection(client: Socket) {
-    console.log(`Client connected: ${client.id}`);
+  handleConnection(client: { id: string }) {
+    console.log(`Client connected: ${client?.id}`);
   }
 
-  handleDisconnect(client: Socket) {
-    console.log(`Client disconnected: ${client.id}`);
+  handleDisconnect(client: { id: string }) {
+    console.log(`Client disconnected: ${client?.id}`);
   }
 
   @SubscribeMessage('ping')
-  handlePing(client: Socket, data: unknown): string {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  handlePing(client: { id: string }, data: unknown): string {
     return 'pong';
   }
 
