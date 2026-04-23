@@ -1,0 +1,4 @@
+## 2024-05-24 - Hardcoded JWT Secret Vulnerability
+**Vulnerability:** A hardcoded fallback secret ('secret') was used for the JWT Module and Strategy if the environment variable `JWT_SECRET` was undefined.
+**Learning:** Using a predictable or hardcoded fallback string for sensitive values like JWT secrets poses a critical security risk because it allows attackers to forge tokens if the environment isn't configured correctly. Throwing an error strictly forces correct configuration without inadvertently breaking module evaluation in test environments if thrown outside a factory/constructor.
+**Prevention:** Instead of providing a hardcoded fallback, throw an explicit error at runtime (e.g., inside `useFactory` or a constructor) when the required environment variable is missing, forcing a secure deployment configuration.
