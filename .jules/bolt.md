@@ -1,0 +1,3 @@
+## 2024-05-14 - Prevent Database Query Waterfalls in DashboardController
+**Learning:** Sequential database queries in highly-accessed dashboard endpoints like getStats and getCommissions can significantly increase response latency due to query waterfalls. The NestJS architecture allows these independent queries (earnings, user data, leads) to be executed concurrently.
+**Action:** Always group independent Prisma and service calls into Promise.all when fetching aggregated data for a single request context to reduce total execution time from O(n) to O(max(n)) where n is the response time of individual queries.
