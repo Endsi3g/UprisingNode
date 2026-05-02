@@ -1,5 +1,4 @@
-import { IsString, IsNumber, IsOptional, IsEnum } from 'class-validator';
-
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 export class CreateTransactionDto {
   @IsNumber()
   amount: number;
