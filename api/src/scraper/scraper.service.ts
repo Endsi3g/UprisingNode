@@ -5,23 +5,26 @@ import puppeteer from 'puppeteer';
 export class ScraperService {
   private readonly logger = new Logger(ScraperService.name);
 
-  async scrapeCompany(url: string): Promise<any> {
+  async scrapeCompany(url: string): Promise<Record<string, unknown>> {
     this.logger.log(`Scraping URL: ${url}`);
 
-    let browser;
+    let browser: any;
     try {
       browser = await puppeteer.launch({
         headless: true, // Run in headless mode
         args: ['--no-sandbox', '--disable-setuid-sandbox'], // Required for some environments
       });
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       const page = await browser.newPage();
 
       // Navigate to the URL
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
 
       // Extract data
-      const data = await page.evaluate(() => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      const data = (await page.evaluate(() => {
         const title = document.title;
         const description =
           document
@@ -36,15 +39,17 @@ export class ScraperService {
           description,
           headings,
         };
-      });
+      })) as Record<string, unknown>;
 
       this.logger.log(`Successfully scraped data for ${url}`);
       return data;
     } catch (error) {
-      this.logger.error(`Failed to scrape ${url}`, error.stack);
-      throw new Error(`Scraping failed: ${error.message}`);
+      const err = error as Error;
+      this.logger.error(`Failed to scrape ${url}`, err.stack);
+      throw new Error(`Scraping failed: ${err.message}`);
     } finally {
       if (browser) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
         await browser.close();
       }
     }
