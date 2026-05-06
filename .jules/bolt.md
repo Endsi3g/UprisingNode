@@ -1,0 +1,3 @@
+## 2025-02-14 - Prisma Aggregate Calculation Anti-Pattern
+**Learning:** In the `api` workspace, there is a recurring anti-pattern where developers use `findMany` followed by an in-memory array `reduce` to calculate aggregates (like user balances or sums). This creates an O(N) memory bottleneck and transfers unnecessary payload over the network.
+**Action:** When calculating aggregates with Prisma, avoid `findMany` + `reduce`. Instead, use `this.prisma.<model>.aggregate({ _sum: ... })` to push the computation to the database layer. If evaluating different conditions, run multiple aggregates concurrently via `Promise.all`.
