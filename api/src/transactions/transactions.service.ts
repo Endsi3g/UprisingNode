@@ -27,21 +27,34 @@ export class TransactionsService {
   }
 
   async getBalance(userId: string): Promise<number> {
-    const transactions = await this.prisma.transaction.findMany({
-      where: {
-        userId,
-        status: { not: 'CANCELLED' },
-      },
-    });
+    // ⚡ Bolt Optimization:
+    // Replaced findMany() + in-memory reduce() with concurrent DB aggregates via Promise.all().
+    // Expected Performance Impact:
+    // - Memory complexity changes from O(N) to O(1) in the Node.js process.
+    // - Significantly reduces network payload for users with many transactions.
+    const [commissions, withdrawals] = await Promise.all([
+      this.prisma.transaction.aggregate({
+        _sum: { amount: true },
+        where: {
+          userId,
+          type: 'COMMISSION',
+          status: 'PAID',
+        },
+      }),
+      this.prisma.transaction.aggregate({
+        _sum: { amount: true },
+        where: {
+          userId,
+          type: 'WITHDRAWAL',
+          status: { not: 'CANCELLED' }, // In the original code, withdrawal applies if not cancelled
+        },
+      }),
+    ]);
 
-    return transactions.reduce((acc, tx) => {
-      if (tx.type === 'COMMISSION' && tx.status === 'PAID') {
-        return acc + tx.amount;
-      } else if (tx.type === 'WITHDRAWAL') {
-        return acc - tx.amount;
-      }
-      return acc;
-    }, 0);
+    const totalCommissions = commissions._sum.amount || 0;
+    const totalWithdrawals = withdrawals._sum.amount || 0;
+
+    return totalCommissions - totalWithdrawals;
   }
 
   async getTotalEarnings(userId: string): Promise<number> {
