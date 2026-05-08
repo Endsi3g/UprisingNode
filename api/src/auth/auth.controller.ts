@@ -53,7 +53,9 @@ export class AuthController {
   }
 
   @Get('me')
-  getProfile(@Request() req) {
+  getProfile(
+    @Request() req: { user: { userId: string; email: string; role: string } },
+  ) {
     return req.user;
   }
 }
