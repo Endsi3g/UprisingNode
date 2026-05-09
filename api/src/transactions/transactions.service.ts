@@ -27,21 +27,33 @@ export class TransactionsService {
   }
 
   async getBalance(userId: string): Promise<number> {
-    const transactions = await this.prisma.transaction.findMany({
-      where: {
-        userId,
-        status: { not: 'CANCELLED' },
-      },
-    });
+    // ⚡ Bolt Optimization:
+    // Pushing balance calculation to the database layer to eliminate O(N) memory overhead
+    // and application-side computation from the previous findMany() + reduce() implementation.
+    // This allows the DB to handle the heavy lifting and prevents out-of-memory errors on large datasets.
+    const [commissions, withdrawals] = await Promise.all([
+      this.prisma.transaction.aggregate({
+        _sum: { amount: true },
+        where: {
+          userId,
+          status: 'PAID',
+          type: 'COMMISSION',
+        },
+      }),
+      this.prisma.transaction.aggregate({
+        _sum: { amount: true },
+        where: {
+          userId,
+          status: { not: 'CANCELLED' },
+          type: 'WITHDRAWAL',
+        },
+      }),
+    ]);
 
-    return transactions.reduce((acc, tx) => {
-      if (tx.type === 'COMMISSION' && tx.status === 'PAID') {
-        return acc + tx.amount;
-      } else if (tx.type === 'WITHDRAWAL') {
-        return acc - tx.amount;
-      }
-      return acc;
-    }, 0);
+    const totalCommissions = commissions._sum.amount || 0;
+    const totalWithdrawals = withdrawals._sum.amount || 0;
+
+    return totalCommissions - totalWithdrawals;
   }
 
   async getTotalEarnings(userId: string): Promise<number> {
