@@ -9,10 +9,19 @@ import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
-    JwtModule.register({
+    JwtModule.registerAsync({
       global: true,
-      secret: process.env.JWT_SECRET || 'secret',
-      signOptions: { expiresIn: '7d' },
+      useFactory: () => {
+        const secret = process.env.JWT_SECRET;
+        if (!secret) {
+          // Security: Prevent weak default secrets from being used in production.
+          throw new Error('JWT_SECRET environment variable is required');
+        }
+        return {
+          secret: secret,
+          signOptions: { expiresIn: '7d' },
+        };
+      },
     }),
   ],
   controllers: [AuthController],
