@@ -36,46 +36,52 @@ export class DashboardController {
     private readonly transactionsService: TransactionsService,
     private readonly leadsService: LeadsService,
     private readonly prisma: PrismaService,
-  ) { }
+  ) {}
 
   @Get('stats')
   @UseGuards(JwtAuthGuard)
-  async getStats(@Request() req: AuthenticatedRequest): Promise<DashboardStats> {
+  async getStats(
+    @Request() req: AuthenticatedRequest,
+  ): Promise<DashboardStats> {
     const userId = req.user.userId;
     const accumulatedGains =
       await this.transactionsService.getTotalEarnings(userId);
 
     // Get user data for account status
-    const user: User | null = await this.prisma.user.findUnique({ where: { id: userId } });
+    const user: User | null = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
 
     // Calculate potential gains from leads in analysis or negotiation
 
-    // Get active pipeline
-    const leads = await this.leadsService.findAll(userId);
-
     // Calculate potential gains from leads not yet closed
-    const potentialLeads = leads.filter(
-      (l) =>
-        l.status === 'ANALYSIS' ||
-        l.status === 'NEGOTIATION' ||
-        l.status === 'PROSPECT',
-    );
-    const potentialGains = potentialLeads.reduce((sum, lead) => {
-      return sum + (lead.score || 0) * 10;
-    }, 0);
+    // Optimize by pushing calculation to DB layer to avoid pulling all leads into memory
+    // Expected performance impact: Reduces memory overhead from O(N) to O(1) and speeds up response time
+    const potentialGainsAgg = await this.prisma.lead.aggregate({
+      _sum: { score: true },
+      where: {
+        ownerId: userId,
+        status: { in: ['ANALYSIS', 'NEGOTIATION', 'PROSPECT'] },
+      },
+    });
+    const potentialGains = (potentialGainsAgg._sum.score || 0) * 10;
 
-    const activePipeline = leads
-      .filter((l) => l.status !== 'CLOSED' && l.status !== 'LOST')
-      .map((l) => ({
-        id: l.id,
-        company: l.companyName || 'Unknown',
-        status:
-          (l.status.toLowerCase() as 'analysis' | 'pending' | 'approved') ||
-          'analysis',
-        submittedAt: l.createdAt.toISOString(),
-        riskScore: 'En attente', // Needs AI analysis service
-      }))
-      .slice(0, 5);
+    // Get active pipeline directly from DB with limit to optimize memory usage
+    const activeLeads = await this.prisma.lead.findMany({
+      where: { ownerId: userId, status: { notIn: ['CLOSED', 'LOST'] } },
+      take: 5,
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const activePipeline = activeLeads.map((l) => ({
+      id: l.id,
+      company: l.companyName || 'Unknown',
+      status:
+        (l.status.toLowerCase() as 'analysis' | 'pending' | 'approved') ||
+        'analysis',
+      submittedAt: l.createdAt.toISOString(),
+      riskScore: 'En attente', // Needs AI analysis service
+    }));
 
     return {
       accumulatedGains,
